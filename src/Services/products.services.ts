@@ -13,10 +13,10 @@ class ProductsService {
                 ...payload,
             })
         )
-        return "product"
+        return product
     }
 
-    async getAllProducts() {
+    async getAllProducts() {        
         const products = await databaseservice.products.find()
         return products.toArray()
         // const productsCursor = await databaseservice.products.find();
@@ -43,10 +43,9 @@ class ProductsService {
         return product
     }
 
-    async deletedProduct(id: string, deleteProductData: any) {
-        const product = await databaseservice.products.findOneAndDelete({ id: id },
-            deleteProductData)
-        return product
+    async deletedProduct(_id: string) {
+        const product = await databaseservice.products.deleteOne({ _id: new ObjectId(_id)})        
+        return product.acknowledged
     }
 
     async checkProduct(email: string) {

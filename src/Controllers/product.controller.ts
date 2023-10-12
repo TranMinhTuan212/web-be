@@ -7,7 +7,7 @@ import { ParamsDictionary } from 'express-serve-static-core'
 import { ProductReqbody } from '~/Models/requests/Product.requests'
 import { SearchQuery } from '~/Models/requests/Search.requests';
 
-export const createProductController = async (req: Request<ParamsDictionary, any, ProductReqbody>, res: Response) => {    
+export const createProductController = async (req: Request<ParamsDictionary, any, ProductReqbody>, res: Response) => {
     try {
         // const name = req.body.name
         // const price = req.body.price
@@ -30,13 +30,11 @@ export const createProductController = async (req: Request<ParamsDictionary, any
 
         const product = await productsService.createProduct(req.body)
 
-        if(!product){
+        if (product) {
             return res.status(200).json({
-                product,
                 message: "Create product success"
             })
         }
-        
     } catch (error) {
         return res.status(500).json({
             error: 'Internal server error'
@@ -45,14 +43,14 @@ export const createProductController = async (req: Request<ParamsDictionary, any
 };
 
 export const getAllProductsController = async (req: Request, res: Response) => {
-    
+
     try {
         const products = await productsService.getAllProducts();
-          if (products.length === 0) {
+        if (products.length === 0) {
             return res.status(404).json({
-              error: 'No products found'
+                error: 'No products found'
             });
-          }
+        }
 
         return res.status(200).json({
             products,
@@ -69,13 +67,13 @@ export const getProductByKeyWordController = async (req: Request<ParamsDictionar
     try {
         // const  { name, description } = req.body; 
         // let product = null
-        
+
         // if(keyWord === "" || keyWord === null || keyWord === undefined || status !== "ON_SALE"){
         //     product = await productsService.getAllProducts();   
-            // return res.status(200).json({
-            //     product,
-            //     message: 'Get product success'
-            // });
+        // return res.status(200).json({
+        //     product,
+        //     message: 'Get product success'
+        // });
         // }
 
         // const querry = 
@@ -111,7 +109,7 @@ export const getProductByKeyWordController = async (req: Request<ParamsDictionar
 export const updateProductController = async (req: Request, res: Response) => {
     try {
         // const { id } = req.query._id; 
-        const updatedProductData = req.query;         
+        const updatedProductData = req.query;
 
         const updatedProduct = await productsService.updateProduct(req.query._id, updatedProductData);
 
@@ -134,10 +132,7 @@ export const updateProductController = async (req: Request, res: Response) => {
 
 export const deleteProductController = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params; 
-        const deleteProductData = req.body; 
-
-        const deletedProduct = await productsService.deletedProduct(id, deleteProductData);
+        const deletedProduct = await productsService.deletedProduct(req.body._id);
 
         if (!deletedProduct) {
             return res.status(404).json({
@@ -145,10 +140,12 @@ export const deleteProductController = async (req: Request, res: Response) => {
             });
         }
 
-        return res.status(200).json({
-            deletedProduct,
-            message: 'Product updated successfully'
-        });
+        if (deletedProduct === true) {
+            return res.status(200).json({
+                message: 'Product deleted success'
+            });
+        }
+
     } catch (error) {
         return res.status(500).json({
             error: 'Internal server error'

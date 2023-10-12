@@ -1,8 +1,10 @@
 import express from 'express'
 import userRouter from './Routes/user.routes'
+import productRouter from './Routes/product.routes'
 import databaseservice from './Services/database.services'
 import { defaultErrorHandler } from './Middlewares/error.middleware'
 import cors from 'cors'
+import categoryRoutes from './Routes/category.routes'
 const app = express()
 
 app.use(
@@ -16,6 +18,8 @@ const port = 3000
 app.use(express.json())
 
 app.use('/user', userRouter)
+app.use('/product', productRouter)
+app.use('/category', categoryRoutes)
 
 app.use(defaultErrorHandler)
 

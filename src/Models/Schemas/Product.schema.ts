@@ -5,6 +5,10 @@ interface ProductType{
     _id?: ObjectId
     name: string
     price: Double
+    origin: string
+    code: string
+    discout: Double
+    unit: string
     description: string
     quantity: internal
     category_id: string
@@ -18,6 +22,10 @@ export default class Product{
     _id?: ObjectId
     name: string
     price: Double
+    origin: string
+    code: string
+    discout: Double
+    unit: string
     description: string
     quantity: internal
     image: string
@@ -31,6 +39,10 @@ export default class Product{
         this._id = product._id
         this.name = product.name || ''
         this.price = product.price
+        this.origin = product.origin
+        this.code = product.code
+        this.discout = product.discout
+        this.unit = product.unit
         this.description = product.description
         this.quantity = product.quantity
         this.status = product.status
