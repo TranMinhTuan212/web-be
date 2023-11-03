@@ -13,10 +13,10 @@ class ProductsService {
                 ...payload,
             })
         )
-        return product
+        return "product"
     }
 
-    async getAllProducts() {        
+    async getAllProducts() {
         const products = await databaseservice.products.find()
         return products.toArray()
         // const productsCursor = await databaseservice.products.find();
@@ -24,23 +24,35 @@ class ProductsService {
         // return products;
     }
 
-    async getProductByWord(querry: string) {
+    async getProductByKeyWord(keyWord: string) {
 
-        const product = await databaseservice.products.find({$text: {$search: querry}})
+        const product = await databaseservice.products.find({
+            $and: [
+                { $or: [
+                    { name: { $regex: new RegExp(`.*${keyWord}.*`, 'i') } },
+                    { description: { $regex: new RegExp(`.*${keyWord}.*`, 'i') } },
+                ], },
+                { status: "ON_SALE" },
+            ],
+        })
 
         return product.toArray()
-        
-        
     }
 
-    async updateProduct(_id: any, updatedProductData: any) {
-        const product = await databaseservice.products.updateOne( 
-            { _id },
-            [ { $set: { "name": updatedProductData.name, modified: "$$NOW"} } ] )
-            // db.students.updateOne( { _id: 3 }, [ { $set: { "test3": 98, modified: "$$NOW"} } ] )
-            console.log(product);
+    async updateProduct(id: string, updatedProductData: any) {
+
+        const productId = new ObjectId(id);
             
-        return product
+        const product = await databaseservice.products.updateOne(
+            { _id: productId },
+            [{ $set: { "name": updatedProductData.name}}],
+        );
+    
+        if (product.modifiedCount === 0) {
+            return false
+        }
+    
+        return true;
     }
 
     async deletedProduct(_id: string) {

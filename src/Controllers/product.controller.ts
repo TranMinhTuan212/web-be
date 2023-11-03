@@ -9,32 +9,24 @@ import { SearchQuery } from '~/Models/requests/Search.requests';
 
 export const createProductController = async (req: Request<ParamsDictionary, any, ProductReqbody>, res: Response) => {
     try {
-        // const name = req.body.name
-        // const price = req.body.price
-        // const quantity = req.body.quantity
-        // const image = req.body.image
-        // const status = "WAITING_APPROVE"
-        // const category_id = req.body.category_id        
 
-        // if(!name || !price || !quantity || !category_id){
-        //     return res.status(422).json({
-        //         error: "Please fill in complete information"
-        //     })
-        // }
-
-        // if(!image){
-        //     return res.status(422).json({
-        //         error: "The image is not in the correct format"
-        //     })
-        // }
+        const pro = req.body
+        pro['status'] = "WAITING_APPROVE"
 
         const product = await productsService.createProduct(req.body)
 
-        if (product) {
-            return res.status(200).json({
-                message: "Create product success"
-            })
+        if (!product) {
+            return res.status(404).json({
+                error: 'Create product failed'
+            });
         }
+
+        return res.status(200).json({
+            product,
+            message: "Create product success"
+        })
+
+
     } catch (error) {
         return res.status(500).json({
             error: 'Internal server error'
@@ -65,40 +57,35 @@ export const getAllProductsController = async (req: Request, res: Response) => {
 
 export const getProductByKeyWordController = async (req: Request<ParamsDictionary, any, any, SearchQuery>, res: Response) => {
     try {
-        // const  { name, description } = req.body; 
-        // let product = null
+        const keyWord = req.body.keyWord;
+        let products
 
-        // if(keyWord === "" || keyWord === null || keyWord === undefined || status !== "ON_SALE"){
-        //     product = await productsService.getAllProducts();   
-        // return res.status(200).json({
-        //     product,
-        //     message: 'Get product success'
-        // });
-        // }
+        if (keyWord === "" || keyWord === null || keyWord === undefined) {
+            products = await productsService.getAllProducts();
+            return res.status(200).json({
+                products,
+                message: 'Get all product success'
+            });
+        }
 
-        // const querry = 
+        products = await productsService.getProductByKeyWord(req.body.keyWord);
 
-        // if()
-
-        // const result = query
-
-        const product = await productsService.getProductByWord(req.query.name);
-        // if (status === "ON_SALE") {
-
-        //     if (!product) {
-        //         return res.status(404).json({
-        //             error: 'Product not found'
-        //         });
-        //     }
-        // }
-
-
-        console.log(product);
+        if (!products || products.length === 0) {
+            // return res.status(404).json({
+            //     error: 'Product not found'
+            // });
+            products = await productsService.getAllProducts();
+            return res.status(200).json({
+                products,
+                message: 'Get all product success'
+            });
+        }
 
         return res.status(200).json({
-            product,
+            products,
             message: 'Get product success'
         });
+
     } catch (error) {
         return res.status(500).json({
             error: 'Internal server error'
@@ -109,13 +96,13 @@ export const getProductByKeyWordController = async (req: Request<ParamsDictionar
 export const updateProductController = async (req: Request, res: Response) => {
     try {
         // const { id } = req.query._id; 
-        const updatedProductData = req.query;
+        const updatedProductData = req.body;        
 
-        const updatedProduct = await productsService.updateProduct(req.query._id, updatedProductData);
+        const updatedProduct = await productsService.updateProduct(req.body._id, updatedProductData)
 
-        if (!updatedProduct) {
+        if (updatedProduct === false) {
             return res.status(404).json({
-                error: 'Product not found'
+                error: 'Product updated failed'
             });
         }
 
@@ -134,7 +121,7 @@ export const deleteProductController = async (req: Request, res: Response) => {
     try {
         const deletedProduct = await productsService.deletedProduct(req.body._id);
 
-        if (!deletedProduct) {
+        if (deletedProduct === false) {
             return res.status(404).json({
                 error: 'Product not found'
             });

@@ -6,14 +6,14 @@ interface ProductType{
     name: string
     price: Double
     origin: string
+    category_id: string
+    description: string
     code: string
     discout: Double
     unit: string
-    description: string
-    quantity: internal
-    category_id: string
     image: string
-    status: string
+    status?: string
+    quantity: Double
     created_at?: Date
     updated_at?: Date
 }
@@ -23,14 +23,14 @@ export default class Product{
     name: string
     price: Double
     origin: string
+    category_id: string
+    description: string
     code: string
     discout: Double
     unit: string
-    description: string
-    quantity: internal
     image: string
-    status: string
-    category_id?: string
+    status?: string
+    quantity: Double
     created_at?: Date
     updated_at?: Date
 
@@ -40,14 +40,14 @@ export default class Product{
         this.name = product.name || ''
         this.price = product.price
         this.origin = product.origin
+        this.category_id = product.category_id
+        this.description = product.description
         this.code = product.code
         this.discout = product.discout
         this.unit = product.unit
-        this.description = product.description
-        this.quantity = product.quantity
-        this.status = product.status
         this.image = product.image
-        this.category_id = product.category_id
+        this.status = product.status || ''
+        this.quantity = product.quantity
         this.created_at = product.created_at || date
         this.updated_at = product.updated_at || date
     }
