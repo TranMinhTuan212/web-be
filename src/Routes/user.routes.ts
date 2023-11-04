@@ -31,5 +31,12 @@ userRoutes.post('/logout', accsessTokenValidator, refreshTokenValidator, wrapReq
 userRoutes.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(emailVerifyController))
 userRoutes.post('/resend-verify-email', accsessTokenValidator, wrapRequestHandler(resendEmailVerifyController))
 userRoutes.post('/forgot-password', forgotPassWordValidator, wrapRequestHandler(forgotPasswordController))
+userRoutes.get('/test-server', function(req: any, res: any){
+  return res.json({
+    status: 200,
+    message: 'Run server successfully !',
+    data: []
+  })
+})
 
 export default userRoutes
