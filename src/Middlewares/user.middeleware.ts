@@ -1,6 +1,7 @@
 import { Request } from 'express'
 import { checkSchema } from 'express-validator'
 import { JsonWebTokenError } from 'jsonwebtoken'
+import { isLength } from 'lodash'
 import { json } from 'stream/consumers'
 import HTTP_STATUS from '~/Constants/httpStatus'
 import { USERS_MESSAGES } from '~/Constants/messages'
@@ -65,10 +66,9 @@ export const loginValidator = validate(
             minUppercase: 1,
             minNumbers: 1,
             minSymbols: 1
-          },
-
-          errorMessage: 'Password không đúng'
-        }
+          }
+        },
+        errorMessage: 'Bạn chưa nhập password'
       }
     },
     ['body']
@@ -82,11 +82,11 @@ export const registerVadidator = validate(
         isString: true,
         isLength: {
           options: {
-            min: 1,
+            min: 2,
             max: 100
           }
         },
-        trim: true
+        errorMessage: 'Lỗi chiều dài name bắt buộc 2-50 ký tự'
       },
       email: {
         notEmpty: true,
@@ -113,7 +113,7 @@ export const registerVadidator = validate(
             min: 6,
             max: 50
           },
-          errorMessage: 'Lỗi độ dài password'
+          errorMessage: 'Lỗi độ dài password phải từ 6-50 ký tự'
         },
         isStrongPassword: {
           options: {
@@ -123,7 +123,7 @@ export const registerVadidator = validate(
             minNumbers: 1,
             minSymbols: 1
           },
-          errorMessage: 'lỗi định dạng password'
+          errorMessage: 'lỗi định dạng password thiếu ký tự in hoa, số và ký tự đặc biệt'
         }
       },
       confirm_password: {
@@ -134,7 +134,7 @@ export const registerVadidator = validate(
             min: 6,
             max: 50
           },
-          errorMessage: 'Lỗi độ dài password'
+          errorMessage: 'Lỗi độ dài password phải từ 6-50 ký tự'
         },
         isStrongPassword: {
           options: {
@@ -144,16 +144,10 @@ export const registerVadidator = validate(
             minNumbers: 1,
             minSymbols: 1
           },
-          errorMessage: 'lỗi định dạng password'
+          errorMessage: 'lỗi định dạng password thiếu ký tự in hoa, số và ký tự đặc biệt'
         },
         custom: {
           options: (value, { req }) => {
-            // if (value != req.body.password.isLength) {
-            //   throw new ErrorWithStatus({
-            //     message: USERS_MESSAGES.VALIDATION_ERROR_COMFIRM_PASSWORD,
-            //     status: HTTP_STATUS.UNAUTHORIZED
-            //   })
-            // }
             if (value != req.body.password) {
               throw new ErrorWithStatus({
                 message: USERS_MESSAGES.VALIDATION_ERROR_COMFIRM_PASSWORD,
@@ -164,14 +158,32 @@ export const registerVadidator = validate(
           }
         }
       }
+      // role: {
+      //   notEmpty: true,
+      //   trim: true,
+      //   custom: {
+      //     options: async (value) => {
+      //       const isResult = await usersService.checkRole(value)
+      //       if (isResult) {
+      //         return true
+      //       } else {
+      //         throw new ErrorWithStatus({
+      //           message: USERS_MESSAGES.VALIDATION_ERROR_ROLE,
+      //           status: HTTP_STATUS.UNAUTHORIZED
+      //         })
+      //       }
+      //     }
+      //   }
+      // }
+
       // data_of_birth: {
-      //   // isISO8601: {
-      //   //   options: {
-      //   //     strict: true,
-      //   //     strictSeparator: true
-      //   //   },
-      //   //   errorMessage: 'lỗi Định Dạng'
-      //   // }
+      //   isISO8601: {
+      //     options: {
+      //       strict: true,
+      //       strictSeparator: true
+      //     },
+      //     errorMessage: 'lỗi Định Dạng'
+      //   }
       // }
     },
     ['body']
@@ -230,7 +242,7 @@ export const refreshTokenValidator = validate(
               ])
               if (refresh_token == null) {
                 throw new ErrorWithStatus({
-                  message: USERS_MESSAGES.VALIDATION_ERROR_EMAIL,
+                  message: USERS_MESSAGES.VALIDATION_ERROR_REFRESHTOKEN,
                   status: HTTP_STATUS.UNAUTHORIZED
                 })
               }
@@ -303,6 +315,73 @@ export const forgotPassWordValidator = validate(
             return true
           }
         }
+      }
+    },
+    ['body']
+  )
+)
+export const updateAdressValidator = validate(
+  checkSchema(
+    {
+      name: {
+        // notEmpty: true,
+        // isString: true,
+        isLength: {
+          options: {
+            min: 2,
+            max: 50
+          }
+        },
+        errorMessage: USERS_MESSAGES.VALIDATION_ERROR_NAME_USER,
+        trim: true
+      },
+      province: {
+        // notEmpty: true,
+        // isString: true,
+        isLength: {
+          options: {
+            min: 0,
+            max: 50
+          }
+        },
+        errorMessage: 'Lỗi độ dài hoặc không hợp lệ của provice',
+        trim: true
+      },
+      district: {
+        // notEmpty: true,
+        // isString: true,
+        isLength: {
+          options: {
+            min: 0,
+            max: 50
+          }
+        },
+        errorMessage: 'Lỗi độ dài hoặc không hợp lệ của district',
+        trim: true
+      },
+      award: {
+        // notEmpty: true,
+        // isString: true,
+        isLength: {
+          options: {
+            min: 0,
+            max: 50
+          }
+        },
+        errorMessage: 'Lỗi độ dài hoặc không hợp lệ của award',
+        trim: true
+      },
+      detail: {
+        // notEmpty: true,
+        // isString: true,
+        isLength: {
+          options: {
+            min: 0,
+            max: 50
+          }
+        },
+        errorMessage: 'Lỗi độ dài hoặc không hợp lệ của detail',
+        trim: true
       }
     },
     ['body']

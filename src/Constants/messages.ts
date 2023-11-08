@@ -17,5 +17,10 @@ export const USERS_MESSAGES = {
   USER_NOT_FOUND: 'Người dùng không tồn tại',
   USER_HAVE_VERIFY: 'Bạn đã xác thực email rồi !',
   EMAIL_VERIFY_RESEND: 'Email đã cập nhập ',
-  CHECK_EMAIL_FORGOT_PASSOWRD: 'Đã gửi email đổi password'
+  CHECK_EMAIL_FORGOT_PASSOWRD: 'Đã gửi email đổi password',
+  GET_ME_SUCCSES: 'Lấy thông tin thành công',
+  UPDATE_ME_SUCCSES: 'Cập nhập thông tin thành công',
+  VALIDATION_ERROR_ROLE: ' Role không hợp lệ',
+  VALIDATION_ERROR_NAME_USER: 'Độ dài hoặc tên không hợp lệ',
+  VALIDATION_ERROR_REFRESHTOKEN: 'Resfresh token không tồn tại'
 } as const
