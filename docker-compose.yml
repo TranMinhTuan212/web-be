@@ -1,0 +1,9 @@
+version: '3'
+services: 
+  backend:
+    image: 'tranminhtuan212/web-be:3.0.0'
+    ports: 
+      - '8000:8000'
+    volumes:
+      - /data:/home/node/app/public
+    restart: 'always'
