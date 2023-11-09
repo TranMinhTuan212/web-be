@@ -48,12 +48,12 @@ export interface UpdateMeReqBody {
   name?: string
   phone?: string
   avatar?: string
+  version?: string
 }
 export interface CreateAddress {
-  _id: ObjectId
   province?: string
   district?: string
   award?: string
   detail?: string
-  user_id: ObjectId
+  user_id: string
 }

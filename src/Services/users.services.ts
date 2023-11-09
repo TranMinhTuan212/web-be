@@ -18,6 +18,7 @@ import { getNameFullName, handlerUploadImage } from '~/Utils/file'
 import fs from 'fs'
 import { isProduction } from '~/Constants/config'
 import { config } from 'dotenv'
+import { json } from 'stream/consumers'
 class UsersService {
   private signAccessToken(user_id: string) {
     return signToken({
@@ -304,6 +305,15 @@ class UsersService {
   //     : `http://localhost:${process.env.PORT}/imageMedias/${newName}.jpg`
   // }
   async updateMe(user_id: string, payload: CreateAddress, payloadUser?: UpdateMeReqBody) {
+    function getRandomNumber(min: number, max: number): number {
+      return Math.floor(Math.random() * (max - min + 1)) + min
+    }
+    // const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
+    // if (user?.version !== user?.version) {
+    //   return 'lỗi '
+    // }
+    // console.log(user)
+    const version = getRandomNumber(1, 1000)
     const userUpdate = await databaseservice.users.findOneAndUpdate(
       {
         _id: new ObjectId(user_id)
@@ -313,7 +323,8 @@ class UsersService {
           ...(payloadUser && {
             name: payloadUser?.name,
             phone: payloadUser?.phone,
-            avatar: payloadUser?.avatar
+            avatar: payloadUser?.avatar,
+            version: version.toString()
           })
         },
         $currentDate: {
@@ -324,6 +335,7 @@ class UsersService {
         returnDocument: 'after'
       }
     )
+    console.log(userUpdate)
     const address = await databaseservice.address.findOneAndUpdate(
       {
         user_id: new ObjectId(user_id)
@@ -345,13 +357,14 @@ class UsersService {
         returnDocument: 'after'
       }
     )
+
     return {
       name: userUpdate?.name,
-      maUser: address?._id,
       province: address?.province,
       district: address?.district,
       award: address?.award,
-      detail: address?.detail
+      detail: address?.detail,
+      version: userUpdate?.version
     }
   }
   // private async updateUser(user_id: string, payload: UpdateMeReqBody) {
