@@ -2,7 +2,10 @@ import { MongoClient, Db, Collection } from 'mongodb'
 // tải dotenv để config vào
 import { config } from 'dotenv'
 import User from '~/Models/Schemas/User.schema'
+import Product from '~/Models/Schemas/Product.schema'
 import ResFreshToken from '~/Models/Schemas/ReFreshToken.schema'
+import Category from '~/Models/Schemas/Category.shema'
+import Order from '~/Models/Schemas/Order.schema'
 import Address from '~/Models/Schemas/Address.schema'
 import Role from '~/Models/Schemas/Role.schema'
 
@@ -30,6 +33,15 @@ class DatabaseService {
   }
   get reFreshToken(): Collection<ResFreshToken> {
     return this.db.collection(process.env.DB_RESFRESHTOKEN_COLECTION as string)
+  }
+  get products(): Collection<Product> {
+    return this.db.collection(process.env.DB_PRODUCTS_COLECTION as string)
+  }
+  get categories(): Collection<Category> {
+    return this.db.collection(process.env.DB_CATEGORIES_COLECTION as string)
+  }
+  get orders(): Collection<Order> {
+    return this.db.collection(process.env.DB_ORDERS_COLECTION as string)
   }
   get address(): Collection<Address> {
     return this.db.collection(process.env.DB_ADDRESS_COLECTIOM as string)
