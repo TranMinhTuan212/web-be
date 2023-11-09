@@ -47,8 +47,12 @@ export const logoutController = async (req: Request<ParamsDictionary, any, Logou
 export const deleteUserController = async (req: Request<ParamsDictionary, any, DeleteRequestBody>, res: Response) => {
   const { _id } = req.body
   const result = await usersService.deleteUser(_id)
-  console.log(res)
-  return res.json(result)
+  if (!result) {
+    return res.status(401).json({
+      mesage: 'thông tin user không tồn tại'
+    })
+  }
+  return res.status(200).json(result)
 }
 export const emailVerifyController = async (
   req: Request<ParamsDictionary, any, EmailVerifyReqBody>,

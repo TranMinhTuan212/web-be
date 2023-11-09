@@ -138,11 +138,6 @@ class UsersService {
         message: 'Xóa thông tin user thành công',
         status: HTTP_STATUS.OK
       }
-    } else {
-      return {
-        message: 'Không tìm thấy người dùng',
-        status: HTTP_STATUS.NOT_FOUND
-      }
     }
   }
 
