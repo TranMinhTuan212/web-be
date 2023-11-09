@@ -182,7 +182,8 @@ class UsersService {
       refresh_token,
       _id: user?._id,
       name: user?.name,
-      email: user?.email
+      email: user?.email,
+      role: user?.role
     }
   }
   async logout(resfresh_token: string) {

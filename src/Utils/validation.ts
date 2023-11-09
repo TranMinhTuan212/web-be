@@ -20,7 +20,7 @@ export const validate = (validation: RunnableValidationChains<ValidationChain>) 
       if (msg instanceof ErrorWithStatus && msg.status !== HTTP_STATUS.UNPROCESSABLIE_ENTITY) {
         return next(msg)
       }
-      entityError.errors.messages = errorsObject[key].msg
+      entityError.errors.message = errorsObject[key].msg
     }
     return res.status(HTTP_STATUS.UNPROCESSABLIE_ENTITY).json(entityError.errors)
     // Trả về lỗi validation dưới dạng JSON
