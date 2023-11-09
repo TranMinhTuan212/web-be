@@ -34,7 +34,6 @@ app.use('/product', productRouter)
 app.use('/category', categoryRoutes)
 app.use('/order', orderRoutes)
 
-
 app.use('/imageMedias', imageMediasRouter)
 app.use(defaultErrorHandler)
 

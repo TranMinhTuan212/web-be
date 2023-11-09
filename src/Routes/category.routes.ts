@@ -1,8 +1,5 @@
-import express from "express"
-import {
-    getAllCategoryController,
-    createCategoryController
-} from "~/Controllers/category.controller"
+import express from 'express'
+import { getAllCategoryController, createCategoryController } from '~/Controllers/category.controller'
 
 const categoryRoutes = express.Router()
 

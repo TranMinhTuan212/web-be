@@ -10,6 +10,5 @@ export default class Role {
   constructor(role: RoleType) {
     this._id_role = role._id_role
     this.name = role.name
-
   }
 }
