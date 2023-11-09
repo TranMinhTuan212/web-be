@@ -19,7 +19,7 @@ app.use(
   })
 )
 databaseservice.connect()
-const port = process.env.PORT || 4000
+const port = 8000
 // console.log(options.development)
 // minimits
 // console.log(process.argv)

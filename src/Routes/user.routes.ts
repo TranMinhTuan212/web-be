@@ -38,7 +38,6 @@ userRoutes.post('/logout', accsessTokenValidator, refreshTokenValidator, wrapReq
 userRoutes.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(emailVerifyController))
 userRoutes.post('/resend-verify-email', accsessTokenValidator, wrapRequestHandler(resendEmailVerifyController))
 userRoutes.post('/forgot-password', forgotPassWordValidator, wrapRequestHandler(forgotPasswordController))
-<<<<<<< HEAD
 userRoutes.get('/test-server', function(req: any, res: any){
   return res.json({
     status: 200,
@@ -46,10 +45,8 @@ userRoutes.get('/test-server', function(req: any, res: any){
     data: []
   })
 })
-=======
 userRoutes.get('/me-profile', accsessTokenValidator, wrapRequestHandler(meProfileController))
 userRoutes.get('/admin-profile', wrapRequestHandler(meProfileController))
->>>>>>> 42fff5de7c75b5dbf3a2d07d492b7f06fe6093d7
 
 userRoutes.patch('/updateMe', accsessTokenValidator, updateAdressValidator, wrapRequestHandler(updateMeController))
 userRoutes.get('/allmetable-profile', wrapRequestHandler(allMeProfileController))
