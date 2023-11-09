@@ -2,13 +2,7 @@ import { MongoClient, Db, Collection } from 'mongodb'
 // tải dotenv để config vào
 import { config } from 'dotenv'
 import User from '~/Models/Schemas/User.schema'
-import Product from '~/Models/Schemas/Product.schema'
 import ResFreshToken from '~/Models/Schemas/ReFreshToken.schema'
-import Category from '~/Models/Schemas/Category.shema'
-import Order from '~/Models/Schemas/Order.schema'
-import Address from '~/Models/Schemas/Address.schema'
-import Role from '~/Models/Schemas/Role.schema'
-
 //khi nào có process.env thì phải gọi config()
 config()
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@atlascluster.eml4bmb.mongodb.net/?retryWrites=true&w=majority`
@@ -33,21 +27,6 @@ class DatabaseService {
   }
   get reFreshToken(): Collection<ResFreshToken> {
     return this.db.collection(process.env.DB_RESFRESHTOKEN_COLECTION as string)
-  }
-  get products(): Collection<Product> {
-    return this.db.collection(process.env.DB_PRODUCTS_COLECTION as string)
-  }
-  get categories(): Collection<Category> {
-    return this.db.collection(process.env.DB_CATEGORIES_COLECTION as string)
-  }
-  get orders(): Collection<Order> {
-    return this.db.collection(process.env.DB_ORDERS_COLECTION as string)
-  }
-  get address(): Collection<Address> {
-    return this.db.collection(process.env.DB_ADDRESS_COLECTIOM as string)
-  }
-  get role(): Collection<Role> {
-    return this.db.collection(process.env.DB_ROLE_COLECTIOM as string)
   }
 }
 // run().catch(console.dir)

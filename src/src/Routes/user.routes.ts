@@ -6,25 +6,18 @@ import {
   registerVadidator,
   refreshTokenValidator,
   emailVerifyTokenValidator,
-  forgotPassWordValidator,
-  updateAdressValidator
+  forgotPassWordValidator
 } from '~/Middlewares/user.middeleware'
 import {
-  allMeProfileController,
-  deleteUserController,
   emailVerifyController,
   forgotPasswordController,
   loginController,
   logoutController,
-  meProfileController,
   registerController,
-  resendEmailVerifyController,
-  searchUserController,
-  updateMeController
+  resendEmailVerifyController
 } from '~/Controllers/user.controller'
 
 import { wrapRequestHandler } from '~/Utils/handlers'
-
 const userRoutes = express.Router()
 /**
  * Description . login user
@@ -38,11 +31,12 @@ userRoutes.post('/logout', accsessTokenValidator, refreshTokenValidator, wrapReq
 userRoutes.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(emailVerifyController))
 userRoutes.post('/resend-verify-email', accsessTokenValidator, wrapRequestHandler(resendEmailVerifyController))
 userRoutes.post('/forgot-password', forgotPassWordValidator, wrapRequestHandler(forgotPasswordController))
-userRoutes.get('/me-profile', accsessTokenValidator, wrapRequestHandler(meProfileController))
-userRoutes.get('/admin-profile', wrapRequestHandler(meProfileController))
+userRoutes.get('/test-server', function(req: any, res: any){
+  return res.json({
+    status: 200,
+    message: 'Run server successfully !',
+    data: []
+  })
+})
 
-userRoutes.patch('/updateMe', accsessTokenValidator, updateAdressValidator, wrapRequestHandler(updateMeController))
-userRoutes.get('/allmetable-profile', wrapRequestHandler(allMeProfileController))
-userRoutes.post('/deleteUser', wrapRequestHandler(deleteUserController))
-userRoutes.post('/search-user', wrapRequestHandler(searchUserController))
 export default userRoutes
