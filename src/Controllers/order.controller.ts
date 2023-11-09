@@ -21,7 +21,7 @@ export const createOrderController = async (req: Request<ParamsDictionary, any, 
     })
   } catch (error) {
     return res.status(500).json({
-      error: 'Internal server error'
+      error: 'Tạo đơn hàng thất bại !'
     })
   }
 }
