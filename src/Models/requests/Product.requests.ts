@@ -3,14 +3,10 @@ import internal from "stream"
 
 export interface ProductReqbody {
     name: string
-    price: Double
-    origin: string
-    category_id: string
     description: string
-    code: string
-    discout: Double
-    unit: string
-    image: string
-    status: string
+    price: Double
     quantity: Double
+    sold_count: Double
+    photo: string
+    category_id: string
 }

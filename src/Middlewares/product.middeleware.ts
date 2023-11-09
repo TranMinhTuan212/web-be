@@ -1,7 +1,11 @@
-import { Request, Response, NextFunction } from 'express'
 import { checkSchema } from 'express-validator'
 import productServices from '~/Services/products.services'
 import { validate } from '~/Utils/validation'
+
+const isJpegFileName = (fileName: string) => {
+  const regex = /^\.(jpg|jpeg)$/i;
+  return regex.test(fileName);
+};
 
 export const createProductVadidator = validate(
   checkSchema({
@@ -11,15 +15,10 @@ export const createProductVadidator = validate(
       isLength: {
         options: {
           min: 1,
-          max: 100
+          max: 255
         }
       },
       trim: true
-    },
-    price: {
-      notEmpty: true,
-      isInt: true,
-      trim: true,
     },
     description: {
       notEmpty: true,
@@ -27,24 +26,58 @@ export const createProductVadidator = validate(
       isLength: {
         options: {
           min: 1,
-          max: 500
+          max: 2550
         }
       },
+    },
+    price: {
+      notEmpty: true,
+      isFloat: true,
+      trim: true,
+    },
+    quantity: {
+      notEmpty: true,
+      isFloat: true,
+      trim: true,
+    },
+    sold_count: {
+      notEmpty: true,
+      isFloat: true,
+      trim: true,
+    },
+    photo: {
+      notEmpty: true,
+      isString: true,
+      isLength: {
+        options: {
+          min: 1,
+          max: 255
+        }
+      },
+      trim: true
     },
     category_id: {
       notEmpty: true,
       isString: true,
+      isLength: {
+        options: {
+          min: 1,
+          max: 255
+        }
+      },
+      trim: true
     },
-    quantity: {
-      notEmpty: true,
-      isInt: true,
-    },
+
+
     // image: {
-    //   isFile: true,
-    //   isMimeType: ['image/jpeg', 'image/png'],
-    //   isSize: {
-    //     fileSize: { fileSize: 12 },
+    //   custom: (image: string) => {
+    //     if (!isJpegFileName(image)) {
+    //       throw new Error('Image must be a JPEG file');
+    //     }
+    //     return true;
     //   },
     // },
+
+
   })
 )

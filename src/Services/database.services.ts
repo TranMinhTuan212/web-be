@@ -5,6 +5,8 @@ import User from '~/Models/Schemas/User.schema'
 import Product from '~/Models/Schemas/Product.schema'
 import ResFreshToken from '~/Models/Schemas/ReFreshToken.schema'
 import Category from '~/Models/Schemas/Category.shema'
+import Order from '~/Models/Schemas/Order.schema'
+
 //khi nào có process.env thì phải gọi config()
 config()
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@atlascluster.eml4bmb.mongodb.net/?retryWrites=true&w=majority`
@@ -35,6 +37,9 @@ class DatabaseService {
   }
   get categories(): Collection<Category> {
     return this.db.collection(process.env.DB_CATEGORIES_COLECTION as string)
+  }
+  get orders(): Collection<Order> {
+    return this.db.collection(process.env.DB_ORDERS_COLECTION as string)
   }
 }
 // run().catch(console.dir)

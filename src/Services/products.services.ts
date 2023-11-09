@@ -13,26 +13,25 @@ class ProductsService {
                 ...payload,
             })
         )
-        return "product"
+        return product.acknowledged
     }
 
     async getAllProducts() {
         const products = await databaseservice.products.find()
         return products.toArray()
-        // const productsCursor = await databaseservice.products.find();
-        // const products = await productsCursor.toArray();
-        // return products;
     }
 
     async getProductByKeyWord(keyWord: string) {
 
         const product = await databaseservice.products.find({
             $and: [
-                { $or: [
-                    { name: { $regex: new RegExp(`.*${keyWord}.*`, 'i') } },
-                    { description: { $regex: new RegExp(`.*${keyWord}.*`, 'i') } },
-                ], },
-                { status: "ON_SALE" },
+                {
+                    $or: [
+                        { name: { $regex: new RegExp(`.*${keyWord}.*`, 'i') } },
+                        { description: { $regex: new RegExp(`.*${keyWord}.*`, 'i') } },
+                    ],
+                },
+                // { status: "ON_SALE" },
             ],
         })
 
@@ -42,22 +41,34 @@ class ProductsService {
     async updateProduct(id: string, updatedProductData: any) {
 
         const productId = new ObjectId(id);
-            
+
         const product = await databaseservice.products.updateOne(
             { _id: productId },
-            [{ $set: { "name": updatedProductData.name}}],
+            [{
+                $set: {
+                    "name": updatedProductData.name,
+                    "price": updatedProductData.price,
+                    "category_id": updatedProductData.category_id,
+                    "description": updatedProductData.description,
+                    "sold_count": updatedProductData.sold_count,
+                    "photo": updatedProductData.photo,
+                    "quantity": updatedProductData.quantity,
+                }
+            }],
         );
-    
+
         if (product.modifiedCount === 0) {
             return false
         }
-    
+
         return true;
     }
 
-    async deletedProduct(_id: string) {
-        const product = await databaseservice.products.deleteOne({ _id: new ObjectId(_id)})        
-        return product.acknowledged
+    async deletedProduct(id: string) {
+        const productId = new ObjectId(id);
+        const product = await databaseservice.products.findOneAndDelete({ _id: productId })
+
+        return product
     }
 
     async checkProduct(email: string) {
