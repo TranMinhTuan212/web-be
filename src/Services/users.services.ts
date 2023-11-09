@@ -72,15 +72,16 @@ class UsersService {
       })
     )
     // const user_id = result.insertedId.toString()
-    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(user_id.toString())
-    await databaseservice.reFreshToken.insertOne(
-      new ResFreshToken({ user_id: new ObjectId(user_id), token: refresh_token })
-    )
+    // const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(user_id.toString())
+    // await databaseservice.reFreshToken.insertOne(
+    //   new ResFreshToken({ user_id: new ObjectId(user_id), token: refresh_token })
+    // )
     // await databaseservice.role.insertOne(new Role({ _id_role: new ObjectId(), name: RoleType.Admin }))
     console.log('email_verify_token: ', email_verify_token)
     return {
-      accsess_token,
-      refresh_token
+      // accsess_token,
+      // refresh_token
+      user_id
     }
   }
   async checkEmailExsit(email: string) {
@@ -89,6 +90,26 @@ class UsersService {
     return Boolean(user)
   }
   async getMe(user_id: string) {
+    const userPromise = await databaseservice.users.findOne(
+      { _id: new ObjectId(user_id) },
+      {
+        projection: {
+          password: 0,
+          email_verify_token: 0,
+          forgot_password_token: 0,
+          date_of_birth: 0,
+          verify: 0,
+          bio: 0
+        }
+      }
+    )
+    // const userPromise = databaseservice.users.findOne({ _id: new ObjectId(user_id), })
+    const addressPromise = await databaseservice.address.findOne({ user_id: new ObjectId(user_id) })
+    // const [user, address] = await Promise.all([userPromise, addressPromise])
+    // return [user, address]
+    return { ...userPromise, address: addressPromise }
+  }
+  async getMeAdmin(user_id: string) {
     const userPromise = await databaseservice.users.findOne(
       { _id: new ObjectId(user_id) },
       {
@@ -131,7 +152,6 @@ class UsersService {
   }
   async deleteUser(user_id: string) {
     const deletedUser = await databaseservice.users.findOneAndDelete({ _id: new ObjectId(user_id) })
-    console.log(deletedUser)
     await databaseservice.reFreshToken.deleteMany({ user_id: new ObjectId(user_id) })
     if (deletedUser) {
       return {
@@ -169,14 +189,12 @@ class UsersService {
   //   console.log(user)
   //   return user
   // }
-  async login(user_id: string) {
-    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(user_id)
-    const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
-    console.log(user)
+  async login(email: string) {
+    const user = await databaseservice.users.findOne({ email })
+    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(email)
     await databaseservice.reFreshToken.insertOne(
-      new ResFreshToken({ user_id: new ObjectId(user_id), token: refresh_token })
+      new ResFreshToken({ user_id: new ObjectId(user?._id), token: refresh_token })
     )
-
     return {
       accsess_token,
       refresh_token,
@@ -327,7 +345,6 @@ class UsersService {
         returnDocument: 'after'
       }
     )
-
     return {
       name: userUpdate?.name,
       maUser: address?._id,
@@ -369,12 +386,12 @@ class UsersService {
   }
   async searchUser(payload: SearchRequestBody, user_id?: string) {
     const firstLetter = payload.name // Lấy chữ cái đầu tiên
-    const regexPattern = `^${firstLetter}.+` // Tạo mẫu biểu thức chính quy
+    const regexPattern = `^${firstLetter}`
     const regex = new RegExp(regexPattern, 'i')
     console.log(firstLetter)
     const searchResults = await databaseservice.users
       .aggregate([
-        { $match: { $text: { $search: payload.name } } },
+        { $match: { name: { $regex: regex } } },
         {
           $lookup: {
             from: 'address',

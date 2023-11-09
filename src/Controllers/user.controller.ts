@@ -22,9 +22,10 @@ import { UserVerifyStatus } from '~/Constants/enums'
 import { ObjectId } from 'mongodb'
 
 export const loginController = async (req: Request<ParamsDictionary, any, LoginReqBody>, res: Response) => {
-  const user = req.user as User
-  const user_id = user._id as object
-  const data = await usersService.login(user_id.toString())
+  // const user = req.user as User
+  // const user_id = user._id as object
+  const { email } = req.body
+  const data = await usersService.login(email)
   return res.json({
     status: HTTP_STATUS.OK,
     message: USERS_MESSAGES.VALIDATION_SECCSESS,
@@ -109,6 +110,16 @@ export const forgotPasswordController = async (
 // sử dụng http get
 export const meProfileController = async (req: Request, res: Response, next: NextFunction) => {
   const { user_id } = req.decode_authorization as TokenPayload
+  const data = await usersService.getMe(user_id)
+  return res.json({
+    message: USERS_MESSAGES.GET_ME_SUCCSES,
+    status: HTTP_STATUS.OK,
+    data
+  })
+}
+//
+export const adminMeProfileController = async (req: Request, res: Response, next: NextFunction) => {
+  const { user_id } = req.body as TokenPayload
   const data = await usersService.getMe(user_id)
   return res.json({
     message: USERS_MESSAGES.GET_ME_SUCCSES,
