@@ -19,6 +19,7 @@ import fs from 'fs'
 import { isProduction } from '~/Constants/config'
 import { config } from 'dotenv'
 import { json } from 'stream/consumers'
+import mediasService from './medias.services'
 class UsersService {
   private signAccessToken(user_id: string) {
     return signToken({
@@ -203,7 +204,8 @@ class UsersService {
       _id: user?._id,
       name: user?.name,
       email: user?.email,
-      role: user?.role
+      role: user?.role,
+      avatar: user?.avatar
     }
   }
   async logout(resfresh_token: string) {
@@ -295,17 +297,36 @@ class UsersService {
       }
     })
   }
-  // async handleUploadSingImage(req: Request) {
-  //   const file = await handlerUploadImage(req)
-  //   const newName = getNameFullName(file.newFilename)
-  //   const newPath = path.resolve(UPLOAD_DRI, `${newName}.jpg`)
-  //   await sharp(file.filepath).jpeg({ quality: 50 }).toFile(newPath) // whith metadata là dữ liệu tên hình ảnh cũ lên tìm shrap
-  //   fs.unlinkSync(file.filepath) // xóa file thư mục image
-  //   return isProduction
-  //     ? `${process.env.HOST}/imageMedias/${newName}.jpg`
-  //     : `http://localhost:${process.env.PORT}/imageMedias/${newName}.jpg`
-  // }
-  async updateMe(user_id: string, payload: CreateAddress, payloadUser?: UpdateMeReqBody) {
+  async handleUploadSingImage(req: Request, user_id?: string) {
+    const file = await handlerUploadImage(req)
+    const newName = getNameFullName(file.newFilename)
+    const newPath = path.resolve(UPLOAD_DRI, `${newName}.jpg`)
+    // Lưu hình ảnh mới vào thư mục và lấy đường dẫn
+    await sharp(file.filepath).jpeg({ quality: 50 }).toFile(newPath)
+    fs.unlinkSync(file.filepath)
+    const imageUrl = isProduction
+      ? `${process.env.HOST}/imageMedias/${newName}.jpg`
+      : `http://localhost:${process.env.PORT}/imageMedias/${newName}.jpg`
+    // Tìm và cập nhật hình ảnh trong cơ sở dữ liệu
+    // const updatedUser = await databaseservice.users.findOneAndUpdate(
+    //   { _id: new ObjectId(user_id) },
+    //   { $set: { avatar: imageUrl } },
+    //   { returnDocument: 'after' } // Trả về bản ghi đã được cập nhật
+    // )
+    return imageUrl
+  }
+  async updateMe(user_id: string, payload: CreateAddress, payloadUser?: UpdateMeReqBody, req?: Request) {
+    // const file = await handlerUploadImage(req as Request)
+    // const newName = getNameFullName(file.newFilename)
+    // const newPath = path.resolve(UPLOAD_DRI, `${newName}.jpg`)
+    // // Lưu hình ảnh mới vào thư mục và lấy đường dẫn
+    // await sharp(file.filepath).jpeg({ quality: 50 }).toFile(newPath)
+    // fs.unlinkSync(file.filepath)
+    // const imageUrl = isProduction
+    //   ? `${process.env.HOST}/imageMedias/${newName}.jpg`
+    //   : `http://localhost:${process.env.PORT}/imageMedias/${newName}.jpg`
+    const image = await this.handleUploadSingImage(req as Request)
+    console.log(image)
     function getRandomNumber(min: number, max: number): number {
       return Math.floor(Math.random() * (max - min + 1)) + min
     }
@@ -314,6 +335,7 @@ class UsersService {
       return 'lỗi '
     }
     const version = getRandomNumber(1, 1000)
+
     const userUpdate = await databaseservice.users.findOneAndUpdate(
       {
         _id: new ObjectId(user_id)
@@ -323,7 +345,7 @@ class UsersService {
           ...(payloadUser && {
             name: payloadUser?.name,
             phone: payloadUser?.phone,
-            avatar: payloadUser?.avatar,
+            avatar: image,
             version: version.toString()
           })
         },
@@ -356,14 +378,14 @@ class UsersService {
         returnDocument: 'after'
       }
     )
-
     return {
       name: userUpdate?.name,
       province: address?.province,
       district: address?.district,
       award: address?.award,
       detail: address?.detail,
-      version: userUpdate?.version
+      version: userUpdate?.version,
+      avtar: image
     }
   }
   // private async updateUser(user_id: string, payload: UpdateMeReqBody) {
