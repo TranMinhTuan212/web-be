@@ -10,6 +10,6 @@ const orderRoutes = express.Router()
 
 orderRoutes.post('/create', createOrderController)
 orderRoutes.get('/getOrder', getOrderByUserIdController)
-orderRoutes.post('/delete', deleteOrderController)
+orderRoutes.delete('/delete', deleteOrderController)
 
 export default orderRoutes

@@ -12,12 +12,12 @@ export const createOrderController = async (req: Request<ParamsDictionary, any, 
 
     if (order === false) {
       return res.status(404).json({
-        error: 'Create product failed'
+        error: 'Tạo đơn hàng thất bại !'
       })
     }
 
     return res.status(200).json({
-      message: 'Create product success'
+      message: 'Thêm sản phẩm vào giỏ hàng thành công'
     })
   } catch (error) {
     return res.status(500).json({
@@ -34,39 +34,39 @@ export const getOrderByUserIdController = async (req: Request<ParamsDictionary>,
 
     if (!order || order.length === 0) {
       return res.status(404).json({
-        message: 'Get orders failed'
+        message: 'Không có sản phẩm nào !'
       })
     }
 
     return res.status(200).json({
       data,
-      message: 'Get orders success'
+      message: 'Lấy sản phẩm thành công'
     })
   } catch (error) {
     return res.status(500).json({
-      error: 'Internal server error'
+      error: 'Không có sản phẩm nào !'
     })
   }
 }
 
 export const deleteOrderController = async (req: Request, res: Response) => {
-  try {
+  try {    
     const id = req.body._id
 
     const deletedOrder = await ordersService.deleteOrder(id)
 
     if (!deletedOrder) {
       return res.status(404).json({
-        error: 'Order not found'
+        error: 'Xóa sản phẩm thất bại !'
       })
     }
 
     return res.status(200).json({
-      message: 'Delete successfully'
+      message: 'Xóa sản phẩm thành công'
     })
   } catch (error) {
     return res.status(500).json({
-      error: 'Internal server error'
+      error: 'Xóa sản phẩm thất bại !'
     })
   }
 }

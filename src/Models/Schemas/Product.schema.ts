@@ -6,10 +6,12 @@ interface ProductType{
     name: string
     description: string
     price: Double
-    quantity: Double
-    sold_count: Double
-    photo: string
+    image: string
     category_id: string
+    origin: string
+    unit: string
+    code: string
+    discount: string
     created_at?: Date
     updated_at?: Date
 }
@@ -19,10 +21,12 @@ export default class Product{
     name: string
     description: string
     price: Double
-    quantity: Double
-    sold_count: Double
-    photo: string
+    image: string
     category_id: string
+    origin: string
+    unit: string
+    code: string
+    discount: string
     created_at?: Date
     updated_at?: Date
 
@@ -32,10 +36,12 @@ export default class Product{
         this.name = product.name || ''
         this.description = product.description
         this.price = product.price
-        this.quantity = product.quantity
-        this.sold_count = product.sold_count
-        this.photo = product.photo
+        this.image = product.image
         this.category_id = product.category_id
+        this.origin = product.origin
+        this.unit = product.unit
+        this.code = product.code
+        this.discount = product.discount
         this.created_at = product.created_at || date
         this.updated_at = product.updated_at || date
     }

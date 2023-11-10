@@ -52,9 +52,9 @@ class ProductsService {
           price: updatedProductData.price,
           category_id: updatedProductData.category_id,
           description: updatedProductData.description,
-          sold_count: updatedProductData.sold_count,
-          photo: updatedProductData.photo,
-          quantity: updatedProductData.quantity
+          image: updatedProductData.image,
+          unit: updatedProductData.unit,
+          origin: updatedProductData.origin,
         }
       }
     ])
@@ -73,8 +73,8 @@ class ProductsService {
     return product
   }
 
-  async checkProduct(email: string) {
-    const product = await databaseservice.products.findOne({ email })
+  async checkCodeProduct(code: string) {
+    const product = await databaseservice.products.findOne({ code: code })    
     return Boolean(product)
   }
 }

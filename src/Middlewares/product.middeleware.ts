@@ -16,9 +16,11 @@ export const createProductVadidator = validate(
         options: {
           min: 1,
           max: 255
-        }
-      },
-      trim: true
+        },
+       
+      } ,
+      trim: true,
+      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
     },
     description: {
       notEmpty: true,
@@ -26,58 +28,89 @@ export const createProductVadidator = validate(
       isLength: {
         options: {
           min: 1,
-          max: 2550
+          max: 500
         }
       },
+      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-500 ký tự',
+
     },
     price: {
       notEmpty: true,
       isFloat: true,
       trim: true,
+      errorMessage: 'Không được để trống, là số',
+
     },
-    quantity: {
+    discount: {
       notEmpty: true,
       isFloat: true,
       trim: true,
-    },
-    sold_count: {
-      notEmpty: true,
-      isFloat: true,
-      trim: true,
-    },
-    photo: {
-      notEmpty: true,
-      isString: true,
       isLength: {
         options: {
           min: 1,
-          max: 255
+          max: 500
         }
       },
-      trim: true
+      errorMessage: 'Không được để trống, là số từ 1-100',
+
     },
+    // photo: {
+    //   notEmpty: true,
+    //   isString: true,
+    //   isLength: {
+    //     options: {
+    //       min: 1,
+    //       max: 255
+    //     }
+    //   },
+    //   trim: true
+    // },
     category_id: {
       notEmpty: true,
       isString: true,
+      trim: true,
+      errorMessage: 'Không được để trống',
+
+    },
+    unit: {
+      notEmpty: true,
+      isString: true,
       isLength: {
         options: {
           min: 1,
           max: 255
-        }
-      },
-      trim: true
+        },
+       
+      } ,
+      trim: true,
+      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
     },
-
-
-    // image: {
-    //   custom: (image: string) => {
-    //     if (!isJpegFileName(image)) {
-    //       throw new Error('Image must be a JPEG file');
-    //     }
-    //     return true;
-    //   },
-    // },
-
+    origin: {
+      notEmpty: true,
+      isString: true,
+      isLength: {
+        options: {
+          min: 1,
+          max: 255
+        },
+       
+      } ,
+      trim: true,
+      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
+    },
+    code: {
+      notEmpty: true,
+      isString: true,
+      isLength: {
+        options: {
+          min: 1,
+          max: 255
+        },
+       
+      } ,
+      trim: true,
+      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
+    },
 
   })
 )

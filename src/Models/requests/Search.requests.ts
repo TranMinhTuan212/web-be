@@ -1,6 +1,6 @@
 // import { Pagination } from "~/Models/requests/"
  
 export interface SearchQuery{
-    name: string
-    description: string
+    keyWord: string
+    _id: string
 }

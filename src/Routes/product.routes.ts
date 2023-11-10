@@ -15,7 +15,7 @@ productRoutes.get('/all', getAllProductsController)
 productRoutes.post('/create', createProductVadidator, createProductController)
 productRoutes.post('/search', getProductByKeyWordController)
 productRoutes.post('/detail', getProductByIdController)
-productRoutes.post('/update', updateProductController)
+productRoutes.put('/update', updateProductController)
 productRoutes.post('/delete', deleteProductController)
 
 export default productRoutes

@@ -21,15 +21,10 @@ export const createCategoryController = async (req: Request<ParamsDictionary, an
 
 export const getAllCategoryController = async (req: Request, res: Response) => {
   try {
-    const cateories = await categoriesService.getAllCategories()
-    if (cateories.length === 0) {
-      return res.status(404).json({
-        error: 'No products found'
-      })
-    }
+    const data = await categoriesService.getAllCategories()
 
     return res.status(200).json({
-      cateories,
+      data,
       message: 'Get all cateories success'
     })
   } catch (error) {
