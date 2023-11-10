@@ -9,98 +9,98 @@ const isJpegFileName = (fileName: string) => {
 
 export const createProductVadidator = validate(
   checkSchema({
-    // name: {
-    //   notEmpty: true,
-    //   isString: true,
-    //   isLength: {
-    //     options: {
-    //       min: 1,
-    //       max: 255
-    //     },
+    name: {
+      notEmpty: true,
+      isString: true,
+      isLength: {
+        options: {
+          min: 1,
+          max: 255
+        },
        
-    //   } ,
-    //   trim: true,
-    //   errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
-    // },
-    // description: {
-    //   notEmpty: true,
-    //   isString: true,
-    //   isLength: {
-    //     options: {
-    //       min: 1,
-    //       max: 500
-    //     }
-    //   },
-    //   errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-500 ký tự',
+      } ,
+      trim: true,
+      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
+    },
+    description: {
+      notEmpty: true,
+      isString: true,
+      isLength: {
+        options: {
+          min: 1,
+          max: 500
+        }
+      },
+      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-500 ký tự',
 
-    // },
-    // price: {
-    //   notEmpty: true,
-    //   isFloat: true,
-    //   trim: true,
-    //   errorMessage: 'Không được để trống, là số',
+    },
+    price: {
+      notEmpty: true,
+      isFloat: true,
+      trim: true,
+      errorMessage: 'Không được để trống, là số',
 
-    // },
-    // discount: {
-    //   notEmpty: true,
-    //   isFloat: true,
-    //   trim: true,
-    //   isLength: {
-    //     options: {
-    //       min: 1,
-    //       max: 500
-    //     }
-    //   },
-    //   errorMessage: 'Không được để trống, là số từ 1-100',
+    },
+    discount: {
+      notEmpty: true,
+      isFloat: true,
+      trim: true,
+      isLength: {
+        options: {
+          min: 1,
+          max: 500
+        }
+      },
+      errorMessage: 'Không được để trống, là số từ 1-100',
 
-    // },
+    },
     
-    // category_id: {
-    //   notEmpty: true,
-    //   isString: true,
-    //   trim: true,
-    //   errorMessage: 'Không được để trống',
+    category_id: {
+      notEmpty: true,
+      isString: true,
+      trim: true,
+      errorMessage: 'Không được để trống',
 
-    // },
-    // unit: {
-    //   notEmpty: true,
-    //   isString: true,
-    //   isLength: {
-    //     options: {
-    //       min: 1,
-    //       max: 255
-    //     },
+    },
+    unit: {
+      notEmpty: true,
+      isString: true,
+      isLength: {
+        options: {
+          min: 1,
+          max: 255
+        },
        
-    //   } ,
-    //   trim: true,
-    //   errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
-    // },
-    // origin: {
-    //   notEmpty: true,
-    //   isString: true,
-    //   isLength: {
-    //     options: {
-    //       min: 1,
-    //       max: 255
-    //     },
+      } ,
+      trim: true,
+      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
+    },
+    origin: {
+      notEmpty: true,
+      isString: true,
+      isLength: {
+        options: {
+          min: 1,
+          max: 255
+        },
        
-    //   } ,
-    //   trim: true,
-    //   errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
-    // },
-    // code: {
-    //   notEmpty: true,
-    //   isString: true,
-    //   isLength: {
-    //     options: {
-    //       min: 1,
-    //       max: 255
-    //     },
+      } ,
+      trim: true,
+      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
+    },
+    code: {
+      notEmpty: true,
+      isString: true,
+      isLength: {
+        options: {
+          min: 1,
+          max: 255
+        },
        
-    //   } ,
-    //   trim: true,
-    //   errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
-    // },
+      } ,
+      trim: true,
+      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
+    },
 
   })
 )
