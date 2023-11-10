@@ -22,10 +22,10 @@ import { UserVerifyStatus } from '~/Constants/enums'
 import { ObjectId } from 'mongodb'
 
 export const loginController = async (req: Request<ParamsDictionary, any, LoginReqBody>, res: Response) => {
-  // const user = req.user as User
-  // const user_id = user._id as object
+  const user = req.user as User
+  const user_id = user._id as object
   const { email } = req.body
-  const data = await usersService.login(email)
+  const data = await usersService.login(email, user_id.toString())
   return res.json({
     status: HTTP_STATUS.OK,
     message: USERS_MESSAGES.VALIDATION_SECCSESS,

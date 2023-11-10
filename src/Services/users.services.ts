@@ -104,6 +104,7 @@ class UsersService {
         }
       }
     )
+    console.log(userPromise)
     // const userPromise = databaseservice.users.findOne({ _id: new ObjectId(user_id), })
     const addressPromise = await databaseservice.address.findOne({ user_id: new ObjectId(user_id) })
     // const [user, address] = await Promise.all([userPromise, addressPromise])
@@ -190,9 +191,10 @@ class UsersService {
   //   console.log(user)
   //   return user
   // }
-  async login(email: string) {
+  async login(email: string, user_id?: string) {
     const user = await databaseservice.users.findOne({ email })
-    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(email)
+    // const user_id = user?._id.toString()
+    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(user_id as string)
     await databaseservice.reFreshToken.insertOne(
       new ResFreshToken({ user_id: new ObjectId(user?._id), token: refresh_token })
     )
@@ -308,11 +310,11 @@ class UsersService {
     function getRandomNumber(min: number, max: number): number {
       return Math.floor(Math.random() * (max - min + 1)) + min
     }
-    // const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
-    // if (user?.version !== user?.version) {
-    //   return 'lỗi '
-    // }
-    // console.log(user)
+    const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
+    if (user && user?.version !== user?.version) {
+      return 'lỗi '
+    }
+    console.log(user)
     const version = getRandomNumber(1, 1000)
     const userUpdate = await databaseservice.users.findOneAndUpdate(
       {
