@@ -193,7 +193,6 @@ class UsersService {
   // }
   async login(email: string, user_id?: string) {
     const user = await databaseservice.users.findOne({ email })
-    // const user_id = user?._id.toString()
     const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(user_id as string)
     await databaseservice.reFreshToken.insertOne(
       new ResFreshToken({ user_id: new ObjectId(user?._id), token: refresh_token })
@@ -314,7 +313,6 @@ class UsersService {
     if (user && user?.version !== user?.version) {
       return 'lỗi '
     }
-    console.log(user)
     const version = getRandomNumber(1, 1000)
     const userUpdate = await databaseservice.users.findOneAndUpdate(
       {
@@ -337,7 +335,6 @@ class UsersService {
         returnDocument: 'after'
       }
     )
-    console.log(userUpdate)
     const address = await databaseservice.address.findOneAndUpdate(
       {
         user_id: new ObjectId(user_id)

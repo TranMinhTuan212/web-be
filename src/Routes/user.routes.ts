@@ -51,5 +51,5 @@ userRoutes.get('/admin-MeProfile', accsessTokenValidator, wrapRequestHandler(adm
 userRoutes.patch('/updateMe', accsessTokenValidator, updateAdressValidator, wrapRequestHandler(updateMeController))
 userRoutes.get('/allmetable-profile', accsessTokenValidator, wrapRequestHandler(allMeProfileController))
 userRoutes.post('/deleteUser', wrapRequestHandler(deleteUserController))
-userRoutes.post('/search-user', wrapRequestHandler(searchUserController))
+userRoutes.post('/search-user', accsessTokenValidator, wrapRequestHandler(searchUserController))
 export default userRoutes
