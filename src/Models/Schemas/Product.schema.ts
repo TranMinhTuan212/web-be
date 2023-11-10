@@ -7,7 +7,7 @@ interface ProductType{
     description: string
     price: Double
     image: string
-    category_id: string
+    category_id: ObjectId
     origin: string
     unit: string
     code: string
@@ -22,7 +22,7 @@ export default class Product{
     description: string
     price: Double
     image: string
-    category_id: string
+    category_id: ObjectId
     origin: string
     unit: string
     code: string

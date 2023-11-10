@@ -12,16 +12,16 @@ export const createOrderController = async (req: Request<ParamsDictionary, any, 
 
     if (order === false) {
       return res.status(404).json({
-        error: 'Tạo đơn hàng thất bại !'
+        message: 'Tạo đơn hàng thất bại !'
       })
     }
 
     return res.status(200).json({
       message: 'Thêm sản phẩm vào giỏ hàng thành công'
     })
-  } catch (error) {
+  } catch (message) {
     return res.status(500).json({
-      error: 'Tạo đơn hàng thất bại !'
+      message: 'Tạo đơn hàng thất bại !'
     })
   }
 }
@@ -42,9 +42,9 @@ export const getOrderByUserIdController = async (req: Request<ParamsDictionary>,
       data,
       message: 'Lấy sản phẩm thành công'
     })
-  } catch (error) {
+  } catch (message) {
     return res.status(500).json({
-      error: 'Không có sản phẩm nào !'
+      message: 'Không có sản phẩm nào !'
     })
   }
 }
@@ -57,16 +57,16 @@ export const deleteOrderController = async (req: Request, res: Response) => {
 
     if (!deletedOrder) {
       return res.status(404).json({
-        error: 'Xóa sản phẩm thất bại !'
+        message: 'Xóa sản phẩm thất bại !'
       })
     }
 
     return res.status(200).json({
       message: 'Xóa sản phẩm thành công'
     })
-  } catch (error) {
+  } catch (message) {
     return res.status(500).json({
-      error: 'Xóa sản phẩm thất bại !'
+      message: 'Xóa sản phẩm thất bại !'
     })
   }
 }
