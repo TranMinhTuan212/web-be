@@ -1,3 +1,4 @@
+import { json } from 'stream/consumers';
 import express from 'express'
 
 import {
@@ -45,6 +46,9 @@ userRoutes.get('/test-server', function (req: any, res: any) {
     message: 'Run server successfully !',
     data: []
   })
+})
+userRoutes.post('/check-token', accsessTokenValidator, function(){
+  return true
 })
 userRoutes.get('/me-profile', accsessTokenValidator, wrapRequestHandler(meProfileController))
 userRoutes.get('/admin-MeProfile', accsessTokenValidator, wrapRequestHandler(adminMeProfileController))
