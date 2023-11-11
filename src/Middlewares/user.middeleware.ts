@@ -17,7 +17,7 @@ export const loginValidator = validate(
       email: {
         notEmpty: true,
         isEmail: true,
-        trim: true,
+        // trim: true,
         custom: {
           options: async (value, { req }) => {
             const user = await databaseservice.users.findOne({
@@ -38,6 +38,7 @@ export const loginValidator = validate(
       password: {
         notEmpty: true,
         isString: true,
+        // trim: true,
         custom: {
           options: async (value, { req }) => {
             const user = await databaseservice.users.findOne({
@@ -49,7 +50,7 @@ export const loginValidator = validate(
                 status: HTTP_STATUS.UNAUTHORIZED
               })
             }
-            req.user = user
+            // req.user = user
             return true
           }
         },
@@ -114,6 +115,14 @@ export const registerVadidator = validate(
             max: 50
           },
           errorMessage: 'Lỗi độ dài password phải từ 6-50 ký tự'
+        },
+        custom: {
+          options: (value) => {
+            if (/\s/.test(value)) {
+              throw new Error('Password không được chứa khoảng trắng')
+            }
+            return true
+          }
         },
         isStrongPassword: {
           options: {
@@ -325,7 +334,7 @@ export const updateAdressValidator = validate(
     {
       name: {
         // notEmpty: true,
-        // isString: true,
+        isString: true,
         isLength: {
           options: {
             min: 2,

@@ -47,7 +47,7 @@ userRoutes.get('/test-server', function (req: any, res: any) {
   })
 })
 userRoutes.get('/me-profile', accsessTokenValidator, wrapRequestHandler(meProfileController))
-userRoutes.get('/admin-MeProfile', accsessTokenValidator, wrapRequestHandler(adminMeProfileController))
+userRoutes.post('/admin-MeProfile', accsessTokenValidator, wrapRequestHandler(adminMeProfileController))
 userRoutes.patch('/updateMe', accsessTokenValidator, updateAdressValidator, wrapRequestHandler(updateMeController))
 userRoutes.get('/allmetable-profile', accsessTokenValidator, wrapRequestHandler(allMeProfileController))
 userRoutes.post('/deleteUser', wrapRequestHandler(deleteUserController))

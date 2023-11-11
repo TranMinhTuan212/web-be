@@ -5,7 +5,7 @@ import { hashPassword } from '~/Utils/crypto'
 import { signToken } from '~/Utils/jwt'
 import { RoleType, TokenType } from '~/Constants/enums'
 import ResFreshToken from '~/Models/Schemas/ReFreshToken.schema'
-import { ObjectId } from 'mongodb'
+import { Code, ObjectId } from 'mongodb'
 import { USERS_MESSAGES } from '~/Constants/messages'
 import HTTP_STATUS from '~/Constants/httpStatus'
 import Address from '~/Models/Schemas/Address.schema'
@@ -20,6 +20,7 @@ import { isProduction } from '~/Constants/config'
 import { config } from 'dotenv'
 import { json } from 'stream/consumers'
 import mediasService from './medias.services'
+import { log } from 'console'
 class UsersService {
   private signAccessToken(user_id: string) {
     return signToken({
@@ -49,6 +50,11 @@ class UsersService {
     return Promise.all([this.signAccessToken(user_id), this.signRefreshToken(user_id)])
   }
   async register(payload: RegisterReqbody, payload1?: CreateAddress) {
+    function getRandomNumber(min: number, max: number): number {
+      return Math.floor(Math.random() * (max - min + 1)) + min
+    }
+    const code = getRandomNumber(1, 1000)
+    const version = getRandomNumber(1, 1000)
     const user_id = new ObjectId()
     const email_verify_token = await this.signEmailVerifyToken(user_id.toString())
     await databaseservice.address.insertOne(
@@ -58,19 +64,17 @@ class UsersService {
         user_id: new ObjectId(user_id)
       })
     )
-    function getRandomNumber(min: number, max: number): number {
-      return Math.floor(Math.random() * (max - min + 1)) + min
-    }
-    const code = getRandomNumber(1, 1000)
+
     await databaseservice.users.insertOne(
       new User({
         ...payload,
-        code: code.toString(),
+        version: code.toString(),
         _id: user_id,
         email_verify_token,
         date_of_birth: new Date(payload.date_of_birth),
         password: hashPassword(payload.password),
-        role: RoleType.customr
+        role: RoleType.customr,
+        code: code.toString()
       })
     )
     // const user_id = result.insertedId.toString()
@@ -80,6 +84,7 @@ class UsersService {
     // )
     // await databaseservice.role.insertOne(new Role({ _id_role: new ObjectId(), name: RoleType.Admin }))
     console.log('email_verify_token: ', email_verify_token)
+
     return {
       // accsess_token,
       // refresh_token
@@ -192,12 +197,13 @@ class UsersService {
   //   console.log(user)
   //   return user
   // }
-  async login(email: string, user_id?: string) {
-    const user = await databaseservice.users.findOne({ email })
-    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(user_id as string)
+  async login(user_id: string) {
+    const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
+    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(user_id)
     await databaseservice.reFreshToken.insertOne(
       new ResFreshToken({ user_id: new ObjectId(user?._id), token: refresh_token })
     )
+
     return {
       accsess_token,
       refresh_token,
@@ -316,26 +322,12 @@ class UsersService {
     return imageUrl
   }
   async updateMe(user_id: string, payload: CreateAddress, payloadUser?: UpdateMeReqBody, req?: Request) {
-    // const file = await handlerUploadImage(req as Request)
-    // const newName = getNameFullName(file.newFilename)
-    // const newPath = path.resolve(UPLOAD_DRI, `${newName}.jpg`)
-    // // Lưu hình ảnh mới vào thư mục và lấy đường dẫn
-    // await sharp(file.filepath).jpeg({ quality: 50 }).toFile(newPath)
-    // fs.unlinkSync(file.filepath)
-    // const imageUrl = isProduction
-    //   ? `${process.env.HOST}/imageMedias/${newName}.jpg`
-    //   : `http://localhost:${process.env.PORT}/imageMedias/${newName}.jpg`
     const image = await this.handleUploadSingImage(req as Request)
     console.log(image)
     function getRandomNumber(min: number, max: number): number {
       return Math.floor(Math.random() * (max - min + 1)) + min
     }
-    const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
-    if (user && user?.version !== user?.version) {
-      return 'lỗi '
-    }
     const version = getRandomNumber(1, 1000)
-
     const userUpdate = await databaseservice.users.findOneAndUpdate(
       {
         _id: new ObjectId(user_id)
@@ -380,12 +372,13 @@ class UsersService {
     )
     return {
       name: userUpdate?.name,
+      code: userUpdate?.code,
       province: address?.province,
       district: address?.district,
       award: address?.award,
       detail: address?.detail,
       version: userUpdate?.version,
-      avtar: image
+      avatar: image
     }
   }
   // private async updateUser(user_id: string, payload: UpdateMeReqBody) {
@@ -521,4 +514,9 @@ export default usersService
 //     accsess_token,
 //     refresh_token
 //   }
+// }
+
+// const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
+// if (user && user?.version !== user?.version) {
+//   return 'lỗi '
 // }

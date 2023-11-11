@@ -24,8 +24,8 @@ import { ObjectId } from 'mongodb'
 export const loginController = async (req: Request<ParamsDictionary, any, LoginReqBody>, res: Response) => {
   const user = req.user as User
   const user_id = user._id as object
-  const { email } = req.body
-  const data = await usersService.login(email, user_id.toString())
+  // const { email } = req.body
+  const data = await usersService.login(user_id.toString())
   return res.json({
     status: HTTP_STATUS.OK,
     message: USERS_MESSAGES.VALIDATION_SECCSESS,
@@ -143,8 +143,8 @@ export const updateMeController = async (
   const user = await usersService.updateMe(
     user_id,
     req.body as CreateAddress,
-    req.body as UpdateMeReqBody,
-    req as Request
+    req.body as UpdateMeReqBody
+    // req as Request
   )
   return res.json({
     message: USERS_MESSAGES.UPDATE_ME_SUCCSES,
