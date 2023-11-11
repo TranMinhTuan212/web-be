@@ -10,7 +10,8 @@ class ProductsService {
   async createProduct(payload: ProductReqbody) {
     const product = await databaseservice.products.insertOne(
       new Product({
-        ...payload
+        ...payload,
+        category_id: new ObjectId(payload.category_id)
       })
     )
     return product.acknowledged
@@ -22,20 +23,47 @@ class ProductsService {
   }
 
   async getProductByKeyWord(keyWord: string) {
-    const product = await databaseservice.products.find({
-      $and: [
-        {
-          $or: [
-            { name: { $regex: new RegExp(`.*${keyWord}.*`, 'i') } }
-            // { description: { $regex: new RegExp(`.*${keyWord}.*`, 'i') } }
-          ]
+    const product = await databaseservice.products.aggregate([
+      {
+        $match: {
+          name: { $regex: new RegExp(`.*${keyWord}.*`, 'i') }
         }
-        // { status: "ON_SALE" },
-      ]
-    })
+      },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "category_id",
+          foreignField: "_id",
+          as: "category"
+        }
+      },
+      {
+        $unwind: {
+          path: '$category',
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          description: 1,
+          price: 1,
+          image: 1,
+          category_id: 1,
+          origin: 1,
+          unit: 1,
+          code: 1,
+          discount: 1,
+          categoryName: "$category.name",
+        }
+      }
+    ])
+
+    console.log(product.toArray());
 
     return product.toArray()
   }
+
   async getProductById(_id: string) {
     const product = await databaseservice.products.findOne({ _id: new ObjectId(_id) })
 
@@ -52,9 +80,9 @@ class ProductsService {
           price: updatedProductData.price,
           category_id: updatedProductData.category_id,
           description: updatedProductData.description,
-          sold_count: updatedProductData.sold_count,
-          photo: updatedProductData.photo,
-          quantity: updatedProductData.quantity
+          image: updatedProductData.image,
+          unit: updatedProductData.unit,
+          origin: updatedProductData.origin,
         }
       }
     ])
@@ -73,8 +101,8 @@ class ProductsService {
     return product
   }
 
-  async checkProduct(email: string) {
-    const product = await databaseservice.products.findOne({ email })
+  async checkCodeProduct(code: string) {
+    const product = await databaseservice.products.findOne({ code: code })
     return Boolean(product)
   }
 }

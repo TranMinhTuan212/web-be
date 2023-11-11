@@ -3,27 +3,52 @@ import { Request, Response, NextFunction } from 'express'
 import Product from '~/Models/Schemas/Product.schema'
 import databaseservice from '~/Services/database.services'
 import productsService from '~/Services/products.services'
+import categoriesService from '~/Services/categories.services'
+import mediasService from '~/Services/medias.services'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { ProductReqbody } from '~/Models/requests/Product.requests'
 import { SearchQuery } from '~/Models/requests/Search.requests'
 
 export const createProductController = async (req: Request<ParamsDictionary, any, ProductReqbody>, res: Response) => {
   try {
-    const pro = req.body
-    const product = await productsService.createProduct(req.body)
+    let product
+    const checkCode = await productsService.checkCodeProduct(req.body?.code)
 
-    if (product === false) {
+    if (checkCode === true) {
       return res.status(404).json({
-        error: 'Create product failed'
+        message: 'Mã sản phẩm đã tồn tại !'
+      })
+    }
+
+    const category_id  = req.body?.category_id
+    const objectCategory = await categoriesService.getAllCategories()
+    const listIdCategory = objectCategory.map(category => category._id)
+    const stringsIdCategory = []
+
+    for (const id of listIdCategory) {
+      stringsIdCategory.push(id.toString())
+    }
+
+    const isExistCategory = stringsIdCategory.includes(category_id)
+
+    if (isExistCategory === true) {
+      product = await productsService.createProduct(req?.body)
+    }
+
+    // // const medias = await mediasService.handleUploadSingImage()
+
+    if (product === false || product === undefined) {
+      return res.status(404).json({
+        message: 'Thêm sản phẩm thất bại !'
       })
     }
 
     return res.status(200).json({
-      message: 'Create product success'
+      message: 'Thêm sản phẩm thành công'
     })
-  } catch (error) {
+  } catch (message) {
     return res.status(500).json({
-      error: 'Internal server error'
+      message: 'Thêm sản phẩm thất bại !'
     })
   }
 }
@@ -33,17 +58,17 @@ export const getAllProductsController = async (req: Request, res: Response) => {
     const products = await productsService.getAllProducts()
     if (products.length === 0) {
       return res.status(404).json({
-        error: 'No products found'
+        message: 'Không tìm thấy sản phẩm nào !'
       })
     }
 
     return res.status(200).json({
       products,
-      message: 'Get all products success'
+      message: 'Lấy tất cả sản phẩm thành công'
     })
-  } catch (error) {
+  } catch (message) {
     return res.status(500).json({
-      error: 'Internal server error'
+      message: 'Không tìm thấy sản phẩm nào !'
     })
   }
 }
@@ -53,7 +78,8 @@ export const getProductByKeyWordController = async (
   res: Response
 ) => {
   try {
-    const keyWord = req.body.keyWord
+    const keyWord = req.body?.keyWord
+    
     let products
     let data
 
@@ -62,28 +88,31 @@ export const getProductByKeyWordController = async (
       data = products
       return res.status(200).json({
         data,
-        message: 'Get all product success'
+        message: 'Lấy tất cả sản phẩm thành công'
       })
     }
 
     products = await productsService.getProductByKeyWord(keyWord)
+
+    console.log(products);
+    
     data = products
 
     if (!products || products.length === 0) {
       data = products
-      return res.status(200).json({
+      return res.status(404).json({
         data,
-        message: 'Get all product success'
+        message: 'Không tìm thấy sản phẩm nào !'
       })
     }
 
     return res.status(200).json({
       data,
-      message: 'Search product success'
+      message: 'Tìm sản phẩm thành công'
     })
-  } catch (error) {
+  } catch (message) {
     return res.status(500).json({
-      error: 'Internal server error'
+      message: 'Không tìm thấy sản phẩm nào !'
     })
   }
 }
@@ -97,7 +126,7 @@ export const getProductByIdController = async (
 
     if (_id === '' || _id === null || _id === undefined) {
       return res.status(404).json({
-        message: 'Get product detail failed'
+        message: 'Không tìm thấy sản phẩm nào !'
       })
     }
 
@@ -108,17 +137,17 @@ export const getProductByIdController = async (
       data = products
       return res.status(404).json({
         data,
-        message: 'Get product detail failed'
+        message: 'Không tìm thấy sản phẩm nào !'
       })
     }
 
     return res.status(200).json({
       data,
-      message: 'Get product success'
+      message: 'Tìm sản phẩm thành công'
     })
-  } catch (error) {
+  } catch (message) {
     return res.status(500).json({
-      error: 'Internal server error'
+      message: 'Không tìm thấy sản phẩm nào !'
     })
   }
 }
@@ -126,23 +155,23 @@ export const getProductByIdController = async (
 export const updateProductController = async (req: Request, res: Response) => {
   try {
     // const { id } = req.query._id;
-    const updatedProductData = req.body
+    const updatedProductData = req?.body
 
-    const updatedProduct = await productsService.updateProduct(req.body._id, updatedProductData)
+    const updatedProduct = await productsService.updateProduct(req.body?._id, updatedProductData)
 
     if (updatedProduct === false) {
       return res.status(404).json({
-        error: 'Product updated failed'
+        message: 'Không tìm thấy sản phẩm nào !'
       })
     }
 
     return res.status(200).json({
       updatedProduct,
-      message: 'Product updated successfully'
+      message: 'Cập nhật sản phẩm thành công'
     })
-  } catch (error) {
+  } catch (message) {
     return res.status(500).json({
-      error: 'Internal server error'
+      message: 'Không tìm thấy sản phẩm nào !'
     })
   }
 }
@@ -155,16 +184,16 @@ export const deleteProductController = async (req: Request, res: Response) => {
 
     if (!deletedProduct) {
       return res.status(404).json({
-        error: 'Product not found'
+        message: 'Không tìm thấy sản phẩm nào !'
       })
     }
 
     return res.status(200).json({
-      message: 'Delete successfully'
+      message: 'Xóa sản phẩm thành công'
     })
-  } catch (error) {
+  } catch (message) {
     return res.status(500).json({
-      error: 'Internal server error'
+      message: 'Không tìm thấy sản phẩm nào !'
     })
   }
 }
