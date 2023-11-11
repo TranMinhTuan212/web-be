@@ -6,7 +6,7 @@ export interface ProductReqbody {
     description: string
     price: Double
     image: string
-    category_id: string
+    categoryId: string
     origin: string
     unit: string
     code: string

@@ -55,7 +55,7 @@ export const createProductVadidator = validate(
 
     },
     
-    category_id: {
+    categoryId: {
       notEmpty: true,
       isString: true,
       trim: true,

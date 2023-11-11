@@ -11,18 +11,49 @@ class ProductsService {
     const product = await databaseservice.products.insertOne(
       new Product({
         ...payload,
-        category_id: new ObjectId(payload.category_id)
+        categoryId: new ObjectId(payload.categoryId),
+        tableName: "product"
       })
     )
     return product.acknowledged
   }
 
   async getAllProducts() {
-    const products = await databaseservice.products.find()
+    const products = await databaseservice.products.aggregate([
+      {
+        $lookup: {
+          from: "categories",
+          localField: "categoryId",
+          foreignField: "_id",
+          as: "category"
+        }
+      },
+      {
+        $unwind: {
+          path: '$category',
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          description: 1,
+          price: 1,
+          image: 1,
+          category_id: 1,
+          origin: 1,
+          unit: 1,
+          code: 1,
+          discount: 1,
+          categoryName: "$category.name",
+        }
+      }
+    ])
     return products.toArray()
   }
 
   async getProductByKeyWord(keyWord: string) {
+
     const product = await databaseservice.products.aggregate([
       {
         $match: {
@@ -32,7 +63,7 @@ class ProductsService {
       {
         $lookup: {
           from: "categories",
-          localField: "category_id",
+          localField: "categoryId",
           foreignField: "_id",
           as: "category"
         }
@@ -59,8 +90,6 @@ class ProductsService {
       }
     ])
 
-    console.log(product.toArray());
-
     return product.toArray()
   }
 
@@ -78,7 +107,7 @@ class ProductsService {
         $set: {
           name: updatedProductData.name,
           price: updatedProductData.price,
-          category_id: updatedProductData.category_id,
+          category_id: updatedProductData.categoryId,
           description: updatedProductData.description,
           image: updatedProductData.image,
           unit: updatedProductData.unit,
@@ -86,12 +115,7 @@ class ProductsService {
         }
       }
     ])
-
-    if (product.modifiedCount === 0) {
-      return false
-    }
-
-    return true
+    return product.acknowledged
   }
 
   async deletedProduct(id: string) {
