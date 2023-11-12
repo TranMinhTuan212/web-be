@@ -37,7 +37,6 @@ export const handlerUploadImage = async (req: Request) => {
         return reject(new Error('File anh trong'))
       }
       resolve((files.image as File[])[0])
-
       // res.json({ fields, files, mesage: 'upload thanh cong' })
     })
   })

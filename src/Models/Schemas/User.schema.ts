@@ -17,10 +17,10 @@ interface UserType {
   // username?: string // optional
   avatar?: string // optional
   cover_photo?: string // optional
-  code?: string
+  code: string
   phone?: string
   role: string
-  version?: string
+  version: string
 }
 export default class User {
   _id?: ObjectId
@@ -42,7 +42,7 @@ export default class User {
   code: string
   phone?: string
   role?: string
-  version?: string
+  version: string
   constructor(user: UserType) {
     const date = new Date()
     this._id = user._id
@@ -64,6 +64,6 @@ export default class User {
     this.code = user.code || ''
     this.phone = user.phone || ''
     this.role = user.role || ''
-    this.role = user.role || ''
+    this.version = user.version || ''
   }
 }

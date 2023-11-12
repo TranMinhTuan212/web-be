@@ -54,18 +54,8 @@ export const createProductVadidator = validate(
       errorMessage: 'Không được để trống, là số từ 1-100',
 
     },
-    // photo: {
-    //   notEmpty: true,
-    //   isString: true,
-    //   isLength: {
-    //     options: {
-    //       min: 1,
-    //       max: 255
-    //     }
-    //   },
-    //   trim: true
-    // },
-    category_id: {
+    
+    categoryId: {
       notEmpty: true,
       isString: true,
       trim: true,

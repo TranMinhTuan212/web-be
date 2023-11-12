@@ -8,16 +8,71 @@ class OrdersService {
         const order = await databaseservice.orders.insertOne(
             new Order({
                 ...payload,
+                productId: new ObjectId(payload.productId)
             })
         )        
         return order.acknowledged
         
     }
 
-    async getOrderByUserId(userId: string) {
-        const orders = await databaseservice.orders.find({ user_id: userId })
+    async getOrderByUserId(user_id: string) {
+        // const orders = await databaseservice.orders.find({ user_id: userId })
+        const orders = await databaseservice.orders.aggregate([
+            {
+              $match: {
+                userId: user_id 
+              }
+            },
+            {
+              $lookup: {
+                from: "products",
+                localField: "productId",
+                foreignField: "_id",
+                as: "product"
+              }
+            },
+            {
+              $unwind: {
+                path: '$product',
+              }
+            },
+            {
+              $project: {
+                _id: 1,
+                name: 1,
+                order_code: 1,
+                completeAt: 1,
+                userId: 1,
+                image: 1,
+                payment: 1,
+                reason: 1,
+                address: 1,
+                quantity: 1,
+                productName: "$product.name",
+                productPrice: "$product.price",
+                productImage: "$product.image",
+                productUnit: "$product.unit",
+                productdiscount: "$product.discount",
+              }
+            }
+          ])
+      
         return orders.toArray()
     }
+
+    async updateQuantity(id: string, updatedOrderData: any) {
+        const orderId = new ObjectId(id)
+    
+        const order = await databaseservice.products.updateOne({ _id: orderId }, [
+          {
+            $set: {
+              name: updatedOrderData.quantity,
+              
+            }
+          }
+        ])
+        return order.acknowledged
+      }
 
     async deleteOrder(order_id: string) {
         const order = await databaseservice.orders.findOneAndDelete({ _id: new ObjectId(order_id) })

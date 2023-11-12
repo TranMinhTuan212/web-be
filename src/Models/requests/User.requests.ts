@@ -14,6 +14,7 @@ export interface RegisterReqbody {
   date_of_birth: string
   code: number
   role: string
+  version: number
 }
 export interface LogoutRequestBody {
   refresh_token: string
@@ -48,7 +49,7 @@ export interface UpdateMeReqBody {
   name?: string
   phone?: string
   avatar?: string
-  version?: string
+  version?: number
 }
 export interface CreateAddress {
   province?: string
