@@ -43,12 +43,16 @@ userRoutes.post('/forgot-password', forgotPassWordValidator, wrapRequestHandler(
 userRoutes.get('/test-server', function (req: any, res: any) {
   return res.json({
     status: 200,
-    message: 'Run server successfully !',
+    message: 'Run server Successfully !',
     data: []
   })
 })
-userRoutes.post('/check-token', accsessTokenValidator, function(){
-  return true
+userRoutes.post('/check-token', accsessTokenValidator, function(req: any, res: any){
+  return res.json({
+    status: 200,
+    message: 'Check token Successfully !',
+    data: []
+  })
 })
 userRoutes.get('/me-profile', accsessTokenValidator, wrapRequestHandler(meProfileController))
 userRoutes.get('/admin-MeProfile', accsessTokenValidator, wrapRequestHandler(adminMeProfileController))
