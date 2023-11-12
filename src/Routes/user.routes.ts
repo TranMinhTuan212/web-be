@@ -1,4 +1,4 @@
-import { json } from 'stream/consumers';
+import { json } from 'stream/consumers'
 import express from 'express'
 
 import {
@@ -22,7 +22,8 @@ import {
   registerController,
   resendEmailVerifyController,
   searchUserController,
-  updateMeController
+  updateMeController,
+  uploadSingleImageController
 } from '~/Controllers/user.controller'
 
 import { wrapRequestHandler } from '~/Utils/handlers'
@@ -47,7 +48,7 @@ userRoutes.get('/test-server', function (req: any, res: any) {
     data: []
   })
 })
-userRoutes.post('/check-token', accsessTokenValidator, function(){
+userRoutes.post('/check-token', accsessTokenValidator, function () {
   return true
 })
 userRoutes.get('/me-profile', accsessTokenValidator, wrapRequestHandler(meProfileController))
@@ -56,4 +57,8 @@ userRoutes.patch('/updateMe', accsessTokenValidator, updateAdressValidator, wrap
 userRoutes.get('/allmetable-profile', accsessTokenValidator, wrapRequestHandler(allMeProfileController))
 userRoutes.post('/deleteUser', wrapRequestHandler(deleteUserController))
 userRoutes.post('/search-user', accsessTokenValidator, wrapRequestHandler(searchUserController))
+userRoutes.post('/upload-image', accsessTokenValidator, wrapRequestHandler(uploadSingleImageController))
+
+// userRoutes.get('/h-user', wrapRequestHandler(meProProductfileController))
+
 export default userRoutes

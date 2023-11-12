@@ -3,6 +3,7 @@ import formidable, { File } from 'formidable'
 import fs from 'fs'
 import path from 'path'
 import { UPLOAD_TEMP_DRI } from '~/Constants/dir'
+import { updateMeController } from '~/Controllers/user.controller'
 
 export const initFolder = () => {
   // const newFileUpload = path.resolve(UPLOAD_TEMP_DRI)
@@ -37,7 +38,9 @@ export const handlerUploadImage = async (req: Request) => {
         return reject(new Error('File anh trong'))
       }
       resolve((files.image as File[])[0])
-      // res.json({ fields, files, mesage: 'upload thanh cong' })
+
+      // Chuyển đổi JSON user thành đối tượng
+      //res.json({ fields, files, mesage: 'upload thanh cong' })
     })
   })
 }

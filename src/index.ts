@@ -27,7 +27,10 @@ const port = 8000
 // console.log(options.development)
 // minimits
 // console.log(process.argv)
-app.use('/imageMedias', express.static(UPLOAD_DRI))
+// xử lí hiển thị hình ảnh
+// app.use('/imageMedias', express.static(UPLOAD_DRI))
+app.use(express.static(UPLOAD_DRI))
+
 app.use(express.json())
 app.use('/user', userRouter)
 app.use('/product', productRouter)

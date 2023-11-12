@@ -20,9 +20,9 @@ export const createProductController = async (req: Request<ParamsDictionary, any
       })
     }
 
-    const category_id  = req.body?.category_id
+    const category_id = req.body?.category_id
     const objectCategory = await categoriesService.getAllCategories()
-    const listIdCategory = objectCategory.map(category => category._id)
+    const listIdCategory = objectCategory.map((category) => category._id)
     const stringsIdCategory = []
 
     for (const id of listIdCategory) {
@@ -79,7 +79,7 @@ export const getProductByKeyWordController = async (
 ) => {
   try {
     const keyWord = req.body?.keyWord
-    
+
     let products
     let data
 
@@ -94,8 +94,8 @@ export const getProductByKeyWordController = async (
 
     products = await productsService.getProductByKeyWord(keyWord)
 
-    console.log(products);
-    
+    console.log(products)
+
     data = products
 
     if (!products || products.length === 0) {

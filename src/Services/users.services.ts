@@ -140,7 +140,7 @@ class UsersService {
   async allMeTable() {
     const userPromise = await databaseservice.users
       .find(
-        {},
+        { role: RoleType.customr },
         {
           projection: {
             password: 0,
@@ -168,11 +168,10 @@ class UsersService {
       }
     }
   }
-
-  // async getMe(user_id: string) {
+  // async getMeProduct() {
   //   const user = await databaseservice.users
-  //     .aggregate([
-  //       { $match: { _id: new ObjectId(user_id) } },
+  //     .find([
+  //       {},
   //       {
   //         $lookup: {
   //           from: 'address',
@@ -310,20 +309,22 @@ class UsersService {
     // Lưu hình ảnh mới vào thư mục và lấy đường dẫn
     await sharp(file.filepath).jpeg({ quality: 50 }).toFile(newPath)
     fs.unlinkSync(file.filepath)
+    // const imageUrl = isProduction
+    //   ? `${process.env.HOST}/imageMedias/${newName}.jpg`
+    //   : `http://localhost:${process.env.PORT}/imageMedias/${newName}.jpg`
     const imageUrl = isProduction
       ? `${process.env.HOST}/imageMedias/${newName}.jpg`
-      : `http://localhost:${process.env.PORT}/imageMedias/${newName}.jpg`
-    // Tìm và cập nhật hình ảnh trong cơ sở dữ liệu
-    // const updatedUser = await databaseservice.users.findOneAndUpdate(
-    //   { _id: new ObjectId(user_id) },
-    //   { $set: { avatar: imageUrl } },
-    //   { returnDocument: 'after' } // Trả về bản ghi đã được cập nhật
-    // )
+      : `http://localhost:/${newName}.jpg`
+    //Tìm và cập nhật hình ảnh trong cơ sở dữ liệu
+    const updatedUser = await databaseservice.users.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      { $set: { avatar: imageUrl } },
+      { returnDocument: 'after' } // Trả về bản ghi đã được cập nhật
+    )
     return imageUrl
   }
-  async updateMe(user_id: string, payload: CreateAddress, payloadUser?: UpdateMeReqBody, req?: Request) {
-    const image = await this.handleUploadSingImage(req as Request)
-    console.log(image)
+  async updateMe(user_id: string, payload: CreateAddress, payloadUser?: UpdateMeReqBody) {
+    // const image = await this.handleUploadSingImage(req as Request)
     function getRandomNumber(min: number, max: number): number {
       return Math.floor(Math.random() * (max - min + 1)) + min
     }
@@ -337,7 +338,7 @@ class UsersService {
           ...(payloadUser && {
             name: payloadUser?.name,
             phone: payloadUser?.phone,
-            avatar: image,
+            // avatar: image,
             version: version.toString()
           })
         },
@@ -377,8 +378,8 @@ class UsersService {
       district: address?.district,
       award: address?.award,
       detail: address?.detail,
-      version: userUpdate?.version,
-      avatar: image
+      version: userUpdate?.version
+      // avatar: image
     }
   }
   // private async updateUser(user_id: string, payload: UpdateMeReqBody) {
@@ -466,12 +467,6 @@ class UsersService {
     }
     return searchResults
   }
-  // async checkRole(role: string) {
-  //   if (role != 'user' && role != 'shop') {
-  //     return true
-  //   }
-  //   return false
-  // }
 }
 
 const usersService = new UsersService()
@@ -514,9 +509,4 @@ export default usersService
 //     accsess_token,
 //     refresh_token
 //   }
-// }
-
-// const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
-// if (user && user?.version !== user?.version) {
-//   return 'lỗi '
 // }

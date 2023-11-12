@@ -18,6 +18,7 @@ export const loginValidator = validate(
         notEmpty: true,
         isEmail: true,
         // trim: true,
+        escape: true,
         custom: {
           options: async (value, { req }) => {
             const user = await databaseservice.users.findOne({
@@ -39,6 +40,7 @@ export const loginValidator = validate(
         notEmpty: true,
         isString: true,
         // trim: true,
+        escape: true,
         custom: {
           options: async (value, { req }) => {
             const user = await databaseservice.users.findOne({
@@ -81,10 +83,11 @@ export const registerVadidator = validate(
       name: {
         notEmpty: true,
         isString: true,
+        escape: true,
         isLength: {
           options: {
             min: 2,
-            max: 100
+            max: 60
           }
         },
         errorMessage: 'Lỗi chiều dài name bắt buộc 2-50 ký tự'
@@ -93,6 +96,14 @@ export const registerVadidator = validate(
         notEmpty: true,
         isEmail: true,
         trim: true,
+        escape: true,
+        isLength: {
+          options: {
+            min: 6,
+            max: 50
+          },
+          errorMessage: 'Lỗi độ dài email phải từ 6-50 ký tự'
+        },
         custom: {
           options: async (value, { req }) => {
             const isResult = await usersService.checkEmailExsit(value)
@@ -109,6 +120,7 @@ export const registerVadidator = validate(
       password: {
         notEmpty: true,
         isString: true,
+        escape: true,
         isLength: {
           options: {
             min: 6,
@@ -138,6 +150,7 @@ export const registerVadidator = validate(
       confirm_password: {
         notEmpty: true,
         isString: true,
+        escape: true,
         isLength: {
           options: {
             min: 6,
@@ -342,7 +355,8 @@ export const updateAdressValidator = validate(
           }
         },
         errorMessage: USERS_MESSAGES.VALIDATION_ERROR_NAME_USER,
-        trim: true
+        trim: true,
+        escape: true
       },
       province: {
         // notEmpty: true,
@@ -354,7 +368,8 @@ export const updateAdressValidator = validate(
           }
         },
         errorMessage: 'Lỗi độ dài hoặc không hợp lệ của provice',
-        trim: true
+        trim: true,
+        escape: true
       },
       district: {
         // notEmpty: true,
@@ -366,7 +381,8 @@ export const updateAdressValidator = validate(
           }
         },
         errorMessage: 'Lỗi độ dài hoặc không hợp lệ của district',
-        trim: true
+        trim: true,
+        escape: true
       },
       award: {
         // notEmpty: true,
@@ -378,7 +394,8 @@ export const updateAdressValidator = validate(
           }
         },
         errorMessage: 'Lỗi độ dài hoặc không hợp lệ của award',
-        trim: true
+        trim: true,
+        escape: true
       },
       detail: {
         // notEmpty: true,
@@ -390,7 +407,25 @@ export const updateAdressValidator = validate(
           }
         },
         errorMessage: 'Lỗi độ dài hoặc không hợp lệ của detail',
-        trim: true
+        trim: true,
+        escape: true
+      },
+      version: {
+        custom: {
+          options: async (value, { req }) => {
+            const user = await databaseservice.users.findOne({
+              email: value
+              // password: hashPassword(req.body.password)
+            })
+            if (user?.version !== req.user?.version) {
+              throw new ErrorWithStatus({
+                message: USERS_MESSAGES.ERROR_SECURITY_LOOK,
+                status: HTTP_STATUS.UNAUTHORIZED
+              })
+            }
+            return true
+          }
+        }
       }
     },
     ['body']

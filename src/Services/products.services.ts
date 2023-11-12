@@ -31,15 +31,15 @@ class ProductsService {
       },
       {
         $lookup: {
-          from: "categories",
-          localField: "category_id",
-          foreignField: "_id",
-          as: "category"
+          from: 'categories',
+          localField: 'category_id',
+          foreignField: '_id',
+          as: 'category'
         }
       },
       {
         $unwind: {
-          path: '$category',
+          path: '$category'
         }
       },
       {
@@ -54,12 +54,12 @@ class ProductsService {
           unit: 1,
           code: 1,
           discount: 1,
-          categoryName: "$category.name",
+          categoryName: '$category.name'
         }
       }
     ])
 
-    console.log(product.toArray());
+    console.log(product.toArray())
 
     return product.toArray()
   }
@@ -82,7 +82,7 @@ class ProductsService {
           description: updatedProductData.description,
           image: updatedProductData.image,
           unit: updatedProductData.unit,
-          origin: updatedProductData.origin,
+          origin: updatedProductData.origin
         }
       }
     ])
