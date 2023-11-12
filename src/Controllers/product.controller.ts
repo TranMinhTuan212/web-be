@@ -20,7 +20,7 @@ export const createProductController = async (req: Request<ParamsDictionary, any
       })
     }
 
-    const category_id = req.body?.category_id
+    const category_id  = req.body?.categoryId
     const objectCategory = await categoriesService.getAllCategories()
     const listIdCategory = objectCategory.map((category) => category._id)
     const stringsIdCategory = []
@@ -79,12 +79,11 @@ export const getProductByKeyWordController = async (
 ) => {
   try {
     const keyWord = req.body?.keyWord
-
     let products
     let data
 
     if (keyWord === '' || keyWord === null || keyWord === undefined) {
-      products = await productsService.getAllProducts()
+      products = await productsService.getAllProducts()      
       data = products
       return res.status(200).json({
         data,
@@ -93,26 +92,16 @@ export const getProductByKeyWordController = async (
     }
 
     products = await productsService.getProductByKeyWord(keyWord)
-
-    console.log(products)
-
     data = products
-
-    if (!products || products.length === 0) {
-      data = products
-      return res.status(404).json({
-        data,
-        message: 'Không tìm thấy sản phẩm nào !'
-      })
-    }
 
     return res.status(200).json({
       data,
       message: 'Tìm sản phẩm thành công'
     })
   } catch (message) {
+    
     return res.status(500).json({
-      message: 'Không tìm thấy sản phẩm nào !'
+      message: 'Có lỗi !'
     })
   }
 }
@@ -156,13 +145,27 @@ export const updateProductController = async (req: Request, res: Response) => {
   try {
     // const { id } = req.query._id;
     const updatedProductData = req?.body
+    let updatedProduct
+    const checkCode = await productsService.checkCodeProduct(req.body?.code)
 
-    const updatedProduct = await productsService.updateProduct(req.body?._id, updatedProductData)
-
-    if (updatedProduct === false) {
+    if (checkCode === true) {
       return res.status(404).json({
-        message: 'Không tìm thấy sản phẩm nào !'
+        message: 'Mã sản phẩm đã tồn tại !'
       })
+    }
+
+    const category_id  = req.body?.categotyId
+    const objectCategory = await categoriesService.getAllCategories()
+    const listIdCategory = objectCategory.map(category => category._id)
+    const stringsIdCategory = []
+
+    for (const id of listIdCategory) {
+      stringsIdCategory.push(id.toString())
+    }
+
+    const isExistCategory = stringsIdCategory.includes(category_id)
+    if (isExistCategory === true) {
+      updatedProduct = await productsService.updateProduct(req.body?._id, updatedProductData)
     }
 
     return res.status(200).json({
@@ -171,20 +174,20 @@ export const updateProductController = async (req: Request, res: Response) => {
     })
   } catch (message) {
     return res.status(500).json({
-      message: 'Không tìm thấy sản phẩm nào !'
+      message: 'Lỗi !'
     })
   }
 }
 
 export const deleteProductController = async (req: Request, res: Response) => {
   try {
-    const id = req.body._id
+    const id = req.body?._id
 
     const deletedProduct = await productsService.deletedProduct(id)
 
     if (!deletedProduct) {
       return res.status(404).json({
-        message: 'Không tìm thấy sản phẩm nào !'
+        message: 'Xóa sản phẩm thất bại !'
       })
     }
 
@@ -193,7 +196,7 @@ export const deleteProductController = async (req: Request, res: Response) => {
     })
   } catch (message) {
     return res.status(500).json({
-      message: 'Không tìm thấy sản phẩm nào !'
+      message: 'Lỗi !'
     })
   }
 }

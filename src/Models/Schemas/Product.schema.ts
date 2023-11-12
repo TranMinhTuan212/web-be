@@ -7,11 +7,12 @@ interface ProductType{
     description: string
     price: Double
     image: string
-    category_id: ObjectId
+    categoryId: ObjectId
     origin: string
     unit: string
     code: string
     discount: string
+    tableName: string
     created_at?: Date
     updated_at?: Date
 }
@@ -22,11 +23,12 @@ export default class Product{
     description: string
     price: Double
     image: string
-    category_id: ObjectId
+    categoryId: ObjectId
     origin: string
     unit: string
     code: string
     discount: string
+    tableName: string
     created_at?: Date
     updated_at?: Date
 
@@ -37,11 +39,12 @@ export default class Product{
         this.description = product.description
         this.price = product.price
         this.image = product.image
-        this.category_id = product.category_id
+        this.categoryId = product.categoryId
         this.origin = product.origin
         this.unit = product.unit
         this.code = product.code
         this.discount = product.discount
+        this.tableName = product.tableName
         this.created_at = product.created_at || date
         this.updated_at = product.updated_at || date
     }
