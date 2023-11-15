@@ -165,7 +165,7 @@ export const uploadSingleImageController = async (req: Request, res: Response, n
   const url = await usersService.handleUploadSingImage(req, user_id)
   // const data = await handlerUploadImage(req)
   return res.status(200).json({
-    message: 'Lấy ảnh thành công',
+    message: 'update thành công',
     result: url
   })
 }

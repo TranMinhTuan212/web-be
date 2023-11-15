@@ -312,9 +312,7 @@ class UsersService {
     // const imageUrl = isProduction
     //   ? `${process.env.HOST}/imageMedias/${newName}.jpg`
     //   : `http://localhost:${process.env.PORT}/imageMedias/${newName}.jpg`
-    const imageUrl = isProduction
-      ? `${process.env.HOST}/imageMedias/${newName}.jpg`
-      : `http://localhost:/${newName}.jpg`
+    const imageUrl = isProduction ? `${process.env.HOST}/imageMedias/${newName}.jpg` : `${newName}.jpg`
     //Tìm và cập nhật hình ảnh trong cơ sở dữ liệu
     const updatedUser = await databaseservice.users.findOneAndUpdate(
       { _id: new ObjectId(user_id) },
@@ -339,7 +337,7 @@ class UsersService {
             name: payloadUser?.name,
             phone: payloadUser?.phone,
             // avatar: image,
-            version: version.toString()
+            version: version?.toString()
           })
         },
         $currentDate: {

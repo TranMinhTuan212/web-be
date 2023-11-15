@@ -2,6 +2,7 @@ import { Request } from 'express'
 import { checkSchema } from 'express-validator'
 import { JsonWebTokenError } from 'jsonwebtoken'
 import { isLength } from 'lodash'
+import { ObjectId } from 'mongodb'
 import { json } from 'stream/consumers'
 import HTTP_STATUS from '~/Constants/httpStatus'
 import { USERS_MESSAGES } from '~/Constants/messages'
@@ -87,26 +88,35 @@ export const registerVadidator = validate(
         isLength: {
           options: {
             min: 2,
-            max: 60
+            max: 50
           }
         },
         errorMessage: 'Lỗi chiều dài name bắt buộc 2-50 ký tự'
       },
       email: {
         notEmpty: true,
-        isEmail: true,
+        isEmail: {
+          errorMessage: 'Tên miền email không hợp lệ VD phong@gmail.com'
+        },
         trim: true,
         escape: true,
         isLength: {
           options: {
-            min: 6,
+            min: 8,
             max: 50
           },
-          errorMessage: 'Lỗi độ dài email phải từ 6-50 ký tự'
+          errorMessage: 'Lỗi độ dài email phải từ 8-50 ký tự'
         },
         custom: {
           options: async (value, { req }) => {
             const isResult = await usersService.checkEmailExsit(value)
+            const specialCharsRegex = /[!#$%^&*(),?":{}|<>]/
+            if (specialCharsRegex.test(value)) {
+              throw new ErrorWithStatus({
+                message: 'Email không được chứa ký tự đặc biệt',
+                status: HTTP_STATUS.UNAUTHORIZED
+              })
+            }
             if (isResult) {
               throw new ErrorWithStatus({
                 message: USERS_MESSAGES.VALIDATION_ERROR_EMAIL,
@@ -414,10 +424,9 @@ export const updateAdressValidator = validate(
         custom: {
           options: async (value, { req }) => {
             const user = await databaseservice.users.findOne({
-              email: value
-              // password: hashPassword(req.body.password)
+              version: value
             })
-            if (user?.version !== req.user?.version) {
+            if (!user) {
               throw new ErrorWithStatus({
                 message: USERS_MESSAGES.ERROR_SECURITY_LOOK,
                 status: HTTP_STATUS.UNAUTHORIZED
