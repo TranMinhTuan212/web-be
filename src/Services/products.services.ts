@@ -5,6 +5,15 @@ import { ObjectId } from 'mongodb'
 import { ProductReqbody } from '~/Models/requests/Product.requests'
 import Product from '~/Models/Schemas/Product.schema'
 import { SearchQuery } from '~/Models/requests/Search.requests'
+import { getNameFullName, handlerUploadImage } from '~/Utils/file'
+import path from 'path'
+import { UPLOAD_DRI } from '~/Constants/dir'
+import sharp from 'sharp'
+import { isProduction } from '~/Constants/config'
+import fs from 'fs'
+import { Request } from 'express'
+
+
 
 class ProductsService {
   async createProduct(payload: ProductReqbody) {
@@ -15,7 +24,11 @@ class ProductsService {
         tableName: "product"
       })
     )
-    return product.acknowledged
+
+    // console.log(product);
+    
+
+    return product.insertedId
   }
 
   async getAllProducts() {
@@ -114,7 +127,12 @@ class ProductsService {
           origin: updatedProductData.origin
         }
       }
+      ,{
+        returnDocument: 'after'
+      }
+      
     ])
+    
     return product.acknowledged
   }
 
@@ -129,6 +147,28 @@ class ProductsService {
     const product = await databaseservice.products.findOne({ code: code })
     return Boolean(product)
   }
+
+  async handlerUploadImage(req: Request, productId?: string) {
+    const file = await handlerUploadImage(req)
+    const newName = getNameFullName(file.newFilename)
+    const newPath = path.resolve(UPLOAD_DRI, `${newName}.jpg`)
+    // Lưu hình ảnh mới vào thư mục và lấy đường dẫn
+    await sharp(file.filepath).jpeg({ quality: 50 }).toFile(newPath)
+    fs.unlinkSync(file.filepath)
+    // const imageUrl = isProduction
+    //   ? `${process.env.HOST}/imageMedias/${newName}.jpg`
+    //   : `http://localhost:${process.env.PORT}/imageMedias/${newName}.jpg`
+    const imageUrl = isProduction ? `${process.env.HOST}/imageMedias/${newName}.jpg` : `${newName}.jpg`
+    
+    //Tìm và cập nhật hình ảnh trong cơ sở dữ liệu
+    const updatedUser = await databaseservice.products.findOneAndUpdate(
+      { _id: new ObjectId(productId) },
+      { $set: { image: imageUrl } },
+      { returnDocument: 'after' } // Trả về bản ghi đã được cập nhật
+    )
+    return {imageUrl}
+  }
 }
+
 const productsService = new ProductsService()
 export default productsService

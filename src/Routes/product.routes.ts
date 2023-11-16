@@ -5,7 +5,8 @@ import {
   updateProductController,
   createProductController,
   deleteProductController,
-  getProductByIdController
+  getProductByIdController,
+  uploadSingleImageController
 } from '~/Controllers/product.controller'
 import { createProductVadidator } from '~/Middlewares/product.middeleware'
 
@@ -15,7 +16,8 @@ productRoutes.get('/all', getAllProductsController)
 productRoutes.post('/create', createProductVadidator, createProductController)
 productRoutes.post('/search', getProductByKeyWordController)
 productRoutes.post('/detail', getProductByIdController)
-productRoutes.put('/update', updateProductController)
+productRoutes.put('/update', createProductVadidator, updateProductController)
 productRoutes.post('/delete', deleteProductController)
+productRoutes.post('/upload', uploadSingleImageController)
 
 export default productRoutes

@@ -15,12 +15,12 @@ export const createProductVadidator = validate(
       isLength: {
         options: {
           min: 1,
-          max: 255
+          max: 50
         },
        
       } ,
       trim: true,
-      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
+      errorMessage: 'Tên sản phẩm không được để trống, là chuỗi độ dài phải từ 1-50 ký tự',
     },
     description: {
       notEmpty: true,
@@ -28,17 +28,23 @@ export const createProductVadidator = validate(
       isLength: {
         options: {
           min: 1,
-          max: 500
+          max: 100
         }
       },
-      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-500 ký tự',
+      errorMessage: 'Mô tả không được để trống, là chuỗi độ dài phải từ 1-100 ký tự',
 
     },
     price: {
       notEmpty: true,
       isFloat: true,
       trim: true,
-      errorMessage: 'Không được để trống, là số',
+      isLength: {
+        options: {
+          min: 1,
+          max: 10
+        }
+      },
+      errorMessage: 'Giá không được để trống, là số độ dài từ 1-10 ký tự',
 
     },
     discount: {
@@ -48,18 +54,10 @@ export const createProductVadidator = validate(
       isLength: {
         options: {
           min: 1,
-          max: 500
+          max: 10
         }
       },
-      errorMessage: 'Không được để trống, là số từ 1-100',
-
-    },
-    
-    categoryId: {
-      notEmpty: true,
-      isString: true,
-      trim: true,
-      errorMessage: 'Không được để trống',
+      errorMessage: 'Chiết khấu không được để trống, là số từ 1-100',
 
     },
     unit: {
@@ -68,12 +66,12 @@ export const createProductVadidator = validate(
       isLength: {
         options: {
           min: 1,
-          max: 255
+          max: 50
         },
        
       } ,
       trim: true,
-      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
+      errorMessage: 'Đơn vị không được để trống, là chuỗi độ dài phải từ 1-50 ký tự',
     },
     origin: {
       notEmpty: true,
@@ -81,12 +79,12 @@ export const createProductVadidator = validate(
       isLength: {
         options: {
           min: 1,
-          max: 255
+          max: 50
         },
        
       } ,
       trim: true,
-      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
+      errorMessage: 'Xuất xứ không được để trống, là chuỗi độ dài phải từ 1-50 ký tự',
     },
     code: {
       notEmpty: true,
@@ -94,12 +92,12 @@ export const createProductVadidator = validate(
       isLength: {
         options: {
           min: 1,
-          max: 255
+          max: 50
         },
        
       } ,
       trim: true,
-      errorMessage: 'Không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
+      errorMessage: 'Mã code không được để trống, là chuỗi độ dài phải từ 1-50 ký tự',
     },
 
   })
