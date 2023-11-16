@@ -160,6 +160,15 @@ export const searchUserController = async (req: Request<ParamsDictionary, any, S
     data
   })
 }
+export const uploadSingleImageController = async (req: Request, res: Response, next: NextFunction) => {
+  const { user_id } = req.decode_authorization as TokenPayload
+  const url = await usersService.handleUploadSingImage(req, user_id)
+  // const data = await handlerUploadImage(req)
+  return res.status(200).json({
+    message: 'update thành công',
+    result: url
+  })
+}
 
 // export const loginController = (req: Request, res: Response) => {
 //   const { email, password } = req.body
@@ -194,6 +203,14 @@ export const searchUserController = async (req: Request<ParamsDictionary, any, S
 //   return res.json({
 //     status: HTTP_STATUS.OK,
 //     message: USERS_MESSAGES.VALIDATION_SECCSESS,
+//     data
+//   })
+// }
+// export const meProProductfileController = async (req: Request, res: Response, next: NextFunction) => {
+//   const data = await usersService.getMeProduct()
+//   return res.json({
+//     message: USERS_MESSAGES.GET_ME_SUCCSES,
+//     status: HTTP_STATUS.OK,
 //     data
 //   })
 // }

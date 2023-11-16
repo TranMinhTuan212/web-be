@@ -22,7 +22,7 @@ export const createProductController = async (req: Request<ParamsDictionary, any
 
     const category_id  = req.body?.categoryId
     const objectCategory = await categoriesService.getAllCategories()
-    const listIdCategory = objectCategory.map(category => category._id)
+    const listIdCategory = objectCategory.map((category) => category._id)
     const stringsIdCategory = []
 
     for (const id of listIdCategory) {

@@ -2,6 +2,7 @@ import { Request } from 'express'
 import { checkSchema } from 'express-validator'
 import { JsonWebTokenError } from 'jsonwebtoken'
 import { isLength } from 'lodash'
+import { ObjectId } from 'mongodb'
 import { json } from 'stream/consumers'
 import HTTP_STATUS from '~/Constants/httpStatus'
 import { USERS_MESSAGES } from '~/Constants/messages'
@@ -18,6 +19,7 @@ export const loginValidator = validate(
         notEmpty: true,
         isEmail: true,
         // trim: true,
+        escape: true,
         custom: {
           options: async (value, { req }) => {
             const user = await databaseservice.users.findOne({
@@ -39,6 +41,7 @@ export const loginValidator = validate(
         notEmpty: true,
         isString: true,
         // trim: true,
+        escape: true,
         custom: {
           options: async (value, { req }) => {
             const user = await databaseservice.users.findOne({
@@ -81,21 +84,39 @@ export const registerVadidator = validate(
       name: {
         notEmpty: true,
         isString: true,
+        escape: true,
         isLength: {
           options: {
             min: 2,
-            max: 100
+            max: 50
           }
         },
         errorMessage: 'Lỗi chiều dài name bắt buộc 2-50 ký tự'
       },
       email: {
         notEmpty: true,
-        isEmail: true,
+        isEmail: {
+          errorMessage: 'Tên miền email không hợp lệ VD phong@gmail.com'
+        },
         trim: true,
+        escape: true,
+        isLength: {
+          options: {
+            min: 8,
+            max: 50
+          },
+          errorMessage: 'Lỗi độ dài email phải từ 8-50 ký tự'
+        },
         custom: {
           options: async (value, { req }) => {
             const isResult = await usersService.checkEmailExsit(value)
+            const specialCharsRegex = /[!#$%^&*(),?":{}|<>]/
+            if (specialCharsRegex.test(value)) {
+              throw new ErrorWithStatus({
+                message: 'Email không được chứa ký tự đặc biệt',
+                status: HTTP_STATUS.UNAUTHORIZED
+              })
+            }
             if (isResult) {
               throw new ErrorWithStatus({
                 message: USERS_MESSAGES.VALIDATION_ERROR_EMAIL,
@@ -109,6 +130,7 @@ export const registerVadidator = validate(
       password: {
         notEmpty: true,
         isString: true,
+        escape: true,
         isLength: {
           options: {
             min: 6,
@@ -138,6 +160,7 @@ export const registerVadidator = validate(
       confirm_password: {
         notEmpty: true,
         isString: true,
+        escape: true,
         isLength: {
           options: {
             min: 6,
@@ -342,7 +365,8 @@ export const updateAdressValidator = validate(
           }
         },
         errorMessage: USERS_MESSAGES.VALIDATION_ERROR_NAME_USER,
-        trim: true
+        trim: true,
+        escape: true
       },
       province: {
         // notEmpty: true,
@@ -354,7 +378,8 @@ export const updateAdressValidator = validate(
           }
         },
         errorMessage: 'Lỗi độ dài hoặc không hợp lệ của provice',
-        trim: true
+        trim: true,
+        escape: true
       },
       district: {
         // notEmpty: true,
@@ -366,7 +391,8 @@ export const updateAdressValidator = validate(
           }
         },
         errorMessage: 'Lỗi độ dài hoặc không hợp lệ của district',
-        trim: true
+        trim: true,
+        escape: true
       },
       award: {
         // notEmpty: true,
@@ -378,7 +404,8 @@ export const updateAdressValidator = validate(
           }
         },
         errorMessage: 'Lỗi độ dài hoặc không hợp lệ của award',
-        trim: true
+        trim: true,
+        escape: true
       },
       detail: {
         // notEmpty: true,
@@ -390,7 +417,24 @@ export const updateAdressValidator = validate(
           }
         },
         errorMessage: 'Lỗi độ dài hoặc không hợp lệ của detail',
-        trim: true
+        trim: true,
+        escape: true
+      },
+      version: {
+        custom: {
+          options: async (value, { req }) => {
+            const user = await databaseservice.users.findOne({
+              version: value
+            })
+            if (!user) {
+              throw new ErrorWithStatus({
+                message: USERS_MESSAGES.ERROR_SECURITY_LOOK,
+                status: HTTP_STATUS.UNAUTHORIZED
+              })
+            }
+            return true
+          }
+        }
       }
     },
     ['body']
