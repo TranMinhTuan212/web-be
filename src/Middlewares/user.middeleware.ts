@@ -85,6 +85,7 @@ export const registerVadidator = validate(
         notEmpty: { errorMessage: 'Lỗi chưa nhập name' },
         isString: true,
         escape: true,
+        trim: true,
         isLength: {
           options: {
             min: 2,
@@ -96,7 +97,7 @@ export const registerVadidator = validate(
       email: {
         notEmpty: { errorMessage: 'Lỗi chưa nhập email' },
         isEmail: {
-          errorMessage: 'lỗi Tên miền email không hợp lệ VD phong@gmail.com'
+          errorMessage: 'lỗi email không hợp lệ VD: phong123@gmail.com(vn...)'
         },
         trim: true,
         escape: true,
