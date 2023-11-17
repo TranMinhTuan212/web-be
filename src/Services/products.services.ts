@@ -1,10 +1,8 @@
 import User from '~/Models/Schemas/User.schema'
 import databaseservice from './database.services'
-import { RegisterReqbody } from '~/Models/requests/User.requests'
-import { ObjectId } from 'mongodb'
+import { Double, ObjectId } from 'mongodb'
 import { ProductReqbody } from '~/Models/requests/Product.requests'
 import Product from '~/Models/Schemas/Product.schema'
-import { SearchQuery } from '~/Models/requests/Search.requests'
 import { getNameFullName, handlerUploadImage } from '~/Utils/file'
 import path from 'path'
 import { UPLOAD_DRI } from '~/Constants/dir'
@@ -21,6 +19,8 @@ class ProductsService {
       new Product({
         ...payload,
         categoryId: new ObjectId(payload.categoryId),
+        price: payload.price as Double,
+        discount: payload.discount as Double,
         tableName: "product",
         version: 0,
       })
@@ -132,12 +132,13 @@ class ProductsService {
       {
         $set: {
           name: updatedProductData.name,
-          price: updatedProductData.price,
-          category_id: updatedProductData.categoryId,
           description: updatedProductData.description,
-          image: updatedProductData.image,
-          unit: updatedProductData.unit,
+          price: parseFloat(updatedProductData.price),
+          categoryId: new ObjectId(updatedProductData.categoryId),
           origin: updatedProductData.origin,
+          code: updatedProductData.code,
+          unit: updatedProductData.unit,
+          discount: parseFloat(updatedProductData.discount),
           version: updatedProductData.version + 1
         }
       }
@@ -160,6 +161,16 @@ class ProductsService {
   async checkCodeProduct(code: string) {
     const product = await databaseservice.products.findOne({ code: code })
     return Boolean(product)
+  }
+  async checkVersionProduct(productId: string, productVersion: number) {
+    const product = await databaseservice.products.findOne({
+      $and: [
+        { _id: new ObjectId(productId) }, 
+        { version: productVersion }, 
+      ],
+    });
+  
+    return product; 
   }
 
   async handlerUploadImage(req: Request, productId?: string) {

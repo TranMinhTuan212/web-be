@@ -17,10 +17,10 @@ export const createProductController = async (req: Request<ParamsDictionary, any
     let productId
 
     // Kiểm tra đầu vào categoryId
-    const categoryId = req.body?.categoryId
+    const categoryId = req?.body?.categoryId
 
     // Kiểm tra mã code đã tồn tại chưa
-    const checkCode = await productsService.checkCodeProduct(req.body?.code)
+    const checkCode = await productsService.checkCodeProduct(req?.body?.code)
     if (checkCode === true) {
       return res.status(404).json({
         product: [],
@@ -29,7 +29,7 @@ export const createProductController = async (req: Request<ParamsDictionary, any
     }
 
     // Kiểm tra mã cate có trùng với danh sách cate ở DB không?
-    const category_id = req.body?.categoryId
+    const category_id = req?.body?.categoryId
     const objectCategory = await categoriesService.getAllCategories()
     const listIdCategory = objectCategory.map((category) => category._id)
     const stringsIdCategory = []
@@ -47,7 +47,7 @@ export const createProductController = async (req: Request<ParamsDictionary, any
 
     // Kiểm tra đầu vào bằng mongo-sanitize
     // const mongoSanitize = require('mongo-sanitize')
-    // const product = await mongoSanitize.escape(req.body)
+    // const product = await mongoSanitize.escape(req?.body)
 
     productId = await productsService.createProduct(req?.body)
 
@@ -87,7 +87,7 @@ export const getProductByKeyWordController = async (
   res: Response
 ) => {
   try {
-    const keyWord = req.body?.keyWord
+    const keyWord = req?.body?.keyWord
     let products
     let data
 
@@ -151,7 +151,7 @@ export const getProductByIdController = async (
 
 export const updateProductController = async (req: Request, res: Response) => {
   try {
-    const id = req.query._id
+    const id = req?.query?._id
     const updatedProductData = req?.body
     const productUpdateCode = req?.body?.code
 
@@ -168,7 +168,7 @@ export const updateProductController = async (req: Request, res: Response) => {
       }
     }
 
-    const category_id = req.body?.categotyId
+    const category_id = req?.body?.categotyId
     // const objectCategory = await categoriesService.getAllCategories()
     // const listIdCategory = objectCategory.map((category) => category._id)
     // const stringsIdCategory = []
@@ -186,8 +186,7 @@ export const updateProductController = async (req: Request, res: Response) => {
       })
     }
 
-    const isVersion = await databaseservice.products.findOne({ _id: req.body?._id, version: req.body?.version })
-    console.log(isVersion);
+    const isVersion = await productsService.checkVersionProduct( req?.body?._id, req?.body?.version )
     
     if (!isVersion) {
       return res.status(404).json({
@@ -196,7 +195,7 @@ export const updateProductController = async (req: Request, res: Response) => {
       })
     }
 
-    const updatedProduct = await productsService.updateProduct(req.body?._id, updatedProductData)
+    const updatedProduct = await productsService.updateProduct(req?.body?._id, updatedProductData)
 
     return res.status(200).json({
       message: 'Cập nhật sản phẩm thành công'
@@ -210,7 +209,7 @@ export const updateProductController = async (req: Request, res: Response) => {
 
 export const deleteProductController = async (req: Request, res: Response) => {
   try {
-    const id = req.body?._id
+    const id = req?.body?._id
 
     const deletedProduct = await productsService.deletedProduct(id)
 
