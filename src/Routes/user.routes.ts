@@ -8,11 +8,13 @@ import {
   refreshTokenValidator,
   emailVerifyTokenValidator,
   forgotPassWordValidator,
-  updateAdressValidator
+  updateAdressValidator,
+  changePasswordValidator
 } from '~/Middlewares/user.middeleware'
 import {
   adminMeProfileController,
   allMeProfileController,
+  changePasswordController,
   deleteUserController,
   emailVerifyController,
   forgotPasswordController,
@@ -55,9 +57,15 @@ userRoutes.get('/me-profile', accsessTokenValidator, wrapRequestHandler(meProfil
 userRoutes.post('/admin-MeProfile', accsessTokenValidator, wrapRequestHandler(adminMeProfileController))
 userRoutes.patch('/updateMe', accsessTokenValidator, updateAdressValidator, wrapRequestHandler(updateMeController))
 userRoutes.get('/allmetable-profile', accsessTokenValidator, wrapRequestHandler(allMeProfileController))
-userRoutes.post('/deleteUser', wrapRequestHandler(deleteUserController))
+userRoutes.post('/deleteUser', accsessTokenValidator, wrapRequestHandler(deleteUserController))
 userRoutes.post('/search-user', accsessTokenValidator, wrapRequestHandler(searchUserController))
 userRoutes.post('/upload-image', accsessTokenValidator, wrapRequestHandler(uploadSingleImageController))
+userRoutes.patch(
+  '/changePassword',
+  accsessTokenValidator,
+  changePasswordValidator,
+  wrapRequestHandler(changePasswordController)
+)
 
 // userRoutes.get('/h-user', wrapRequestHandler(meProProductfileController))
 

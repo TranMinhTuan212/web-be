@@ -12,7 +12,7 @@ export const USERS_MESSAGES = {
   VALIDATION_SECCSESS: 'Đăng nhập thành công!',
   VALIDATION_SECCSESS_REGISTER: 'Đăng ký thành công!',
   VALIDATION_ERROR_PASSWORD: 'Tài khoản hoặc mật khẩu không đúng!',
-  VALIDATION_ERROR_COMFIRM_PASSWORD: 'mật không không khớp ',
+  VALIDATION_ERROR_COMFIRM_PASSWORD: 'mật Khẩu không trùng nhau ',
   VALIDATION_ERROR_COMFIRM_FORMAT: 'Mật khẩu không đúng định dạng hoặc chiều dài',
   USER_NOT_FOUND: 'Người dùng không tồn tại',
   USER_HAVE_VERIFY: 'Bạn đã xác thực email rồi !',
@@ -23,5 +23,7 @@ export const USERS_MESSAGES = {
   VALIDATION_ERROR_ROLE: ' Role không hợp lệ',
   VALIDATION_ERROR_NAME_USER: 'Độ dài hoặc tên không hợp lệ',
   VALIDATION_ERROR_REFRESHTOKEN: 'Resfresh token không tồn tại',
-  ERROR_SECURITY_LOOK: 'lỗi không khớp version update'
+  ERROR_SECURITY_LOOK: 'lỗi không khớp version update',
+  VALIDATION_ERROR_CHNAGE_PASSWORD: 'Mật khẩu không đúng ',
+  VALIDATION_ERROR_COMFIRM_CHANGEPASSWORD: 'Xác nhận mật khẩu mới không khớp'
 } as const

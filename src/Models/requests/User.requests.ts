@@ -58,3 +58,7 @@ export interface CreateAddress {
   detail?: string
   user_id: string
 }
+export interface ChangePassWord {
+  password: string
+  newPassword: string
+}

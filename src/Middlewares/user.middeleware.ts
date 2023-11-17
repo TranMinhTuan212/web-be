@@ -82,7 +82,7 @@ export const registerVadidator = validate(
   checkSchema(
     {
       name: {
-        notEmpty: true,
+        notEmpty: { errorMessage: 'Lỗi chưa nhập name' },
         isString: true,
         escape: true,
         isLength: {
@@ -94,9 +94,9 @@ export const registerVadidator = validate(
         errorMessage: 'Lỗi chiều dài name bắt buộc 2-50 ký tự'
       },
       email: {
-        notEmpty: true,
+        notEmpty: { errorMessage: 'Lỗi chưa nhập email' },
         isEmail: {
-          errorMessage: 'Tên miền email không hợp lệ VD phong@gmail.com'
+          errorMessage: 'lỗi Tên miền email không hợp lệ VD phong@gmail.com'
         },
         trim: true,
         escape: true,
@@ -113,7 +113,7 @@ export const registerVadidator = validate(
             const specialCharsRegex = /[!#$%^&*(),?":{}|<>]/
             if (specialCharsRegex.test(value)) {
               throw new ErrorWithStatus({
-                message: 'Email không được chứa ký tự đặc biệt',
+                message: 'lỗi Email không được chứa ký tự đặc biệt',
                 status: HTTP_STATUS.UNAUTHORIZED
               })
             }
@@ -128,7 +128,7 @@ export const registerVadidator = validate(
         }
       },
       password: {
-        notEmpty: true,
+        notEmpty: { errorMessage: 'Lỗi chưa nhập password' },
         isString: true,
         escape: true,
         isLength: {
@@ -141,7 +141,7 @@ export const registerVadidator = validate(
         custom: {
           options: (value) => {
             if (/\s/.test(value)) {
-              throw new Error('Password không được chứa khoảng trắng')
+              throw new Error('lỗi Password không được chứa khoảng trắng')
             }
             return true
           }
@@ -158,26 +158,26 @@ export const registerVadidator = validate(
         }
       },
       confirm_password: {
-        notEmpty: true,
-        isString: true,
+        notEmpty: { errorMessage: 'Lỗi chưa nhập confirm_password' },
         escape: true,
-        isLength: {
-          options: {
-            min: 6,
-            max: 50
-          },
-          errorMessage: 'Lỗi độ dài password phải từ 6-50 ký tự'
-        },
-        isStrongPassword: {
-          options: {
-            minLength: 6,
-            minLowercase: 1,
-            minUppercase: 1,
-            minNumbers: 1,
-            minSymbols: 1
-          },
-          errorMessage: 'lỗi định dạng password thiếu ký tự in hoa, số và ký tự đặc biệt'
-        },
+        // isString: true,
+        // isLength: {
+        //   options: {
+        //     min: 6,
+        //     max: 50
+        //   },
+        //   errorMessage: 'Lỗi độ dài password phải từ 6-50 ký tự'
+        // },
+        // isStrongPassword: {
+        //   options: {
+        //     minLength: 6,
+        //     minLowercase: 1,
+        //     minUppercase: 1,
+        //     minNumbers: 1,
+        //     minSymbols: 1
+        //   },
+        //   errorMessage: 'lỗi định dạng password thiếu ký tự in hoa, số và ký tự đặc biệt'
+        // },
         custom: {
           options: (value, { req }) => {
             if (value != req.body.password) {
@@ -413,7 +413,7 @@ export const updateAdressValidator = validate(
         isLength: {
           options: {
             min: 0,
-            max: 50
+            max: 255
           }
         },
         errorMessage: 'Lỗi độ dài hoặc không hợp lệ của detail',
@@ -429,6 +429,79 @@ export const updateAdressValidator = validate(
             if (!user) {
               throw new ErrorWithStatus({
                 message: USERS_MESSAGES.ERROR_SECURITY_LOOK,
+                status: HTTP_STATUS.UNAUTHORIZED
+              })
+            }
+            return true
+          }
+        }
+      }
+    },
+    ['body']
+  )
+)
+export const changePasswordValidator = validate(
+  checkSchema(
+    {
+      password: {
+        notEmpty: { errorMessage: 'lỗi bạn chưa nhập password' },
+        isString: true,
+        // trim: true,
+        escape: true,
+        custom: {
+          options: async (value, { req }) => {
+            const user = await databaseservice.users.findOne({
+              password: hashPassword(req.body.password)
+            })
+            if (!user) {
+              throw new ErrorWithStatus({
+                message: USERS_MESSAGES.VALIDATION_ERROR_CHNAGE_PASSWORD,
+                status: HTTP_STATUS.UNAUTHORIZED
+              })
+            }
+            // req.user = user
+            return true
+          }
+        }
+      },
+      newPassword: {
+        notEmpty: { errorMessage: 'lỗi bạn chưa nhập password mới' },
+        isString: true,
+        escape: true,
+        isLength: {
+          options: {
+            min: 6,
+            max: 50
+          },
+          errorMessage: 'Lỗi độ dài password mới phải từ 6-50 ký tự'
+        },
+        custom: {
+          options: (value) => {
+            if (/\s/.test(value)) {
+              throw new Error('lỗi Password mới không được chứa khoảng trắng')
+            }
+            return true
+          }
+        },
+        isStrongPassword: {
+          options: {
+            minLength: 6,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 1
+          },
+          errorMessage: 'lỗi định dạng password mới thiếu ký tự in hoa, số và ký tự đặc biệt'
+        }
+      },
+      confirm_password: {
+        notEmpty: { errorMessage: 'lỗi bạn chưa nhập comfirm_password' },
+        escape: true,
+        custom: {
+          options: (value, { req }) => {
+            if (value != req.body.newPassword) {
+              throw new ErrorWithStatus({
+                message: USERS_MESSAGES.VALIDATION_ERROR_COMFIRM_CHANGEPASSWORD,
                 status: HTTP_STATUS.UNAUTHORIZED
               })
             }
