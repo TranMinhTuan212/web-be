@@ -15,10 +15,10 @@ import { TokenPayload } from '~/Models/requests/User.requests'
 export const createProductController = async (req: Request<ParamsDictionary, any, ProductReqbody>, res: Response) => {
   try {
     let productId
-    
+
     // Kiểm tra đầu vào categoryId
     const categoryId = req.body?.categoryId
-    
+
     // Kiểm tra mã code đã tồn tại chưa
     const checkCode = await productsService.checkCodeProduct(req.body?.code)
     if (checkCode === true) {
@@ -29,7 +29,7 @@ export const createProductController = async (req: Request<ParamsDictionary, any
     }
 
     // Kiểm tra mã cate có trùng với danh sách cate ở DB không?
-    const category_id  = req.body?.categoryId
+    const category_id = req.body?.categoryId
     const objectCategory = await categoriesService.getAllCategories()
     const listIdCategory = objectCategory.map((category) => category._id)
     const stringsIdCategory = []
@@ -37,7 +37,7 @@ export const createProductController = async (req: Request<ParamsDictionary, any
       stringsIdCategory.push(id.toString())
     }
     const isExistCategory = stringsIdCategory.includes(category_id)
-        
+
     if (isExistCategory === false) {
       return res.status(404).json({
         product: [],
@@ -48,7 +48,7 @@ export const createProductController = async (req: Request<ParamsDictionary, any
     // Kiểm tra đầu vào bằng mongo-sanitize
     // const mongoSanitize = require('mongo-sanitize')
     // const product = await mongoSanitize.escape(req.body)
-    
+
     productId = await productsService.createProduct(req?.body)
 
     return res.status(200).json({
@@ -92,7 +92,7 @@ export const getProductByKeyWordController = async (
     let data
 
     if (keyWord === '' || keyWord === null || keyWord === undefined) {
-      products = await productsService.getAllProducts()      
+      products = await productsService.getAllProducts()
       data = products
       return res.status(200).json({
         data,
@@ -108,7 +108,6 @@ export const getProductByKeyWordController = async (
       message: 'Tìm sản phẩm thành công'
     })
   } catch (message) {
-    
     return res.status(500).json({
       message: 'Có lỗi !'
     })
@@ -163,9 +162,9 @@ export const updateProductController = async (req: Request, res: Response) => {
       })
     }
 
-    const category_id  = req.body?.categotyId
+    const category_id = req.body?.categotyId
     const objectCategory = await categoriesService.getAllCategories()
-    const listIdCategory = objectCategory.map(category => category._id)
+    const listIdCategory = objectCategory.map((category) => category._id)
     const stringsIdCategory = []
 
     for (const id of listIdCategory) {
@@ -180,7 +179,7 @@ export const updateProductController = async (req: Request, res: Response) => {
         message: 'Mã sản phẩm không đúng !'
       })
     }
-  
+
     updatedProduct = await productsService.updateProduct(req.body?._id, updatedProductData)
 
     return res.status(200).json({
@@ -214,19 +213,18 @@ export const deleteProductController = async (req: Request, res: Response) => {
       message: 'Lỗi !'
     })
   }
-  
 }
 
 export const uploadSingleImageController = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const product  = req?.query   
+    const product = req?.query
 
-  const url = await productsService.handlerUploadImage(req, product.productId as string)
-  // const data = await handlerUploadImage(req)
-  return res.status(200).json({
-    message: 'update thành công',
-    result: url
-  })
+    const url = await productsService.handlerUploadImage(req, product.productId as string)
+    // const data = await handlerUploadImage(req)
+    return res.status(200).json({
+      message: 'Cập nhật thông tin thành công',
+      result: url
+    })
   } catch (message) {
     return res.status(500).json({
       message: 'Lỗi !'
