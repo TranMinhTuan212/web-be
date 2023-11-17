@@ -21,7 +21,8 @@ class ProductsService {
       new Product({
         ...payload,
         categoryId: new ObjectId(payload.categoryId),
-        tableName: "product"
+        tableName: "product",
+        version: 0,
       })
     )
 
@@ -136,12 +137,13 @@ class ProductsService {
           description: updatedProductData.description,
           image: updatedProductData.image,
           unit: updatedProductData.unit,
-          origin: updatedProductData.origin
+          origin: updatedProductData.origin,
+          version: updatedProductData.version + 1
         }
       }
-      ,{
-        returnDocument: 'after'
-      }
+      // ,{
+      //   returnDocument: 'after'
+      // }
       
     ])
     

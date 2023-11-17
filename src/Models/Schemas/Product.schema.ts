@@ -13,6 +13,7 @@ interface ProductType{
     code: string
     discount: string
     tableName: string
+    version: number
     created_at?: Date
     updated_at?: Date
 }
@@ -29,6 +30,7 @@ export default class Product{
     code: string
     discount: string
     tableName: string
+    version: number
     created_at?: Date
     updated_at?: Date
 
@@ -45,6 +47,7 @@ export default class Product{
         this.code = product.code
         this.discount = product.discount
         this.tableName = product.tableName
+        this.version = product.version
         this.created_at = product.created_at || date
         this.updated_at = product.updated_at || date
     }

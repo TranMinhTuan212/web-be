@@ -151,43 +151,54 @@ export const getProductByIdController = async (
 
 export const updateProductController = async (req: Request, res: Response) => {
   try {
-    // const { id } = req.query._id;
+    const id = req.query._id
     const updatedProductData = req?.body
-    let updatedProduct
-    const productUpdate = req?.body?.code
-    
-    // const product = await productsService.getProductById(req?.body?._id)
-    // const checkCode = await productsService.checkCodeProduct(productUpdate)
-    // const productCodeRoot = product.product?.code    
-    
-    // if (productUpdate === productCodeRoot) {
-    //   return res.status(404).json({
-    //     message: 'Mã code đã tồn tại !'
-    //   })
-    // }
+    const productUpdateCode = req?.body?.code
 
-    const category_id = req.body?.categotyId
-    const objectCategory = await categoriesService.getAllCategories()
-    const listIdCategory = objectCategory.map((category) => category._id)
-    const stringsIdCategory = []
+    const product = await productsService.getProductById(req?.body?._id)
+    const productCodeRoot = product.product?.code
 
-    for (const id of listIdCategory) {
-      stringsIdCategory.push(id.toString())
+    let checkCode
+    if (productUpdateCode != productCodeRoot) {
+      checkCode = await productsService.checkCodeProduct(productUpdateCode)
+      if (checkCode === true) {
+        return res.status(404).json({
+          message: 'Mã code đã tồn tại !'
+        })
+      }
     }
 
-    const isExistCategory = stringsIdCategory.includes(category_id)
+    const category_id = req.body?.categotyId
+    // const objectCategory = await categoriesService.getAllCategories()
+    // const listIdCategory = objectCategory.map((category) => category._id)
+    // const stringsIdCategory = []
 
-    if (isExistCategory === false) {
+    // for (const id of listIdCategory) {
+    //   stringsIdCategory.push(id.toString())
+    // }
+
+    const isExistCategory = await databaseservice.categories.findOne(category_id)
+
+    if (!isExistCategory) {
       return res.status(404).json({
         product: [],
         message: 'Mã sản phẩm không đúng !'
       })
     }
 
-    updatedProduct = await productsService.updateProduct(req.body?._id, updatedProductData)
+    const isVersion = await databaseservice.products.findOne({ _id: req.body?._id, version: req.body?.version })
+    console.log(isVersion);
+    
+    if (!isVersion) {
+      return res.status(404).json({
+        product: [],
+        message: 'Có lỗi, vui lòng sửa lại sau !'
+      })
+    }
+
+    const updatedProduct = await productsService.updateProduct(req.body?._id, updatedProductData)
 
     return res.status(200).json({
-      updatedProduct,
       message: 'Cập nhật sản phẩm thành công'
     })
   } catch (message) {
@@ -226,7 +237,7 @@ export const uploadSingleImageController = async (req: Request, res: Response, n
     const url = await productsService.handlerUploadImage(req, product.productId as string)
     // const data = await handlerUploadImage(req)
     return res.status(200).json({
-      message: 'Cập nhật thông tin thành công',
+      message: 'Thêm thông tin thành công',
       result: url
     })
   } catch (message) {
