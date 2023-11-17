@@ -155,13 +155,17 @@ export const updateProductController = async (req: Request, res: Response) => {
     // const { id } = req.query._id;
     const updatedProductData = req?.body
     let updatedProduct
-    const checkCode = await productsService.checkCodeProduct(req.body?.code)
-
-    if (checkCode === true) {
-      return res.status(404).json({
-        message: 'Mã sản phẩm đã tồn tại !'
-      })
-    }
+    const productUpdate = req?.body?.code
+    
+    // const product = await productsService.getProductById(req?.body?._id)
+    // const checkCode = await productsService.checkCodeProduct(productUpdate)
+    // const productCodeRoot = product.product?.code    
+    
+    // if (productUpdate === productCodeRoot) {
+    //   return res.status(404).json({
+    //     message: 'Mã code đã tồn tại !'
+    //   })
+    // }
 
     const category_id  = req.body?.categotyId
     const objectCategory = await categoriesService.getAllCategories()

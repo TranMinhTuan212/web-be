@@ -46,6 +46,12 @@ class ProductsService {
           path: '$category',
         }
       },
+      // {
+      //   $skip: pageIndex * pageSize, // Thêm giai đoạn `skip` để phân trang
+      // },
+      // {
+      //   $limit: pageSize, // Thêm giai đoạn `limit` để phân trang
+      // },
       {
         $project: {
           _id: 1,
@@ -86,6 +92,12 @@ class ProductsService {
           path: '$category'
         }
       },
+       // {
+      //   $skip: pageIndex * pageSize, // Thêm giai đoạn `skip` để phân trang
+      // },
+      // {
+      //   $limit: pageSize, // Thêm giai đoạn `limit` để phân trang
+      // },
       {
         $project: {
           _id: 1,
@@ -159,7 +171,7 @@ class ProductsService {
     //   ? `${process.env.HOST}/imageMedias/${newName}.jpg`
     //   : `http://localhost:${process.env.PORT}/imageMedias/${newName}.jpg`
     const imageUrl = isProduction ? `${process.env.HOST}/imageMedias/${newName}.jpg` : `${newName}.jpg`
-    
+
     //Tìm và cập nhật hình ảnh trong cơ sở dữ liệu
     const updatedUser = await databaseservice.products.findOneAndUpdate(
       { _id: new ObjectId(productId) },
