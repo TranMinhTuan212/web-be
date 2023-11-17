@@ -11,7 +11,7 @@ interface ProductType{
     origin: string
     unit: string
     code: string
-    discount: string
+    discount: Double
     tableName: string
     version: number
     created_at?: Date
@@ -28,7 +28,7 @@ export default class Product{
     origin: string
     unit: string
     code: string
-    discount: string
+    discount: Double
     tableName: string
     version: number
     created_at?: Date

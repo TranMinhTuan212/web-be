@@ -32,6 +32,7 @@ export const createProductVadidator = validate(
         }
       },
       errorMessage: 'Mô tả không được để trống, là chuỗi độ dài phải từ 1-100 ký tự',
+      
 
     },
     price: {
@@ -45,6 +46,18 @@ export const createProductVadidator = validate(
         }
       },
       errorMessage: 'Giá không được để trống, là số độ dài từ 1-10 ký tự',
+      custom: {
+        options: (value) => {
+          if (/\s/.test(value)) {
+            throw new Error('Giá không được chứa khoảng trắng')
+          }
+          return true
+        }
+      },
+      isPositiveNumber: {
+        errorMessage: 'Giá phải là số dương',
+        custom: (value: number) => value > 0,
+      },
 
     },
     discount: {
@@ -58,7 +71,18 @@ export const createProductVadidator = validate(
         }
       },
       errorMessage: 'Chiết khấu không được để trống, là số từ 1-100',
-
+      custom: {
+        options: (value) => {
+          if (/\s/.test(value)) {
+            throw new Error('Giá không được chứa khoảng trắng')
+          }
+          return true
+        }
+      },
+      isPositiveNumber: {
+        errorMessage: 'Chiết khấu phải là số dương',
+        custom: (value: number) => value > 0,
+      },
     },
     unit: {
       notEmpty: true,
