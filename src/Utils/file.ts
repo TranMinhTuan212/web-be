@@ -19,7 +19,7 @@ export const handlerUploadImage = async (req: Request) => {
     uploadDir: path.resolve(UPLOAD_TEMP_DRI),
     maxFiles: 1,
     keepExtensions: true,
-    maxFileSize: 3000 * 1024, // 300kb
+    maxFileSize: 4000 * 1024, // 4000kb
     filter: function ({ name, originalFilename, mimetype }) {
       const valid = name === 'image' && Boolean(mimetype?.includes('image/'))
       if (!valid) {
