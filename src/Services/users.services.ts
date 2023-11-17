@@ -1,6 +1,12 @@
 import User from '~/Models/Schemas/User.schema'
 import databaseservice from './database.services'
-import { CreateAddress, RegisterReqbody, SearchRequestBody, UpdateMeReqBody } from '~/Models/requests/User.requests'
+import {
+  ChangePassWord,
+  CreateAddress,
+  RegisterReqbody,
+  SearchRequestBody,
+  UpdateMeReqBody
+} from '~/Models/requests/User.requests'
 import { hashPassword } from '~/Utils/crypto'
 import { signToken } from '~/Utils/jwt'
 import { RoleType, TokenType } from '~/Constants/enums'
@@ -376,7 +382,9 @@ class UsersService {
       district: address?.district,
       award: address?.award,
       detail: address?.detail,
-      version: userUpdate?.version
+      version: userUpdate?.version,
+      avatar: userUpdate?.avatar
+
       // avatar: image
     }
   }
@@ -465,8 +473,23 @@ class UsersService {
     }
     return searchResults
   }
+  async changePassword(user_id: string, payload: ChangePassWord) {
+    const user = await databaseservice.users.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: { password: hashPassword(payload.newPassword) },
+        $currentDate: {
+          updated_at: true
+        }
+      },
+      {
+        returnDocument: 'after'
+      }
+    )
+    console.log(user)
+    return user
+  }
 }
-
 const usersService = new UsersService()
 export default usersService
 

@@ -11,7 +11,8 @@ import {
   UpdateMeReqBody,
   CreateAddress,
   DeleteRequestBody,
-  SearchRequestBody
+  SearchRequestBody,
+  ChangePassWord
 } from '~/Models/requests/User.requests'
 import usersService from '~/Services/users.services'
 import User from '~/Models/Schemas/User.schema'
@@ -140,7 +141,7 @@ export const updateMeController = async (
   res: Response
 ) => {
   const { user_id } = req.decode_authorization as TokenPayload
-  const user = await usersService.updateMe(
+  const data = await usersService.updateMe(
     user_id,
     req.body as CreateAddress,
     req.body as UpdateMeReqBody
@@ -149,7 +150,7 @@ export const updateMeController = async (
   return res.json({
     message: USERS_MESSAGES.UPDATE_ME_SUCCSES,
     status: HTTP_STATUS.OK,
-    user
+    data
   })
 }
 export const searchUserController = async (req: Request<ParamsDictionary, any, SearchRequestBody>, res: Response) => {
@@ -167,6 +168,15 @@ export const uploadSingleImageController = async (req: Request, res: Response, n
   return res.status(200).json({
     message: 'update thành công',
     result: url
+  })
+}
+export const changePasswordController = async (req: Request<ParamsDictionary, any, ChangePassWord>, res: Response) => {
+  const { user_id } = req.decode_authorization as TokenPayload
+  const data = usersService.changePassword(user_id, req.body as ChangePassWord)
+  return res.json({
+    message: USERS_MESSAGES.UPDATE_ME_SUCCSES,
+    status: HTTP_STATUS.OK,
+    data
   })
 }
 
