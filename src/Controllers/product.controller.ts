@@ -1,4 +1,5 @@
 import { log } from 'console'
+import { Double, ObjectId } from 'mongodb'
 import { Request, Response, NextFunction } from 'express'
 import Product from '~/Models/Schemas/Product.schema'
 import databaseservice from '~/Services/database.services'
@@ -8,42 +9,50 @@ import mediasService from '~/Services/medias.services'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { ProductReqbody } from '~/Models/requests/Product.requests'
 import { SearchQuery } from '~/Models/requests/Search.requests'
+import { TokenPayload } from '~/Models/requests/User.requests'
+// import mongoSanitize from 'mongo-sanitize'
 
 export const createProductController = async (req: Request<ParamsDictionary, any, ProductReqbody>, res: Response) => {
   try {
-    let product
+    let productId
+    
+    // Kiểm tra đầu vào categoryId
+    const categoryId = req.body?.categoryId
+    
+    // Kiểm tra mã code đã tồn tại chưa
     const checkCode = await productsService.checkCodeProduct(req.body?.code)
-
     if (checkCode === true) {
       return res.status(404).json({
-        message: 'Mã sản phẩm đã tồn tại !'
+        product: [],
+        message: 'Mã code đã tồn tại !'
       })
     }
 
+    // Kiểm tra mã cate có trùng với danh sách cate ở DB không?
     const category_id  = req.body?.categoryId
     const objectCategory = await categoriesService.getAllCategories()
     const listIdCategory = objectCategory.map((category) => category._id)
     const stringsIdCategory = []
-
     for (const id of listIdCategory) {
       stringsIdCategory.push(id.toString())
     }
-
     const isExistCategory = stringsIdCategory.includes(category_id)
-
-    if (isExistCategory === true) {
-      product = await productsService.createProduct(req?.body)
-    }
-
-    // // const medias = await mediasService.handleUploadSingImage()
-
-    if (product === false || product === undefined) {
+        
+    if (isExistCategory === false) {
       return res.status(404).json({
-        message: 'Thêm sản phẩm thất bại !'
+        product: [],
+        message: 'Mã sản phẩm không đúng !'
       })
     }
 
+    // Kiểm tra đầu vào bằng mongo-sanitize
+    // const mongoSanitize = require('mongo-sanitize')
+    // const product = await mongoSanitize.escape(req.body)
+    
+    productId = await productsService.createProduct(req?.body)
+
     return res.status(200).json({
+      productId,
       message: 'Thêm sản phẩm thành công'
     })
   } catch (message) {
@@ -110,7 +119,7 @@ export const getProductByIdController = async (
   res: Response
 ) => {
   try {
-    const _id = req.body._id
+    const _id = req?.body?._id
     let data
 
     if (_id === '' || _id === null || _id === undefined) {
@@ -164,9 +173,15 @@ export const updateProductController = async (req: Request, res: Response) => {
     }
 
     const isExistCategory = stringsIdCategory.includes(category_id)
-    if (isExistCategory === true) {
-      updatedProduct = await productsService.updateProduct(req.body?._id, updatedProductData)
+
+    if (isExistCategory === false) {
+      return res.status(404).json({
+        product: [],
+        message: 'Mã sản phẩm không đúng !'
+      })
     }
+  
+    updatedProduct = await productsService.updateProduct(req.body?._id, updatedProductData)
 
     return res.status(200).json({
       updatedProduct,
@@ -194,6 +209,24 @@ export const deleteProductController = async (req: Request, res: Response) => {
     return res.status(200).json({
       message: 'Xóa sản phẩm thành công'
     })
+  } catch (message) {
+    return res.status(500).json({
+      message: 'Lỗi !'
+    })
+  }
+  
+}
+
+export const uploadSingleImageController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const product  = req?.query   
+
+  const url = await productsService.handlerUploadImage(req, product.productId as string)
+  // const data = await handlerUploadImage(req)
+  return res.status(200).json({
+    message: 'update thành công',
+    result: url
+  })
   } catch (message) {
     return res.status(500).json({
       message: 'Lỗi !'

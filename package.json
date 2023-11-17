@@ -21,6 +21,7 @@
         "@types/formidable": "^3.4.4",
         "@types/lodash": "^4.14.199",
         "@types/minimist": "^1.2.4",
+        "@types/mongo-sanitize": "^1.0.3",
         "@types/node": "^20.5.7",
         "@typescript-eslint/eslint-plugin": "^6.5.0",
         "@typescript-eslint/parser": "^6.5.0",
@@ -46,6 +47,7 @@
         "jsonwebtoken": "^9.0.2",
         "lodash": "^4.17.21",
         "minimist": "^1.2.8",
+        "mongo-sanitize": "^1.1.0",
         "mongodb": "^6.1.0",
         "sharp": "^0.32.6",
         "uuid": "^9.0.1"
