@@ -83,7 +83,7 @@ export const getAllProductsController = async (req: Request, res: Response) => {
 }
 
 export const getProductByKeyWordController = async (
-  req: Request<ParamsDictionary, any, any, SearchQuery>,
+  req: Request<ParamsDictionary, any, SearchQuery>,
   res: Response
 ) => {
   try {
