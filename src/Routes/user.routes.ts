@@ -50,7 +50,7 @@ userRoutes.get('/test-server', function (req: any, res: any) {
     data: []
   })
 })
-userRoutes.post('/check-token', accsessTokenValidator, function(req: any, res: any){
+userRoutes.post('/check-token', accsessTokenValidator, function (req: any, res: any) {
   return res.json({
     status: 200,
     message: 'Check token Successfully !',

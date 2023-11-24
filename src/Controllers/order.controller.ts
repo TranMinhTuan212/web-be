@@ -51,7 +51,6 @@ export const getOrderByUserIdController = async (req: Request<ParamsDictionary>,
 
 export const updateQuantityController = async (req: Request, res: Response) => {
   try {
-
     const updatedOrderData = req?.body
     const updatedOrder = await ordersService.updateQuantity(req.body?._id, updatedOrderData)
     const data = updatedOrder

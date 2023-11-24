@@ -11,8 +11,6 @@ import { isProduction } from '~/Constants/config'
 import fs from 'fs'
 import { Request } from 'express'
 
-
-
 class ProductsService {
   async createProduct(payload: ProductReqbody) {
     const product = await databaseservice.products.insertOne(
@@ -21,13 +19,12 @@ class ProductsService {
         categoryId: new ObjectId(payload.categoryId),
         price: payload.price as Double,
         discount: payload.discount as Double,
-        tableName: "product",
-        version: 0,
+        tableName: 'product',
+        version: 0
       })
     )
 
     // console.log(product);
-    
 
     return product.insertedId
   }
@@ -36,15 +33,15 @@ class ProductsService {
     const products = await databaseservice.products.aggregate([
       {
         $lookup: {
-          from: "categories",
-          localField: "categoryId",
-          foreignField: "_id",
-          as: "category"
+          from: 'categories',
+          localField: 'categoryId',
+          foreignField: '_id',
+          as: 'category'
         }
       },
       {
         $unwind: {
-          path: '$category',
+          path: '$category'
         }
       },
       // {
@@ -65,7 +62,7 @@ class ProductsService {
           unit: 1,
           code: 1,
           discount: 1,
-          categoryName: "$category.name",
+          categoryName: '$category.name'
         }
       }
     ])
@@ -73,7 +70,6 @@ class ProductsService {
   }
 
   async getProductByKeyWord(keyWord: string) {
-
     const product = await databaseservice.products.aggregate([
       {
         $match: {
@@ -82,10 +78,10 @@ class ProductsService {
       },
       {
         $lookup: {
-          from: "categories",
-          localField: "categoryId",
-          foreignField: "_id",
-          as: "category"
+          from: 'categories',
+          localField: 'categoryId',
+          foreignField: '_id',
+          as: 'category'
         }
       },
       {
@@ -93,7 +89,7 @@ class ProductsService {
           path: '$category'
         }
       },
-       // {
+      // {
       //   $skip: pageIndex * pageSize, // Thêm giai đoạn `skip` để phân trang
       // },
       // {
@@ -145,9 +141,8 @@ class ProductsService {
       // ,{
       //   returnDocument: 'after'
       // }
-      
     ])
-    
+
     return product.acknowledged
   }
 
@@ -164,13 +159,10 @@ class ProductsService {
   }
   async checkVersionProduct(productId: string, productVersion: number) {
     const product = await databaseservice.products.findOne({
-      $and: [
-        { _id: new ObjectId(productId) }, 
-        { version: productVersion }, 
-      ],
-    });
-  
-    return product; 
+      $and: [{ _id: new ObjectId(productId) }, { version: productVersion }]
+    })
+
+    return product
   }
 
   async handlerUploadImage(req: Request, productId?: string) {
@@ -191,7 +183,7 @@ class ProductsService {
       { $set: { image: imageUrl } },
       { returnDocument: 'after' } // Trả về bản ghi đã được cập nhật
     )
-    return {imageUrl}
+    return { imageUrl }
   }
 }
 
