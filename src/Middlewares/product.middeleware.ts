@@ -118,3 +118,18 @@ export const createProductVadidator = validate(
     }
   })
 )
+
+export const searchProductVadidator = validate(
+  checkSchema({
+    keyWord: {
+      isString: true,
+      isLength: {
+        options: {
+          min: 0,
+          max: 50
+        },
+      } ,
+      errorMessage: 'Từ khóa là chuỗi độ dài phải từ 0-50 ký tự',
+    },
+  })
+)

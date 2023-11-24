@@ -44,12 +44,11 @@ class ProductsService {
           path: '$category'
         }
       },
-      // {
-      //   $skip: pageIndex * pageSize, // Thêm giai đoạn `skip` để phân trang
-      // },
-      // {
-      //   $limit: pageSize, // Thêm giai đoạn `limit` để phân trang
-      // },
+      {
+        $sort: {
+          created_at: -1, 
+        },
+      },
       {
         $project: {
           _id: 1,
