@@ -9,7 +9,7 @@ import {
 } from '~/Models/requests/User.requests'
 import { hashPassword } from '~/Utils/crypto'
 import { signToken } from '~/Utils/jwt'
-import { RoleType, TokenType } from '~/Constants/enums'
+import { RoleType, TokenType, UserVerifyStatus } from '~/Constants/enums'
 import ResFreshToken from '~/Models/Schemas/ReFreshToken.schema'
 import { Code, ObjectId } from 'mongodb'
 import { USERS_MESSAGES } from '~/Constants/messages'
@@ -27,6 +27,9 @@ import { config } from 'dotenv'
 import { json } from 'stream/consumers'
 import mediasService from './medias.services'
 import { log } from 'console'
+import { sendForgotPasswordEmail, sendVerifyEmailRegister } from '~/Utils/email'
+import { verify } from 'crypto'
+import { VerificationStatus } from '@aws-sdk/client-ses'
 class UsersService {
   private signAccessToken(user_id: string) {
     return signToken({
@@ -70,7 +73,6 @@ class UsersService {
         user_id: new ObjectId(user_id)
       })
     )
-
     await databaseservice.users.insertOne(
       new User({
         ...payload,
@@ -90,7 +92,14 @@ class UsersService {
     // )
     // await databaseservice.role.insertOne(new Role({ _id_role: new ObjectId(), name: RoleType.Admin }))
     console.log('email_verify_token: ', email_verify_token)
-
+    await sendVerifyEmailRegister(
+      payload.email,
+      email_verify_token
+      // 'Verifile your email',
+      // `<p>CLick <br>
+      // ${email_verify_token} <br>
+      // <a href=${process.env.CLINENT_URL}/verifileEmail?token=${email_verify_token}">Xác nhận email</a></p>`
+    )
     return {
       // accsess_token,
       // refresh_token
@@ -99,7 +108,6 @@ class UsersService {
   }
   async checkEmailExsit(email: string) {
     const user = await databaseservice.users.findOne({ email })
-    console.log(user)
     return Boolean(user)
   }
   async getMe(user_id: string) {
@@ -236,7 +244,8 @@ class UsersService {
         },
         {
           $set: {
-            email_verify_token: ''
+            email_verify_token: '',
+            verify: UserVerifyStatus.Verified
             // updated_at: new Date()
             // updated_at: "$$NOW"// muốn sử dụng đoạn này thì phải đưa vào mảng
           },
@@ -261,9 +270,10 @@ class UsersService {
       }
     })
   }
-  async resendVerifyEmailToken(user_id: string) {
+  async resendVerifyEmailToken(user_id: string, email: string) {
     const email_verify_token = await this.signEmailVerifyToken(user_id)
-    console.log('Resend verify email')
+    // console.log('Resend verify email')
+    await sendVerifyEmailRegister(email, email_verify_token)
     //cập nhập lại giá trị email_Verify_token trong user
     await databaseservice.users.updateOne(
       { _id: new ObjectId(user_id) },
@@ -280,7 +290,25 @@ class UsersService {
       message: USERS_MESSAGES.EMAIL_VERIFY_RESEND
     }
   }
-  async forgotPassword(user_id: string) {
+  async resetPassword(user_id: string, password: string) {
+    databaseservice.users.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          forgot_password_token: '',
+          password: hashPassword(password)
+          // updated_at: '$$NOW'
+        },
+        $currentDate: {
+          updated_at: true
+        }
+      }
+    )
+    return {
+      mesage: 'Đã cập nhập mật khẩu thành công'
+    }
+  }
+  async forgotPassword(user_id: string, email: string) {
     const forgot_password_token = await this.signForgotPasswordToken(user_id)
     await databaseservice.users.updateOne({ _id: new ObjectId(user_id) }, [
       {
@@ -291,7 +319,8 @@ class UsersService {
       }
     ])
     // gửi email kèm đường link đến email người dùng.
-    console.log('forgot_password_token:', forgot_password_token)
+    // console.log('forgot_password_token:', forgot_password_token)
+    await sendForgotPasswordEmail(email, forgot_password_token)
     return {
       message: USERS_MESSAGES.CHECK_EMAIL_FORGOT_PASSOWRD
     }
@@ -486,7 +515,6 @@ class UsersService {
         returnDocument: 'after'
       }
     )
-    console.log(user)
     return user
   }
 }

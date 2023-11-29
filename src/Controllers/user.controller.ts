@@ -12,7 +12,9 @@ import {
   CreateAddress,
   DeleteRequestBody,
   SearchRequestBody,
-  ChangePassWord
+  ChangePassWord,
+  VerifyForgotPasswordReqBody,
+  ResetPasswordBody
 } from '~/Models/requests/User.requests'
 import usersService from '~/Services/users.services'
 import User from '~/Models/Schemas/User.schema'
@@ -62,7 +64,7 @@ export const emailVerifyController = async (
   next: NextFunction
 ) => {
   const { user_id } = req.decode_email_verify_token as TokenPayload
-  const user = await databaseservice.users.findOne({ _id: new Object(user_id) })
+  const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
   // nếu không tìm thiếu user sẽ báo lỗi
   if (!user) {
     return res.status(HTTP_STATUS.NOT_FOUND).json({
@@ -95,18 +97,38 @@ export const resendEmailVerifyController = async (req: Request, res: Response, n
       message: USERS_MESSAGES.USER_HAVE_VERIFY
     })
   }
-  const data = await usersService.resendVerifyEmailToken(user_id)
+  const data = await usersService.resendVerifyEmailToken(user_id, user.email)
   return res.json(data)
 }
 export const forgotPasswordController = async (
   req: Request<ParamsDictionary, any, ForgotPasswordReqBody>,
   res: Response
 ) => {
-  const { _id } = req.user as User
-  const data = await usersService.forgotPassword((_id as ObjectId).toString())
+  const { _id, email } = req.user as User
+  // const data = await usersService.forgotPassword((_id as ObjectId).toString())
+  await usersService.forgotPassword((_id as ObjectId).toString(), email)
   return res.json({
-    data
+    message: USERS_MESSAGES.CHECK_EMAIL_FORGOT_PASSOWRD
   })
+}
+export const VerifyforgotPasswordController = async (
+  req: Request<ParamsDictionary, any, VerifyForgotPasswordReqBody>,
+  res: Response
+) => {
+  return res.json({
+    message: USERS_MESSAGES.CHECK_EMAIL_FORGOT_PASSOWRD_VERIFY
+  })
+}
+export const resetPasswordController = async (
+  req: Request<ParamsDictionary, any, ResetPasswordBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decode_forgot_password_token as TokenPayload
+  console.log(user_id)
+  const { password } = req.body
+  const data = await usersService.resetPassword(user_id, password)
+  return res.json(data)
 }
 // sử dụng http get
 export const meProfileController = async (req: Request, res: Response, next: NextFunction) => {

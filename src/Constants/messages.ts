@@ -25,5 +25,8 @@ export const USERS_MESSAGES = {
   VALIDATION_ERROR_REFRESHTOKEN: 'Resfresh token không tồn tại',
   ERROR_SECURITY_LOOK: 'lỗi không khớp version update',
   VALIDATION_ERROR_CHNAGE_PASSWORD: 'Mật khẩu không đúng ',
-  VALIDATION_ERROR_COMFIRM_CHANGEPASSWORD: 'Xác nhận mật khẩu mới không khớp'
+  VALIDATION_ERROR_COMFIRM_CHANGEPASSWORD: 'Xác nhận mật khẩu mới không khớp',
+  CHECK_EMAIL_FORGOT_PASSOWRD_VERIFY: 'Mời bạn nhập mật khẩu mới',
+  FORGOT_PASSWORD_INVALID: 'token không khớp  ',
+  ERROR_VERIFY: 'Hãy xác nhận tài khoản trước khi thực hiện chức năng'
 } as const
