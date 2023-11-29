@@ -72,7 +72,7 @@ export const sendVerifyEmailRegister = (
     toAddress,
     'verify your email',
     templates
-      .replace('{{title}}', 'Cảm ơn bạn đã đăng ký tài khoản!')
+      .replace('{{title}}', 'Mã xác nhận tài khoản web2')
       .replace('{{content}}', 'Click vào bên dưới để xác nhận email')
       .replace('{{token}}', `${email_Verify_token}`)
       .replace('{{link}}', `${process.env.CLINENT_URL}/verify_email?token=${email_Verify_token}`)

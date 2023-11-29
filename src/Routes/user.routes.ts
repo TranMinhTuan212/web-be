@@ -1,6 +1,6 @@
 import { json } from 'stream/consumers'
 import express from 'express'
-
+import { NextFunction, Request } from 'express'
 import {
   accsessTokenValidator,
   loginValidator,
@@ -11,7 +11,8 @@ import {
   updateAdressValidator,
   changePasswordValidator,
   forgotPassWordVerifyTokenValidator,
-  resetPasswordValidator
+  resetPasswordValidator,
+  verifyUserValidator
 } from '~/Middlewares/user.middeleware'
 import {
   VerifyforgotPasswordController,
@@ -50,7 +51,13 @@ userRoutes.get('/test-server', function (req: any, res: any) {
 })
 userRoutes.post('/login', loginValidator, wrapRequestHandler(loginController))
 userRoutes.post('/register', registerVadidator, wrapRequestHandler(registerController))
-userRoutes.post('/logout', accsessTokenValidator, refreshTokenValidator, wrapRequestHandler(logoutController))
+userRoutes.post(
+  '/logout',
+  accsessTokenValidator,
+  refreshTokenValidator,
+
+  wrapRequestHandler(logoutController)
+)
 userRoutes.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(emailVerifyController))
 userRoutes.post('/resend-verify-email', accsessTokenValidator, wrapRequestHandler(resendEmailVerifyController))
 userRoutes.post('/forgot-password', forgotPassWordValidator, wrapRequestHandler(forgotPasswordController))
@@ -77,6 +84,7 @@ userRoutes.post('/upload-image', accsessTokenValidator, wrapRequestHandler(uploa
 userRoutes.patch(
   '/changePassword',
   accsessTokenValidator,
+  verifyUserValidator,
   changePasswordValidator,
   wrapRequestHandler(changePasswordController)
 )

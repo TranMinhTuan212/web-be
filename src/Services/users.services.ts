@@ -31,11 +31,12 @@ import { sendForgotPasswordEmail, sendVerifyEmailRegister } from '~/Utils/email'
 import { verify } from 'crypto'
 import { VerificationStatus } from '@aws-sdk/client-ses'
 class UsersService {
-  private signAccessToken(user_id: string) {
+  private signAccessToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     return signToken({
       payload: {
         user_id,
-        token_type: TokenType.AccsessToken
+        token_type: TokenType.AccsessToken,
+        verify
       },
       privateKey: process.env.JWT_SECRET_ACCSESS_TOKEN as string,
       options: {
@@ -43,11 +44,12 @@ class UsersService {
       }
     })
   }
-  private signRefreshToken(user_id: string) {
+  private signRefreshToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     return signToken({
       payload: {
         user_id,
-        token_type: TokenType.RefreshToken
+        token_type: TokenType.RefreshToken,
+        verify
       },
       privateKey: process.env.JWT_SECRET_REFRESH_TOKEN as string,
       options: {
@@ -55,8 +57,8 @@ class UsersService {
       }
     })
   }
-  private signAccsessAndResfreshToken(user_id: string) {
-    return Promise.all([this.signAccessToken(user_id), this.signRefreshToken(user_id)])
+  private signAccsessAndResfreshToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+    return Promise.all([this.signAccessToken({ user_id, verify }), this.signRefreshToken({ user_id, verify })])
   }
   async register(payload: RegisterReqbody, payload1?: CreateAddress) {
     function getRandomNumber(min: number, max: number): number {
@@ -65,7 +67,10 @@ class UsersService {
     const code = getRandomNumber(1, 1000)
     const version = getRandomNumber(1, 1000)
     const user_id = new ObjectId()
-    const email_verify_token = await this.signEmailVerifyToken(user_id.toString())
+    const email_verify_token = await this.signEmailVerifyToken({
+      user_id: user_id.toString(),
+      verify: UserVerifyStatus.Unverified
+    })
     await databaseservice.address.insertOne(
       new Address({
         ...payload1,
@@ -210,9 +215,12 @@ class UsersService {
   //   console.log(user)
   //   return user
   // }
-  async login(user_id: string) {
+  async login({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
-    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(user_id)
+    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken({
+      user_id,
+      verify
+    })
     await databaseservice.reFreshToken.insertOne(
       new ResFreshToken({ user_id: new ObjectId(user?._id), token: refresh_token })
     )
@@ -236,7 +244,7 @@ class UsersService {
   }
   async verifyEmail(user_id: string) {
     const [token] = await Promise.all([
-      this.signAccsessAndResfreshToken(user_id),
+      this.signAccsessAndResfreshToken({ user_id, verify: UserVerifyStatus.Verified }),
 
       databaseservice.users.updateOne(
         {
@@ -258,11 +266,12 @@ class UsersService {
     const [accsess_token, refresh_token] = token
     return { accsess_token, refresh_token }
   }
-  private signEmailVerifyToken(user_id: string) {
+  private signEmailVerifyToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     return signToken({
       payload: {
         user_id,
-        token_type: TokenType.EmailVerifyToken
+        token_type: TokenType.EmailVerifyToken,
+        verify
       },
       privateKey: process.env.JWT_SECRET_EMAIL_VERIFY_TOKEN as string,
       options: {
@@ -271,7 +280,7 @@ class UsersService {
     })
   }
   async resendVerifyEmailToken(user_id: string, email: string) {
-    const email_verify_token = await this.signEmailVerifyToken(user_id)
+    const email_verify_token = await this.signEmailVerifyToken({ user_id, verify: UserVerifyStatus.Unverified })
     // console.log('Resend verify email')
     await sendVerifyEmailRegister(email, email_verify_token)
     //cập nhập lại giá trị email_Verify_token trong user
@@ -308,8 +317,8 @@ class UsersService {
       mesage: 'Đã cập nhập mật khẩu thành công'
     }
   }
-  async forgotPassword(user_id: string, email: string) {
-    const forgot_password_token = await this.signForgotPasswordToken(user_id)
+  async forgotPassword({ user_id, verify, email }: { user_id: string; verify: UserVerifyStatus; email: string }) {
+    const forgot_password_token = await this.signForgotPasswordToken({ user_id, verify })
     await databaseservice.users.updateOne({ _id: new ObjectId(user_id) }, [
       {
         $set: {
@@ -325,11 +334,12 @@ class UsersService {
       message: USERS_MESSAGES.CHECK_EMAIL_FORGOT_PASSOWRD
     }
   }
-  private signForgotPasswordToken(user_id: string) {
+  private signForgotPasswordToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     return signToken({
       payload: {
         user_id,
-        token_type: TokenType.ForgotPassWordToken
+        token_type: TokenType.ForgotPassWordToken,
+        verify
       },
       privateKey: process.env.JWT_SECRET_FORGOT_PASSWORD_TOKEN as string,
       options: {

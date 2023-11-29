@@ -1,12 +1,14 @@
-import { Request } from 'express'
+import { Request, Response, NextFunction } from 'express';
 import { ParamSchema, checkSchema } from 'express-validator'
 import { JsonWebTokenError } from 'jsonwebtoken'
 import { isLength } from 'lodash'
 import { ObjectId } from 'mongodb'
 import { json } from 'stream/consumers'
+import { UserVerifyStatus } from '~/Constants/enums'
 import HTTP_STATUS from '~/Constants/httpStatus'
 import { USERS_MESSAGES } from '~/Constants/messages'
 import { ErrorWithStatus } from '~/Models/Errors'
+import { TokenPayload } from '~/Models/requests/User.requests'
 import databaseservice from '~/Services/database.services'
 import usersService from '~/Services/users.services'
 import { hashPassword } from '~/Utils/crypto'
@@ -619,24 +621,36 @@ export const changePasswordValidator = validate(
           }
         }
       },
-      verify: {
-        custom: {
-          options: async (value, { req }) => {
-            const user = await databaseservice.users.findOne({ verify: value })
-            if (user?.verify !== 1) {
-              throw new ErrorWithStatus({
-                message: USERS_MESSAGES.ERROR_VERIFY,
-                status: HTTP_STATUS.UNAUTHORIZED
-              })
-            }
-            return true
-          }
-        }
-      }
+      // verify: {
+      //   custom: {
+      //     options: async (value, { req }) => {
+      //       const user = await databaseservice.users.findOne({ verify: value })
+      //       if (user?.verify !== 1) {
+      //         throw new ErrorWithStatus({
+      //           message: USERS_MESSAGES.ERROR_VERIFY,
+      //           status: HTTP_STATUS.UNAUTHORIZED
+      //         })
+      //       }
+      //       return true
+      //     }
+      //   }
+      // }
     },
     ['body']
   )
 )
+export const verifyUserValidator = (req: Request, res: Response, next: NextFunction) => {
+  const { verify } = req.decode_authorization as TokenPayload
+  if (verify != UserVerifyStatus.Verified) {
+    next(
+      new ErrorWithStatus({
+        message: USERS_MESSAGES.ERROR_PERMISSION,
+        status: HTTP_STATUS.FORBIDDEN
+      })
+    )
+  }
+  next()
+}
 // export const loginValidator = (req: Request, res: Response, next: NextFunction) => {
 //   const { email, password } = req.body
 //   if (!email || !password) {
