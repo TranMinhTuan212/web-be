@@ -9,6 +9,7 @@ import Order from '~/Models/Schemas/Order.schema'
 import Address from '~/Models/Schemas/Address.schema'
 import Role from '~/Models/Schemas/Role.schema'
 import Cart from '~/Models/Schemas/Cart.schema'
+import Comment from '~/Models/Schemas/Comment.schema'
 
 //khi nào có process.env thì phải gọi config()
 config()
@@ -52,6 +53,9 @@ class DatabaseService {
   }
   get carts(): Collection<Cart> {
     return this.db.collection(process.env.DB_CART_COLECTIOM as string)
+  }
+  get comments(): Collection<Comment> {
+    return this.db.collection(process.env.DB_COMMENT_COLECTIOM as string)
   }
 }
 // run().catch(console.dir)

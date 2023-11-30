@@ -24,7 +24,7 @@ export const createOrderController = async (req: Request<ParamsDictionary, any, 
       })
     }
 
-    const order = await ordersService.createOrder(req?.body, addressUser)
+    const order = await ordersService.createOrder(req?.body, addressUser, user_id)
 
     if (order === false) {
       return res.status(404).json({
