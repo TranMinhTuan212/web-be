@@ -114,8 +114,8 @@ class ProductsService {
     return product.toArray()
   }
 
-  async getProductById(_id: string) {
-    const product = await databaseservice.products.findOne({ _id: new ObjectId(_id) })
+  async getProductById(id: ObjectId) {
+    const product = await databaseservice.products.findOne({ _id: id })
 
     return { product }
   }

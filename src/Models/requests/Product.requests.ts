@@ -11,4 +11,5 @@ export interface ProductReqbody {
     unit: string
     code: string
     discount: Double
+    quantity: Double
 }

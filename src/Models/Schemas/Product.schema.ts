@@ -12,6 +12,7 @@ interface ProductType {
   unit: string
   code: string
   discount: Double
+  quantity: Double
   tableName: string
   version: number
   created_at?: Date
@@ -29,6 +30,7 @@ export default class Product {
   unit: string
   code: string
   discount: Double
+  quantity: Double
   tableName: string
   version: number
   created_at?: Date
@@ -46,6 +48,7 @@ export default class Product {
     this.unit = product.unit
     this.code = product.code
     this.discount = product.discount
+    this.quantity = product.quantity
     this.tableName = product.tableName
     this.version = product.version
     this.created_at = product.created_at || date

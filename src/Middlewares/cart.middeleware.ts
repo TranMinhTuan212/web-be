@@ -2,9 +2,14 @@ import { checkSchema } from 'express-validator'
 import productServices from '~/Services/products.services'
 import { validate } from '~/Utils/validation'
 
-export const createOrderVadidator = validate(
+const isJpegFileName = (fileName: string) => {
+  const regex = /^\.(jpg|jpeg)$/i;
+  return regex.test(fileName);
+};
+
+export const createCartVadidator = validate(
   checkSchema({
-    payment: {
+    quantity: {
       notEmpty: true,
       isFloat: true,
       trim: true,
@@ -29,28 +34,6 @@ export const createOrderVadidator = validate(
       },
 
     },
-    cartId: {
-      notEmpty: true,
-      isString: true,
-      isLength: {
-        options: {
-          min: 1,
-          max: 255
-        },
-      } ,
-      trim: true,
-      errorMessage: 'Mã sản phẩm không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
-    },
-    address: {
-      notEmpty: true,
-      isString: true,
-      isLength: {
-        options: {
-          min: 1,
-          max: 100
-        }
-      },
-      errorMessage: 'Địa chỉ không được để trống, là chuỗi độ dài phải từ 1-100 ký tự',
-    },
   })
 )
+

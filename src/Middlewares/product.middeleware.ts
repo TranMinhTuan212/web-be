@@ -3,9 +3,9 @@ import productServices from '~/Services/products.services'
 import { validate } from '~/Utils/validation'
 
 const isJpegFileName = (fileName: string) => {
-  const regex = /^\.(jpg|jpeg)$/i
-  return regex.test(fileName)
-}
+  const regex = /^\.(jpg|jpeg)$/i;
+  return regex.test(fileName);
+};
 
 export const createProductVadidator = validate(
   checkSchema({
@@ -16,10 +16,11 @@ export const createProductVadidator = validate(
         options: {
           min: 1,
           max: 50
-        }
+        },
+
       },
       trim: true,
-      errorMessage: 'Tên sản phẩm không được để trống, là chuỗi độ dài phải từ 1-50 ký tự'
+      errorMessage: 'Tên sản phẩm không được để trống, là chuỗi độ dài phải từ 1-50 ký tự',
     },
     description: {
       notEmpty: true,
@@ -30,7 +31,9 @@ export const createProductVadidator = validate(
           max: 100
         }
       },
-      errorMessage: 'Mô tả không được để trống, là chuỗi độ dài phải từ 1-100 ký tự'
+      errorMessage: 'Mô tả không được để trống, là chuỗi độ dài phải từ 1-100 ký tự',
+
+
     },
     price: {
       notEmpty: true,
@@ -53,8 +56,9 @@ export const createProductVadidator = validate(
       },
       isPositiveNumber: {
         errorMessage: 'Giá phải là số dương',
-        custom: (value: number) => value > 0
-      }
+        custom: (value: number) => value > 0,
+      },
+
     },
     discount: {
       notEmpty: true,
@@ -70,15 +74,15 @@ export const createProductVadidator = validate(
       custom: {
         options: (value) => {
           if (/\s/.test(value)) {
-            throw new Error('Giá không được chứa khoảng trắng')
+            throw new Error('Chiết khấu không được chứa khoảng trắng')
           }
           return true
         }
       },
       isPositiveNumber: {
         errorMessage: 'Chiết khấu phải là số dương',
-        custom: (value: number) => value > 0
-      }
+        custom: (value: number) => value > 0,
+      },
     },
     unit: {
       notEmpty: true,
@@ -87,10 +91,11 @@ export const createProductVadidator = validate(
         options: {
           min: 1,
           max: 50
-        }
+        },
+
       },
       trim: true,
-      errorMessage: 'Đơn vị không được để trống, là chuỗi độ dài phải từ 1-50 ký tự'
+      errorMessage: 'Đơn vị không được để trống, là chuỗi độ dài phải từ 1-50 ký tự',
     },
     origin: {
       notEmpty: true,
@@ -99,10 +104,11 @@ export const createProductVadidator = validate(
         options: {
           min: 1,
           max: 50
-        }
+        },
+
       },
       trim: true,
-      errorMessage: 'Xuất xứ không được để trống, là chuỗi độ dài phải từ 1-50 ký tự'
+      errorMessage: 'Xuất xứ không được để trống, là chuỗi độ dài phải từ 1-50 ký tự',
     },
     code: {
       notEmpty: true,
@@ -111,11 +117,13 @@ export const createProductVadidator = validate(
         options: {
           min: 1,
           max: 50
-        }
+        },
+
       },
       trim: true,
-      errorMessage: 'Mã code không được để trống, là chuỗi độ dài phải từ 1-50 ký tự'
-    }
+      errorMessage: 'Mã code không được để trống, là chuỗi độ dài phải từ 1-50 ký tự',
+    },
+
   })
 )
 
@@ -128,7 +136,7 @@ export const searchProductVadidator = validate(
           min: 0,
           max: 50
         },
-      } ,
+      },
       errorMessage: 'Từ khóa là chuỗi độ dài phải từ 0-50 ký tự',
     },
   })
