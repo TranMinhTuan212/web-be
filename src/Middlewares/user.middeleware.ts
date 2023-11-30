@@ -1,17 +1,110 @@
-import { Request } from 'express'
-import { checkSchema } from 'express-validator'
+import { Request, Response, NextFunction } from 'express';
+import { ParamSchema, checkSchema } from 'express-validator'
 import { JsonWebTokenError } from 'jsonwebtoken'
 import { isLength } from 'lodash'
 import { ObjectId } from 'mongodb'
 import { json } from 'stream/consumers'
+import { UserVerifyStatus } from '~/Constants/enums'
 import HTTP_STATUS from '~/Constants/httpStatus'
 import { USERS_MESSAGES } from '~/Constants/messages'
 import { ErrorWithStatus } from '~/Models/Errors'
+import { TokenPayload } from '~/Models/requests/User.requests'
 import databaseservice from '~/Services/database.services'
 import usersService from '~/Services/users.services'
 import { hashPassword } from '~/Utils/crypto'
 import { verifyToken } from '~/Utils/jwt'
 import { validate } from '~/Utils/validation'
+
+const passwordSchema: ParamSchema = {
+  notEmpty: { errorMessage: 'lỗi bạn chưa nhập password' },
+  isString: true,
+  escape: true,
+  isLength: {
+    options: {
+      min: 6,
+      max: 50
+    },
+    errorMessage: 'Lỗi độ dài password mới phải từ 6-50 ký tự'
+  },
+  custom: {
+    options: (value) => {
+      if (/\s/.test(value)) {
+        throw new Error('lỗi Password mới không được chứa khoảng trắng')
+      }
+      return true
+    }
+  },
+  isStrongPassword: {
+    options: {
+      minLength: 6,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1
+    },
+    errorMessage: 'lỗi định dạng password mới thiếu ký tự in hoa, số và ký tự đặc biệt'
+  }
+}
+const conFirmPasswordSchema: ParamSchema = {
+  notEmpty: { errorMessage: 'lỗi bạn chưa nhập comfirm_password' },
+  escape: true,
+  custom: {
+    options: (value, { req }) => {
+      if (value != req.body.password) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGES.VALIDATION_ERROR_COMFIRM_CHANGEPASSWORD,
+          status: HTTP_STATUS.UNAUTHORIZED
+        })
+      }
+      return true
+    }
+  }
+}
+const forgotPasswordTokenSchema: ParamSchema = {
+  trim: true,
+  custom: {
+    options: async (value: string, { req }) => {
+      if (!value) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGES.VALIDATION_REFRESH_TOKEN,
+          status: HTTP_STATUS.UNAUTHORIZED
+        })
+      }
+      try {
+        const decode_forgot_password_token = await verifyToken({
+          token: value,
+          secretOrPublicKey: process.env.JWT_SECRET_FORGOT_PASSWORD_TOKEN as string
+        })
+        const { user_id } = decode_forgot_password_token
+        const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
+        if (user == null) {
+          throw new ErrorWithStatus({
+            message: USERS_MESSAGES.USER_NOT_FOUND,
+            status: HTTP_STATUS.UNAUTHORIZED
+          })
+        }
+        if (user.forgot_password_token != value) {
+          throw new ErrorWithStatus({
+            message: USERS_MESSAGES.FORGOT_PASSWORD_INVALID,
+            status: HTTP_STATUS.UNAUTHORIZED
+          })
+        }
+        req.decode_forgot_password_token = decode_forgot_password_token
+      } catch (error) {
+        if (error) {
+          throw new ErrorWithStatus({
+            message: (error as JsonWebTokenError).message,
+            status: HTTP_STATUS.UNAUTHORIZED
+          })
+        }
+        throw error
+      }
+      // const decode_resfresh_token = await verifyToken({ token: value })
+      // console.log(decode_resfresh_token)
+      return true
+    }
+  }
+}
 export const loginValidator = validate(
   checkSchema(
     {
@@ -353,6 +446,24 @@ export const forgotPassWordValidator = validate(
     ['body']
   )
 )
+export const forgotPassWordVerifyTokenValidator = validate(
+  checkSchema(
+    {
+      forgot_password_token: forgotPasswordTokenSchema
+    },
+    ['body']
+  )
+)
+export const resetPasswordValidator = validate(
+  checkSchema(
+    {
+      password: passwordSchema,
+      confirm_password: conFirmPasswordSchema,
+      forgot_password_token: forgotPasswordTokenSchema
+    },
+    ['body']
+  )
+)
 export const updateAdressValidator = validate(
   checkSchema(
     {
@@ -509,11 +620,37 @@ export const changePasswordValidator = validate(
             return true
           }
         }
-      }
+      },
+      // verify: {
+      //   custom: {
+      //     options: async (value, { req }) => {
+      //       const user = await databaseservice.users.findOne({ verify: value })
+      //       if (user?.verify !== 1) {
+      //         throw new ErrorWithStatus({
+      //           message: USERS_MESSAGES.ERROR_VERIFY,
+      //           status: HTTP_STATUS.UNAUTHORIZED
+      //         })
+      //       }
+      //       return true
+      //     }
+      //   }
+      // }
     },
     ['body']
   )
 )
+export const verifyUserValidator = (req: Request, res: Response, next: NextFunction) => {
+  const { verify } = req.decode_authorization as TokenPayload
+  if (verify != UserVerifyStatus.Verified) {
+    next(
+      new ErrorWithStatus({
+        message: USERS_MESSAGES.ERROR_PERMISSION,
+        status: HTTP_STATUS.FORBIDDEN
+      })
+    )
+  }
+  next()
+}
 // export const loginValidator = (req: Request, res: Response, next: NextFunction) => {
 //   const { email, password } = req.body
 //   if (!email || !password) {

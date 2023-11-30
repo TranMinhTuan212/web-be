@@ -9,7 +9,7 @@ import {
 } from '~/Models/requests/User.requests'
 import { hashPassword } from '~/Utils/crypto'
 import { signToken } from '~/Utils/jwt'
-import { RoleType, TokenType } from '~/Constants/enums'
+import { RoleType, TokenType, UserVerifyStatus } from '~/Constants/enums'
 import ResFreshToken from '~/Models/Schemas/ReFreshToken.schema'
 import { Code, ObjectId } from 'mongodb'
 import { USERS_MESSAGES } from '~/Constants/messages'
@@ -27,12 +27,16 @@ import { config } from 'dotenv'
 import { json } from 'stream/consumers'
 import mediasService from './medias.services'
 import { log } from 'console'
+import { sendForgotPasswordEmail, sendVerifyEmailRegister } from '~/Utils/email'
+import { verify } from 'crypto'
+import { VerificationStatus } from '@aws-sdk/client-ses'
 class UsersService {
-  private signAccessToken(user_id: string) {
+  private signAccessToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     return signToken({
       payload: {
         user_id,
-        token_type: TokenType.AccsessToken
+        token_type: TokenType.AccsessToken,
+        verify
       },
       privateKey: process.env.JWT_SECRET_ACCSESS_TOKEN as string,
       options: {
@@ -40,11 +44,12 @@ class UsersService {
       }
     })
   }
-  private signRefreshToken(user_id: string) {
+  private signRefreshToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     return signToken({
       payload: {
         user_id,
-        token_type: TokenType.RefreshToken
+        token_type: TokenType.RefreshToken,
+        verify
       },
       privateKey: process.env.JWT_SECRET_REFRESH_TOKEN as string,
       options: {
@@ -52,8 +57,8 @@ class UsersService {
       }
     })
   }
-  private signAccsessAndResfreshToken(user_id: string) {
-    return Promise.all([this.signAccessToken(user_id), this.signRefreshToken(user_id)])
+  private signAccsessAndResfreshToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+    return Promise.all([this.signAccessToken({ user_id, verify }), this.signRefreshToken({ user_id, verify })])
   }
   async register(payload: RegisterReqbody, payload1?: CreateAddress) {
     function getRandomNumber(min: number, max: number): number {
@@ -62,7 +67,10 @@ class UsersService {
     const code = getRandomNumber(1, 1000)
     const version = getRandomNumber(1, 1000)
     const user_id = new ObjectId()
-    const email_verify_token = await this.signEmailVerifyToken(user_id.toString())
+    const email_verify_token = await this.signEmailVerifyToken({
+      user_id: user_id.toString(),
+      verify: UserVerifyStatus.Unverified
+    })
     await databaseservice.address.insertOne(
       new Address({
         ...payload1,
@@ -70,7 +78,6 @@ class UsersService {
         user_id: new ObjectId(user_id)
       })
     )
-
     await databaseservice.users.insertOne(
       new User({
         ...payload,
@@ -90,7 +97,14 @@ class UsersService {
     // )
     // await databaseservice.role.insertOne(new Role({ _id_role: new ObjectId(), name: RoleType.Admin }))
     console.log('email_verify_token: ', email_verify_token)
-
+    await sendVerifyEmailRegister(
+      payload.email,
+      email_verify_token
+      // 'Verifile your email',
+      // `<p>CLick <br>
+      // ${email_verify_token} <br>
+      // <a href=${process.env.CLINENT_URL}/verifileEmail?token=${email_verify_token}">Xác nhận email</a></p>`
+    )
     return {
       // accsess_token,
       // refresh_token
@@ -99,7 +113,6 @@ class UsersService {
   }
   async checkEmailExsit(email: string) {
     const user = await databaseservice.users.findOne({ email })
-    console.log(user)
     return Boolean(user)
   }
   async getMe(user_id: string) {
@@ -202,9 +215,12 @@ class UsersService {
   //   console.log(user)
   //   return user
   // }
-  async login(user_id: string) {
+  async login({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     const user = await databaseservice.users.findOne({ _id: new ObjectId(user_id) })
-    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken(user_id)
+    const [accsess_token, refresh_token] = await this.signAccsessAndResfreshToken({
+      user_id,
+      verify
+    })
     await databaseservice.reFreshToken.insertOne(
       new ResFreshToken({ user_id: new ObjectId(user?._id), token: refresh_token })
     )
@@ -228,7 +244,7 @@ class UsersService {
   }
   async verifyEmail(user_id: string) {
     const [token] = await Promise.all([
-      this.signAccsessAndResfreshToken(user_id),
+      this.signAccsessAndResfreshToken({ user_id, verify: UserVerifyStatus.Verified }),
 
       databaseservice.users.updateOne(
         {
@@ -236,7 +252,8 @@ class UsersService {
         },
         {
           $set: {
-            email_verify_token: ''
+            email_verify_token: '',
+            verify: UserVerifyStatus.Verified
             // updated_at: new Date()
             // updated_at: "$$NOW"// muốn sử dụng đoạn này thì phải đưa vào mảng
           },
@@ -249,11 +266,12 @@ class UsersService {
     const [accsess_token, refresh_token] = token
     return { accsess_token, refresh_token }
   }
-  private signEmailVerifyToken(user_id: string) {
+  private signEmailVerifyToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     return signToken({
       payload: {
         user_id,
-        token_type: TokenType.EmailVerifyToken
+        token_type: TokenType.EmailVerifyToken,
+        verify
       },
       privateKey: process.env.JWT_SECRET_EMAIL_VERIFY_TOKEN as string,
       options: {
@@ -261,9 +279,10 @@ class UsersService {
       }
     })
   }
-  async resendVerifyEmailToken(user_id: string) {
-    const email_verify_token = await this.signEmailVerifyToken(user_id)
-    console.log('Resend verify email')
+  async resendVerifyEmailToken(user_id: string, email: string) {
+    const email_verify_token = await this.signEmailVerifyToken({ user_id, verify: UserVerifyStatus.Unverified })
+    // console.log('Resend verify email')
+    await sendVerifyEmailRegister(email, email_verify_token)
     //cập nhập lại giá trị email_Verify_token trong user
     await databaseservice.users.updateOne(
       { _id: new ObjectId(user_id) },
@@ -280,8 +299,26 @@ class UsersService {
       message: USERS_MESSAGES.EMAIL_VERIFY_RESEND
     }
   }
-  async forgotPassword(user_id: string) {
-    const forgot_password_token = await this.signForgotPasswordToken(user_id)
+  async resetPassword(user_id: string, password: string) {
+    databaseservice.users.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          forgot_password_token: '',
+          password: hashPassword(password)
+          // updated_at: '$$NOW'
+        },
+        $currentDate: {
+          updated_at: true
+        }
+      }
+    )
+    return {
+      mesage: 'Đã cập nhập mật khẩu thành công'
+    }
+  }
+  async forgotPassword({ user_id, verify, email }: { user_id: string; verify: UserVerifyStatus; email: string }) {
+    const forgot_password_token = await this.signForgotPasswordToken({ user_id, verify })
     await databaseservice.users.updateOne({ _id: new ObjectId(user_id) }, [
       {
         $set: {
@@ -291,16 +328,18 @@ class UsersService {
       }
     ])
     // gửi email kèm đường link đến email người dùng.
-    console.log('forgot_password_token:', forgot_password_token)
+    // console.log('forgot_password_token:', forgot_password_token)
+    await sendForgotPasswordEmail(email, forgot_password_token)
     return {
       message: USERS_MESSAGES.CHECK_EMAIL_FORGOT_PASSOWRD
     }
   }
-  private signForgotPasswordToken(user_id: string) {
+  private signForgotPasswordToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     return signToken({
       payload: {
         user_id,
-        token_type: TokenType.ForgotPassWordToken
+        token_type: TokenType.ForgotPassWordToken,
+        verify
       },
       privateKey: process.env.JWT_SECRET_FORGOT_PASSWORD_TOKEN as string,
       options: {
@@ -486,7 +525,6 @@ class UsersService {
         returnDocument: 'after'
       }
     )
-    console.log(user)
     return user
   }
 }

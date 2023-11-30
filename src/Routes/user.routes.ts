@@ -1,6 +1,6 @@
 import { json } from 'stream/consumers'
 import express from 'express'
-
+import { NextFunction, Request } from 'express'
 import {
   accsessTokenValidator,
   loginValidator,
@@ -9,9 +9,13 @@ import {
   emailVerifyTokenValidator,
   forgotPassWordValidator,
   updateAdressValidator,
-  changePasswordValidator
+  changePasswordValidator,
+  forgotPassWordVerifyTokenValidator,
+  resetPasswordValidator,
+  verifyUserValidator
 } from '~/Middlewares/user.middeleware'
 import {
+  VerifyforgotPasswordController,
   adminMeProfileController,
   allMeProfileController,
   changePasswordController,
@@ -23,6 +27,7 @@ import {
   meProfileController,
   registerController,
   resendEmailVerifyController,
+  resetPasswordController,
   searchUserController,
   updateMeController,
   uploadSingleImageController
@@ -37,12 +42,6 @@ const userRoutes = express.Router()
  * Method: post
  * Body:{email:string,passwordLstring}
  */
-userRoutes.post('/login', loginValidator, wrapRequestHandler(loginController))
-userRoutes.post('/register', registerVadidator, wrapRequestHandler(registerController))
-userRoutes.post('/logout', accsessTokenValidator, refreshTokenValidator, wrapRequestHandler(logoutController))
-userRoutes.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(emailVerifyController))
-userRoutes.post('/resend-verify-email', accsessTokenValidator, wrapRequestHandler(resendEmailVerifyController))
-userRoutes.post('/forgot-password', forgotPassWordValidator, wrapRequestHandler(forgotPasswordController))
 userRoutes.get('/test-server', function (req: any, res: any) {
   return res.json({
     status: 200,
@@ -50,6 +49,24 @@ userRoutes.get('/test-server', function (req: any, res: any) {
     data: []
   })
 })
+userRoutes.post('/login', loginValidator, wrapRequestHandler(loginController))
+userRoutes.post('/register', registerVadidator, wrapRequestHandler(registerController))
+userRoutes.post(
+  '/logout',
+  accsessTokenValidator,
+  refreshTokenValidator,
+
+  wrapRequestHandler(logoutController)
+)
+userRoutes.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(emailVerifyController))
+userRoutes.post('/resend-verify-email', accsessTokenValidator, wrapRequestHandler(resendEmailVerifyController))
+userRoutes.post('/forgot-password', forgotPassWordValidator, wrapRequestHandler(forgotPasswordController))
+userRoutes.post(
+  '/verify-forgot-password',
+  forgotPassWordVerifyTokenValidator,
+  wrapRequestHandler(VerifyforgotPasswordController)
+)
+userRoutes.post('/reset-password', resetPasswordValidator, wrapRequestHandler(resetPasswordController))
 userRoutes.post('/check-token', accsessTokenValidator, function (req: any, res: any) {
   return res.json({
     status: 200,
@@ -67,6 +84,7 @@ userRoutes.post('/upload-image', accsessTokenValidator, wrapRequestHandler(uploa
 userRoutes.patch(
   '/changePassword',
   accsessTokenValidator,
+  verifyUserValidator,
   changePasswordValidator,
   wrapRequestHandler(changePasswordController)
 )

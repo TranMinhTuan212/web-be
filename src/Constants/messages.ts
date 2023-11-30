@@ -16,7 +16,7 @@ export const USERS_MESSAGES = {
   VALIDATION_ERROR_COMFIRM_FORMAT: 'Mật khẩu không đúng định dạng hoặc chiều dài',
   USER_NOT_FOUND: 'Người dùng không tồn tại',
   USER_HAVE_VERIFY: 'Bạn đã xác thực email rồi !',
-  EMAIL_VERIFY_RESEND: 'Email đã cập nhập ',
+  EMAIL_VERIFY_RESEND: 'Email đã được cập nhập lại ',
   CHECK_EMAIL_FORGOT_PASSOWRD: 'Đã gửi email đổi password',
   GET_ME_SUCCSES: 'Lấy thông tin thành công',
   UPDATE_ME_SUCCSES: 'Cập nhập thông tin thành công',
@@ -25,5 +25,9 @@ export const USERS_MESSAGES = {
   VALIDATION_ERROR_REFRESHTOKEN: 'Resfresh token không tồn tại',
   ERROR_SECURITY_LOOK: 'lỗi không khớp version update',
   VALIDATION_ERROR_CHNAGE_PASSWORD: 'Mật khẩu không đúng ',
-  VALIDATION_ERROR_COMFIRM_CHANGEPASSWORD: 'Xác nhận mật khẩu mới không khớp'
+  VALIDATION_ERROR_COMFIRM_CHANGEPASSWORD: 'Xác nhận mật khẩu mới không khớp',
+  CHECK_EMAIL_FORGOT_PASSOWRD_VERIFY: 'Mời bạn nhập mật khẩu mới',
+  FORGOT_PASSWORD_INVALID: 'token không khớp  ',
+  ERROR_VERIFY: 'Hãy xác nhận tài khoản trước khi thực hiện chức năng',
+  ERROR_PERMISSION: 'Tài khoản chưa được xác thực'
 } as const

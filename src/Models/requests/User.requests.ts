@@ -22,7 +22,11 @@ export interface LogoutRequestBody {
 export interface DeleteRequestBody {
   _id: string
 }
-
+export interface ResetPasswordBody {
+  password: string
+  confirm_password: string
+  forgot_password_token: string
+}
 export interface TokenPayload extends JwtPayload {
   user_id: string
   token_type: TokenType
@@ -32,6 +36,9 @@ export interface EmailVerifyReqBody {
 }
 export interface ForgotPasswordReqBody {
   email: string
+}
+export interface VerifyForgotPasswordReqBody {
+  forgot_password_token: string
 }
 export interface SearchRequestBody {
   name: string
