@@ -1,0 +1,389 @@
+[{
+  "_id": {
+    "$oid": "655b651fc6d973682b446e35"
+  },
+  "name": "Blanc",
+  "description": "bia của chất lượng cao",
+  "price": 25000,
+  "image": "70bd6a1a2d7bafc8a48b1c404.jpg",
+  "categoryId": {
+    "$oid": "65202db0d97187d86b571b2c"
+  },
+  "origin": "Việt Nam",
+  "unit": "Lon",
+  "code": "SP001",
+  "discount": 12,
+  "tableName": "product",
+  "version": 2,
+  "created_at": {
+    "$date": "2023-11-20T13:54:39.427Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-20T13:54:39.427Z"
+  },
+  "quantity": 100
+},
+{
+  "_id": {
+    "$oid": "655b654ec6d973682b446e36"
+  },
+  "name": "Corona",
+  "description": "bia nhập khẩu từ Mỹ",
+  "price": "35000",
+  "image": "70bd6a1a2d7bafc8a48b1c405.jpg",
+  "categoryId": {
+    "$oid": "65202db0d97187d86b571b2c"
+  },
+  "origin": "Mỹ",
+  "unit": "Chai",
+  "code": "SP002",
+  "discount": "7",
+  "tableName": "product",
+  "version": 0,
+  "created_at": {
+    "$date": "2023-11-20T13:55:26.722Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-20T13:55:26.722Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655b6578c6d973682b446e37"
+  },
+  "name": "Hogaeerdon",
+  "description": "Bia Tung Của",
+  "price": 24000,
+  "image": "70bd6a1a2d7bafc8a48b1c406.jpg",
+  "categoryId": {
+    "$oid": "65202db0d97187d86b571b2c"
+  },
+  "origin": "Trung Quốc",
+  "unit": "Chai",
+  "code": "SP003",
+  "discount": 6,
+  "tableName": "product",
+  "version": 2,
+  "created_at": {
+    "$date": "2023-11-20T13:56:08.947Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-20T13:56:08.947Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655b65a3c6d973682b446e38"
+  },
+  "name": "Heniken",
+  "description": "Heniken nhập khẩu không chất bảo quản",
+  "price": "18000",
+  "image": "70bd6a1a2d7bafc8a48b1c407.jpg",
+  "categoryId": {
+    "$oid": "65202db0d97187d86b571b2c"
+  },
+  "origin": "Pháp",
+  "unit": "Chai",
+  "code": "SP004",
+  "discount": "4",
+  "tableName": "product",
+  "version": 0,
+  "created_at": {
+    "$date": "2023-11-20T13:56:51.876Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-20T13:56:51.876Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655b65cac6d973682b446e39"
+  },
+  "name": "Tiger",
+  "description": "Tiger nhà làm",
+  "price": "14",
+  "image": "70bd6a1a2d7bafc8a48b1c408.jpg",
+  "categoryId": {
+    "$oid": "65202db0d97187d86b571b2c"
+  },
+  "origin": "Việt Nam",
+  "unit": "Thùng",
+  "code": "SP005",
+  "discount": "4",
+  "tableName": "product",
+  "version": 0,
+  "created_at": {
+    "$date": "2023-11-20T13:57:30.974Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-20T13:57:30.974Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655ebc29c6d973682b446e4c"
+  },
+  "name": "Áo gấu dâu",
+  "description": "sss",
+  "price": 222,
+  "image": "70bd6a1a2d7bafc8a48b1c40a.jpg",
+  "categoryId": {
+    "$oid": "65280476f3b876b35a79f10d"
+  },
+  "origin": "Việt Nam",
+  "unit": "Cái",
+  "code": "AT001",
+  "discount": 31,
+  "tableName": "product",
+  "version": 6,
+  "created_at": {
+    "$date": "2023-11-23T02:42:49.369Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-23T02:42:49.369Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655ebc8ac6d973682b446e4d"
+  },
+  "name": "Đồng Hồ",
+  "description": "dddddddddddddddddddddddddddddd",
+  "price": {
+    "$numberLong": "9999999997"
+  },
+  "image": "70bd6a1a2d7bafc8a48b1c40c.jpg",
+  "categoryId": {
+    "$oid": "6528190106d9ac06f18ceec0"
+  },
+  "origin": "Việt Nam",
+  "unit": "cái",
+  "code": "DH001",
+  "discount": 12,
+  "tableName": "product",
+  "version": 2,
+  "created_at": {
+    "$date": "2023-11-23T02:44:26.249Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-23T02:44:26.249Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655ebecdc6d973682b446e4e"
+  },
+  "name": "Áo unisex 2023",
+  "description": "sssssssssssssssssssssssssssssssssssssssssssssssss",
+  "price": 120000,
+  "image": "70bd6a1a2d7bafc8a48b1c40d.jpg",
+  "categoryId": {
+    "$oid": "65280476f3b876b35a79f10d"
+  },
+  "origin": "Việt Nam",
+  "unit": "Cái",
+  "code": "AT003",
+  "discount": 11,
+  "tableName": "product",
+  "version": 1,
+  "created_at": {
+    "$date": "2023-11-23T02:54:05.136Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-23T02:54:05.136Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655ebf35c6d973682b446e4f"
+  },
+  "name": "Áo khoác 2011",
+  "description": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "price": "120000",
+  "image": "70bd6a1a2d7bafc8a48b1c40e.jpg",
+  "categoryId": {
+    "$oid": "65280476f3b876b35a79f10d"
+  },
+  "origin": "Việt Nam",
+  "unit": "Cái",
+  "code": "AT008",
+  "discount": "1",
+  "tableName": "product",
+  "version": 0,
+  "created_at": {
+    "$date": "2023-11-23T02:55:49.064Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-23T02:55:49.064Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655ebfe1c6d973682b446e50"
+  },
+  "name": "Bánh Pía",
+  "description": "ssssssssssssssssssssssssssss",
+  "price": "1",
+  "image": "70bd6a1a2d7bafc8a48b1c40f.jpg",
+  "categoryId": {
+    "$oid": "652804bef3b876b35a79f10e"
+  },
+  "origin": "Đài Loan",
+  "unit": "Hộp",
+  "code": "B001",
+  "discount": "1",
+  "tableName": "product",
+  "version": 0,
+  "created_at": {
+    "$date": "2023-11-23T02:58:41.091Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-23T02:58:41.091Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655ec019c6d973682b446e51"
+  },
+  "name": "Bánh tai heo",
+  "description": "dddddddddddddddddddddd",
+  "price": 999999999,
+  "image": "70bd6a1a2d7bafc8a48b1c410.jpg",
+  "categoryId": {
+    "$oid": "652804bef3b876b35a79f10e"
+  },
+  "origin": "Đài Loan",
+  "unit": "Hộp",
+  "code": "B002",
+  "discount": 11211,
+  "tableName": "product",
+  "version": 5,
+  "created_at": {
+    "$date": "2023-11-23T02:59:37.046Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-23T02:59:37.046Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655ec04cc6d973682b446e52"
+  },
+  "name": "Nem Tôm",
+  "description": "ddddddddddddddddđ",
+  "price": "1",
+  "image": "70bd6a1a2d7bafc8a48b1c411.jpg",
+  "categoryId": {
+    "$oid": "652804bef3b876b35a79f10e"
+  },
+  "origin": "Trung Quốc",
+  "unit": "Hộp",
+  "code": "B003",
+  "discount": "1",
+  "tableName": "product",
+  "version": 0,
+  "created_at": {
+    "$date": "2023-11-23T03:00:28.932Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-23T03:00:28.932Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655f6050c6d973682b446e60"
+  },
+  "name": "Thỏ hầm",
+  "description": "thịt thỏ hầm",
+  "price": "34000",
+  "image": "70bd6a1a2d7bafc8a48b1c412.jpg",
+  "categoryId": {
+    "$oid": "652804bef3b876b35a79f10e"
+  },
+  "origin": "Việt Nam",
+  "unit": "con",
+  "code": "SO006",
+  "discount": "12",
+  "tableName": "product",
+  "version": 0,
+  "created_at": {
+    "$date": "2023-11-23T14:23:12.650Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-23T14:23:12.650Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6566eed0c6d973682b446fd4"
+  },
+  "name": "[Sale 50%] Áo thun tay lỡ",
+  "description": "sale sale sale",
+  "price": "30000",
+  "image": "70bd6a1a2d7bafc8a48b1c42b.jpg",
+  "categoryId": {
+    "$oid": "65280476f3b876b35a79f10d"
+  },
+  "origin": "Việt Nam",
+  "unit": "Cái",
+  "code": "AT009",
+  "discount": "10",
+  "tableName": "product",
+  "version": 0,
+  "created_at": {
+    "$date": "2023-11-29T07:57:04.160Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-29T07:57:04.160Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "65670dd4c6d973682b446fd5"
+  },
+  "name": "Bảng Morphe 9 ô 9D, 9E, 9V $12 vỏ hộp mới",
+  "description": "gjgjgjgjjgjjgjgjg",
+  "price": "120000",
+  "image": "70bd6a1a2d7bafc8a48b1c42f.jpg",
+  "categoryId": {
+    "$oid": "6528190106d9ac06f18ceec0"
+  },
+  "origin": "Hàn Quốc",
+  "unit": "Hộp",
+  "code": "BM001",
+  "discount": "10",
+  "tableName": "product",
+  "version": 0,
+  "created_at": {
+    "$date": "2023-11-29T10:09:24.539Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-29T10:09:24.539Z"
+  },
+  "quantity": 200
+},
+{
+  "_id": {
+    "$oid": "65673efcc6d973682b446fe6"
+  },
+  "name": "☞",
+  "description": "fffffffffffffffffffffffffffff",
+  "price": 120000,
+  "image": "70bd6a1a2d7bafc8a48b1c430.jpg",
+  "categoryId": {
+    "$oid": "65280476f3b876b35a79f10d"
+  },
+  "origin": "VN",
+  "unit": "Cái",
+  "code": "AH001",
+  "discount": 10,
+  "tableName": "product",
+  "version": 1,
+  "created_at": {
+    "$date": "2023-11-29T13:39:08.917Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-29T13:39:08.917Z"
+  },
+  "quantity": 100
+}]

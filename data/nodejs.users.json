@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "65694cadc6d973682b447003"
+  },
+  "name": "Tuấn Tuấn Tuấn",
+  "email": "customer@gmail.com",
+  "date_of_birth": {
+    "$date": "1970-01-01T00:00:00.000Z"
+  },
+  "password": "a11979fce71afa96e4c2663368cf755e5820f5015b3c18eded6e3d01189296ee",
+  "created_at": {
+    "$date": "2023-12-01T03:02:05.622Z"
+  },
+  "updated_at": {
+    "$date": "2023-12-01T03:02:05.622Z"
+  },
+  "email_verify_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU2OTRjYWRjNmQ5NzM2ODJiNDQ3MDAzIiwidG9rZW5fdHlwZSI6MywiaWF0IjoxNzAxMzk5NzI1LCJleHAiOjE3MDIwMDQ1MjV9.3GIqAyE6YTiRVtjv6AgqSMVPKw0DEtO3RUpb53NZMBQ",
+  "forgot_password_token": "",
+  "verify": 0,
+  "avatar": "",
+  "cover_photo": "",
+  "code": "411",
+  "phone": "",
+  "role": "ADMIN",
+  "version": "411"
+},
+{
+  "_id": {
+    "$oid": "65694d68c6d973682b447006"
+  },
+  "name": "vanduy",
+  "email": "duy@gmail.com",
+  "date_of_birth": {
+    "$date": "1970-01-01T00:00:00.000Z"
+  },
+  "password": "acd208d16f73cfae64ae64fecae6ef0d9d7dbd4051dd000f3eb67f464a786e7d",
+  "created_at": {
+    "$date": "2023-12-01T03:05:12.985Z"
+  },
+  "updated_at": {
+    "$date": "2023-12-01T03:05:12.985Z"
+  },
+  "email_verify_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU2OTRkNjhjNmQ5NzM2ODJiNDQ3MDA2IiwidG9rZW5fdHlwZSI6MywiaWF0IjoxNzAxMzk5OTEyLCJleHAiOjE3MDIwMDQ3MTJ9.gczRMHaewf15A9rlUr1axz5on-j-HwL6DUC4KQQobRc",
+  "forgot_password_token": "",
+  "verify": 0,
+  "avatar": "",
+  "cover_photo": "",
+  "code": "161",
+  "phone": "",
+  "role": "CUSTOMER",
+  "version": "161"
+}]
