@@ -9,22 +9,19 @@ import { CategoryReqbody } from '~/Models/requests/Category.requests'
 import Category from '~/Models/Schemas/Category.shema'
 
 class CategoriesService {
+  async createCategory(payload: CategoryReqbody) {
+    const category = await databaseservice.categories.insertOne(
+      new Category({
+        ...payload
+      })
+    )
+    return category
+  }
 
-    async createCategory(payload: CategoryReqbody) {
-        const category = await databaseservice.categories.insertOne(
-            new Category({
-                ...payload,
-            })
-        )
-        return category
-    }
-
-    async getAllCategories() {        
-        const products = await databaseservice.categories.find()
-        return products.toArray()
-        
-    }
+  async getAllCategories() {
+    const products = await databaseservice.categories.find()
+    return products.toArray()
+  }
 }
 const categoriesService = new CategoriesService()
 export default categoriesService
-

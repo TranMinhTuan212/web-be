@@ -49,16 +49,5 @@ export const createOrderVadidator = validate(
       trim: true,
       errorMessage: 'Mã sản phẩm không được để trống, là chuỗi độ dài phải từ 1-255 ký tự',
     },
-    address: {
-      notEmpty: true,
-      isString: true,
-      isLength: {
-        options: {
-          min: 1,
-          max: 100
-        }
-      },
-      errorMessage: 'Địa chỉ không được để trống, là chuỗi độ dài phải từ 1-100 ký tự',
-    },
   })
 )

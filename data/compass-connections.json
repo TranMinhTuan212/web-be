@@ -1,0 +1,17 @@
+{
+  "type": "Compass Connections",
+  "version": {
+    "$numberInt": "1"
+  },
+  "connections": [
+    {
+      "id": "57e9a05a-9356-4bd3-abfe-5897bcbff1b5",
+      "connectionOptions": {
+        "connectionString": "mongodb+srv://ngocphongdnp:%3C0326556890%3E@atlascluster.eml4bmb.mongodb.net/"
+      },
+      "favorite": {
+        "name": "nodejs"
+      }
+    }
+  ]
+}
