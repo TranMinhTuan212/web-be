@@ -1,6 +1,7 @@
 import { JwtPayload } from 'jsonwebtoken'
 import { ObjectId } from 'mongodb'
 import { TokenType } from '~/Constants/enums'
+import { ParamsDictionary } from 'express-serve-static-core'
 export interface LoginReqBody {
   email: string
   password: string
@@ -44,6 +45,12 @@ export interface SearchRequestBody {
   name: string
   award: string
 }
+export interface LikeProductRequestBody {
+  productId: string
+}
+export interface UnLikeProductReqParams extends ParamsDictionary {
+  user_id: string
+}
 // export interface UpdateAdressReqBody {
 //   province?: string
 //   district?: string
@@ -68,4 +75,8 @@ export interface CreateAddress {
 export interface ChangePassWord {
   password: string
   newPassword: string
+}
+export interface likeProduct {
+  _id: string
+  likeProduct_id: string
 }

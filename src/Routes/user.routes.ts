@@ -12,16 +12,20 @@ import {
   changePasswordValidator,
   forgotPassWordVerifyTokenValidator,
   resetPasswordValidator,
-  verifyUserValidator
+  verifyUserValidator,
+  likeProductValidator,
+  unlikeProductValidator
 } from '~/Middlewares/user.middeleware'
 import {
   VerifyforgotPasswordController,
   adminMeProfileController,
+  allLikeProduct,
   allMeProfileController,
   changePasswordController,
   deleteUserController,
   emailVerifyController,
   forgotPasswordController,
+  likeProductController,
   loginController,
   logoutController,
   meProfileController,
@@ -29,6 +33,7 @@ import {
   resendEmailVerifyController,
   resetPasswordController,
   searchUserController,
+  unlikeProductController,
   updateMeController,
   uploadSingleImageController
 } from '~/Controllers/user.controller'
@@ -90,5 +95,8 @@ userRoutes.patch(
 )
 
 // userRoutes.get('/h-user', wrapRequestHandler(meProProductfileController))
+userRoutes.post('/like-Product', accsessTokenValidator, likeProductValidator, wrapRequestHandler(likeProductController))
+userRoutes.delete('/unlike-Product/:user_id', accsessTokenValidator, unlikeProductValidator, unlikeProductController)
+userRoutes.get('/all-likeProduct', accsessTokenValidator, wrapRequestHandler(allLikeProduct))
 
 export default userRoutes

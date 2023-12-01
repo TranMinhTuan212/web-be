@@ -14,7 +14,9 @@ import {
   SearchRequestBody,
   ChangePassWord,
   VerifyForgotPasswordReqBody,
-  ResetPasswordBody
+  ResetPasswordBody,
+  LikeProductRequestBody,
+  UnLikeProductReqParams
 } from '~/Models/requests/User.requests'
 import usersService from '~/Services/users.services'
 import User from '~/Models/Schemas/User.schema'
@@ -203,7 +205,34 @@ export const changePasswordController = async (req: Request<ParamsDictionary, an
     data
   })
 }
-
+export const likeProductController = async (
+  req: Request<ParamsDictionary, any, LikeProductRequestBody>,
+  res: Response
+) => {
+  const { user_id } = req.decode_authorization as TokenPayload
+  const { productId } = req.body
+  const data = await usersService.likeProductService(user_id, productId)
+  return res.status(200).json(data)
+}
+export const unlikeProductController = async (
+  req: Request<UnLikeProductReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decode_authorization as TokenPayload
+  const { user_id: product_id } = req.params
+  const data = await usersService.unlikeProductService(user_id, product_id)
+  return res.status(200).json(data)
+}
+export const allLikeProduct = async (req: Request, res: Response, next: NextFunction) => {
+  const { user_id } = req.decode_authorization as TokenPayload
+  const data = await usersService.allLikeProduct(user_id)
+  return res.json({
+    message: USERS_MESSAGES.GET_ME_SUCCSES,
+    status: HTTP_STATUS.OK,
+    data
+  })
+}
 // export const loginController = (req: Request, res: Response) => {
 //   const { email, password } = req.body
 //   if (email == 'ngocphong@gmail.com' && password == '123123') {

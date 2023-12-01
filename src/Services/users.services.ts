@@ -30,6 +30,7 @@ import { log } from 'console'
 import { sendForgotPasswordEmail, sendVerifyEmailRegister } from '~/Utils/email'
 import { verify } from 'crypto'
 import { VerificationStatus } from '@aws-sdk/client-ses'
+import likeProduct from '~/Models/Schemas/LikeProduct.schema'
 class UsersService {
   private signAccessToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
     return signToken({
@@ -527,7 +528,63 @@ class UsersService {
     )
     return user
   }
+  async likeProductService(user_id: string, product_id: string) {
+    const product = await databaseservice.like_Product.findOne({
+      user_id: new ObjectId(user_id),
+      product_id: new ObjectId(product_id)
+    })
+    if (product == null) {
+      await databaseservice.like_Product.insertOne(
+        new likeProduct({ user_id: new ObjectId(user_id), product_id: new ObjectId(product_id) })
+      )
+      return {
+        message: 'đã like thành công'
+      }
+    }
+    return {
+      message: 'Đã yêu thích sản phẩm'
+    }
+  }
+  async unlikeProductService(user_id: string, product_id: string) {
+    const product = await databaseservice.like_Product.findOne({
+      user_id: new ObjectId(user_id),
+      product_id: new ObjectId(product_id)
+    })
+    console.log(product)
+    if (product == null) {
+      return {
+        message: 'null'
+      }
+    }
+    await databaseservice.like_Product.deleteOne({
+      user_id: new ObjectId(user_id),
+      product_id: new ObjectId(product_id)
+    })
+    return {
+      message: 'Bỏ yêu thích thành công'
+    }
+  }
+  async allLikeProduct(user_id: string) {
+    const userPromise = await databaseservice.like_Product
+      .find(
+        { user_id: new ObjectId(user_id) },
+        {
+          projection: {
+            password: 0,
+            email_verify_token: 0,
+            forgot_password_token: 0,
+            date_of_birth: 0,
+            verify: 0,
+            bio: 0
+          }
+        }
+      )
+      .toArray()
+    console.log(userPromise)
+    return userPromise
+  }
 }
+
 const usersService = new UsersService()
 export default usersService
 

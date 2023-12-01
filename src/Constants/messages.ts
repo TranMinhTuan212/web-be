@@ -29,5 +29,7 @@ export const USERS_MESSAGES = {
   CHECK_EMAIL_FORGOT_PASSOWRD_VERIFY: 'Mời bạn nhập mật khẩu mới',
   FORGOT_PASSWORD_INVALID: 'token không khớp  ',
   ERROR_VERIFY: 'Hãy xác nhận tài khoản trước khi thực hiện chức năng',
-  ERROR_PERMISSION: 'Tài khoản chưa được xác thực'
+  ERROR_PERMISSION: 'Tài khoản chưa được xác thực',
+  VALIDATION_ERROR_USER_LIKEPRODUCT: 'ID không đúng định dạng',
+  VALIDATION_ERROR_LIKEPRODUCT_NULL: 'Sản phẩm không tồn tại'
 } as const

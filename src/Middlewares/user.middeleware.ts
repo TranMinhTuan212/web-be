@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { ParamSchema, checkSchema } from 'express-validator'
+import { Request, Response, NextFunction } from 'express'
+import { ParamSchema, Schema, checkSchema } from 'express-validator'
 import { JsonWebTokenError } from 'jsonwebtoken'
 import { isLength } from 'lodash'
 import { ObjectId } from 'mongodb'
@@ -620,7 +620,7 @@ export const changePasswordValidator = validate(
             return true
           }
         }
-      },
+      }
       // verify: {
       //   custom: {
       //     options: async (value, { req }) => {
@@ -651,6 +651,41 @@ export const verifyUserValidator = (req: Request, res: Response, next: NextFunct
   }
   next()
 }
+const likeProductSchema: ParamSchema = {
+  custom: {
+    options: async (value, { req }) => {
+      if (!ObjectId.isValid(value)) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGES.VALIDATION_ERROR_USER_LIKEPRODUCT,
+          status: HTTP_STATUS.NOT_FOUND
+        })
+      }
+      const product = await databaseservice.products.findOne({ _id: new ObjectId(value) })
+      if (product == null) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGES.VALIDATION_ERROR_LIKEPRODUCT_NULL,
+          status: HTTP_STATUS.NOT_FOUND
+        })
+      }
+    }
+  }
+}
+export const likeProductValidator = validate(
+  checkSchema(
+    {
+      productId: likeProductSchema
+    },
+    ['body']
+  )
+)
+export const unlikeProductValidator = validate(
+  checkSchema(
+    {
+      user_id: likeProductSchema
+    },
+    ['params']
+  )
+)
 // export const loginValidator = (req: Request, res: Response, next: NextFunction) => {
 //   const { email, password } = req.body
 //   if (!email || !password) {

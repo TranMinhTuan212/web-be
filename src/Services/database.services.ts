@@ -9,6 +9,7 @@ import Order from '~/Models/Schemas/Order.schema'
 import Address from '~/Models/Schemas/Address.schema'
 import Role from '~/Models/Schemas/Role.schema'
 import Cart from '~/Models/Schemas/Cart.schema'
+import likeProduct from '~/Models/Schemas/LikeProduct.schema'
 
 //khi nào có process.env thì phải gọi config()
 config()
@@ -31,6 +32,9 @@ class DatabaseService {
   }
   get users(): Collection<User> {
     return this.db.collection(process.env.DB_USERS_COLECTION as string)
+  }
+  get like_Product(): Collection<likeProduct> {
+    return this.db.collection(process.env.DB_LIKEPRODUCT_COLECTION as string)
   }
   get reFreshToken(): Collection<ResFreshToken> {
     return this.db.collection(process.env.DB_RESFRESHTOKEN_COLECTION as string)
