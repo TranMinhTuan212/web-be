@@ -1,0 +1,76 @@
+[{
+  "_id": {
+    "$oid": "6568a6a8091f24d654c13816"
+  },
+  "userId": {
+    "$oid": "6568a6a8091f24d654c13815"
+  },
+  "productId": {
+    "$oid": "654ef309a41f25b041777213"
+  },
+  "comment": "Sản phẩm quá chất lượng",
+  "evaluate": "2",
+  "created_at": {
+    "$date": "2023-11-30T15:13:44.550Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-30T15:13:44.550Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6568a7a05f16717b52e80102"
+  },
+  "userId": {
+    "$oid": "6568a7a05f16717b52e80101"
+  },
+  "productId": {
+    "$oid": "655b651fc6d973682b446e35"
+  },
+  "comment": "Sản phẩm quá chất lượng",
+  "evaluate": "5",
+  "created_at": {
+    "$date": "2023-11-30T15:17:52.407Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-30T15:17:52.407Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6568ac75353ef4a695080a17"
+  },
+  "userId": {
+    "$oid": "6568ac75353ef4a695080a16"
+  },
+  "productId": {
+    "$oid": "655b651fc6d973682b446e35"
+  },
+  "comment": "Sản phẩm quá chất lượng",
+  "evaluate": "5",
+  "created_at": {
+    "$date": "2023-11-30T15:38:29.214Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-30T15:38:29.214Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6568ac76353ef4a695080a19"
+  },
+  "userId": {
+    "$oid": "6568ac76353ef4a695080a18"
+  },
+  "productId": {
+    "$oid": "655b651fc6d973682b446e35"
+  },
+  "comment": "Sản phẩm quá chất lượng",
+  "evaluate": "5",
+  "created_at": {
+    "$date": "2023-11-30T15:38:30.468Z"
+  },
+  "updated_at": {
+    "$date": "2023-11-30T15:38:30.468Z"
+  }
+}]

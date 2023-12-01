@@ -1,0 +1,1011 @@
+[{
+  "_id": {
+    "$oid": "655b5b64c6d973682b446e28"
+  },
+  "province": "4324",
+  "district": "4324",
+  "award": "4324",
+  "detail": "4324",
+  "user_id": {
+    "$oid": "655b5b63c6d973682b446e27"
+  },
+  "updated_at": {
+    "$date": "2023-11-23T14:00:58.233Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655b6405c6d973682b446e33"
+  },
+  "province": "Thủ Đức",
+  "district": "Thủ Đức",
+  "award": "Tăng Nhơn Phú A",
+  "detail": "447, Tăng Nhơn Phú A, Thủ Đức, TP. HCM",
+  "user_id": {
+    "$oid": "6565ced8122bc695d4b6dc50"
+  },
+  "updated_at": {
+    "$date": "2023-11-28T09:50:43.314Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "655f612dc6d973682b446e63"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "655f612dc6d973682b446e62"
+  }
+},
+{
+  "_id": {
+    "$oid": "655f618dc6d973682b446e65"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "655f618dc6d973682b446e64"
+  }
+},
+{
+  "_id": {
+    "$oid": "655f623fc6d973682b446e67"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "655f623fc6d973682b446e66"
+  }
+},
+{
+  "_id": {
+    "$oid": "655f629bc6d973682b446e69"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "655f629bc6d973682b446e68"
+  }
+},
+{
+  "_id": {
+    "$oid": "655ff01cc6d973682b446e79"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "655ff01cc6d973682b446e78"
+  }
+},
+{
+  "_id": {
+    "$oid": "65600975c6d973682b446e84"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65600975c6d973682b446e83"
+  }
+},
+{
+  "_id": {
+    "$oid": "656009d0c6d973682b446e88"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "656009d0c6d973682b446e87"
+  }
+},
+{
+  "_id": {
+    "$oid": "65600a0ac6d973682b446e8b"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65600a0ac6d973682b446e8a"
+  }
+},
+{
+  "_id": {
+    "$oid": "65600b03c6d973682b446e8f"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65600b03c6d973682b446e8e"
+  }
+},
+{
+  "_id": {
+    "$oid": "65600bb5c6d973682b446e93"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65600bb5c6d973682b446e92"
+  }
+},
+{
+  "_id": {
+    "$oid": "656019e2c6d973682b446e9e"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "656019e2c6d973682b446e9d"
+  }
+},
+{
+  "_id": {
+    "$oid": "65615617c6d973682b446eab"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65615617c6d973682b446eaa"
+  }
+},
+{
+  "_id": {
+    "$oid": "656237f3c6d973682b446ebe"
+  },
+  "province": "Thủ Đức",
+  "district": "Thủ Đức",
+  "award": "Thủ Đức",
+  "detail": "13&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#x2F;17 đường 11",
+  "user_id": {
+    "$oid": "656237f3c6d973682b446ebd"
+  },
+  "updated_at": {
+    "$date": "2023-11-28T10:06:07.609Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "65623820c6d973682b446ec0"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65623820c6d973682b446ebf"
+  }
+},
+{
+  "_id": {
+    "$oid": "65623ad2c6d973682b446ec8"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65623ad2c6d973682b446ec7"
+  }
+},
+{
+  "_id": {
+    "$oid": "65644497f908aa4ca7fda653"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65644497f908aa4ca7fda652"
+  }
+},
+{
+  "_id": {
+    "$oid": "656444f6f908aa4ca7fda655"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "656444f6f908aa4ca7fda654"
+  }
+},
+{
+  "_id": {
+    "$oid": "65644aeae1a1b8df6e55694e"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65644aeae1a1b8df6e55694d"
+  }
+},
+{
+  "_id": {
+    "$oid": "656453b3c6d973682b446ef6"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "656453b3c6d973682b446ef5"
+  }
+},
+{
+  "_id": {
+    "$oid": "6564550ac6d973682b446ef8"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6564550ac6d973682b446ef7"
+  }
+},
+{
+  "_id": {
+    "$oid": "6564caf1c6d973682b446f57"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6564caf1c6d973682b446f56"
+  }
+},
+{
+  "_id": {
+    "$oid": "6564cbedc6d973682b446f5f"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6564cbedc6d973682b446f5e"
+  }
+},
+{
+  "_id": {
+    "$oid": "6564cf12c6d973682b446f65"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6564cf12c6d973682b446f64"
+  }
+},
+{
+  "_id": {
+    "$oid": "6564d30ac6d973682b446f7a"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6564d30ac6d973682b446f79"
+  }
+},
+{
+  "_id": {
+    "$oid": "6564d884c6d973682b446f89"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6564d884c6d973682b446f88"
+  }
+},
+{
+  "_id": {
+    "$oid": "6564d8d3c6d973682b446f8b"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6564d8d3c6d973682b446f8a"
+  }
+},
+{
+  "_id": {
+    "$oid": "6564d92cc6d973682b446f8e"
+  },
+  "province": "thủ đức",
+  "district": "thủ đức",
+  "award": "thủ đức",
+  "detail": "thủ đức",
+  "user_id": {
+    "$oid": "6564d92cc6d973682b446f8d"
+  },
+  "updated_at": {
+    "$date": "2023-11-28T09:36:44.225Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565700efeb22baea785e2ca"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565700efeb22baea785e2c9"
+  }
+},
+{
+  "_id": {
+    "$oid": "656570a25e449243a0b9242e"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "656570a25e449243a0b9242d"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565711ed92d9c9fd13396fe"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565711ed92d9c9fd13396fd"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657159c440108d856a86d6"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657159c440108d856a86d5"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657a9bc14053b8ccdce70f"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657a9bc14053b8ccdce70e"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657ab8c14053b8ccdce711"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657ab8c14053b8ccdce710"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657b10a7c786f042420b81"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657b10a7c786f042420b80"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657bc4656f263e1478892c"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657bc4656f263e1478892b"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657c89e76302d704925445"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657c89e76302d704925444"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657cbfe76302d704925447"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657cbfe76302d704925446"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657dfdfc90ea9f1a0988a1"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657dfdfc90ea9f1a0988a0"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657e5428772366b27f409a"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657e5428772366b27f4099"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657e964dd5e59ddbbe98c3"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657e964dd5e59ddbbe98c2"
+  }
+},
+{
+  "_id": {
+    "$oid": "65657ff04dd5e59ddbbe98c5"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "65657ff04dd5e59ddbbe98c4"
+  }
+},
+{
+  "_id": {
+    "$oid": "656580667efcfa8fb65c6b6b"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "656580667efcfa8fb65c6b6a"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565bd7c129c8e16f64324e4"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565bd7c129c8e16f64324e3"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565bda2129c8e16f64324e6"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565bda2129c8e16f64324e5"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565bdff86d37ccdb81049bc"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565bdff86d37ccdb81049bb"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565bed16a34f7636816acdd"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565bed16a34f7636816acdc"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565bf74253e452bdd4e74de"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565bf74253e452bdd4e74dd"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565bf9b28f42ec0d26f7805"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565bf9b28f42ec0d26f7804"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565bfd83855041adb20f957"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565bfd83855041adb20f956"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565bfeb8fa677dc1a5808b3"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565bfeb8fa677dc1a5808b2"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565c0118fa677dc1a5808b6"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565c0118fa677dc1a5808b5"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565c052cb6703a84de560d0"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565c052cb6703a84de560cf"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565c1b56145d61e38c36c57"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565c1b56145d61e38c36c56"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565c3c637f3a185919b3c2f"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565c3c637f3a185919b3c2e"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565c4a102b6401d777574c6"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565c4a102b6401d777574c5"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565c4d902b6401d777574c9"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565c4d902b6401d777574c8"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565c4fb02b6401d777574cd"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565c4fb02b6401d777574cc"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565c81d5cdf039ffd3846be"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565c81d5cdf039ffd3846bd"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565c908cbabcc3632c80bdf"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565c908cbabcc3632c80bde"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565c913cbabcc3632c80be1"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565c913cbabcc3632c80be0"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565cabb2220a64fc536b0b0"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565cabb2220a64fc536b0af"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565cac42220a64fc536b0b2"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565cac42220a64fc536b0b1"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565cac82220a64fc536b0b4"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565cac82220a64fc536b0b3"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565cd13ac61f8f126f6bebd"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565cd13ac61f8f126f6bebc"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565cd2cac61f8f126f6bebf"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565cd2cac61f8f126f6bebe"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565cde289390b61b09a7c8a"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565cde289390b61b09a7c89"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565ce2189390b61b09a7c8c"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565ce2189390b61b09a7c8b"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565ce305eac6ba0be8790f0"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565ce305eac6ba0be8790ef"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565ce855e8b733955a561c8"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565ce855e8b733955a561c7"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565ced8122bc695d4b6dc51"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565ced8122bc695d4b6dc50"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565dce3c6d973682b446fa6"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565dce3c6d973682b446fa5"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565dd9ec6d973682b446fa8"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6565dd9ec6d973682b446fa7"
+  }
+},
+{
+  "_id": {
+    "$oid": "6565de6d50d49bb2a8fc64df"
+  },
+  "province": "Thủ Đức",
+  "district": "thủ đức , th",
+  "award": "Thủ Đức",
+  "detail": "13&amp;amp;#x2F;17 Thủ Đức",
+  "user_id": {
+    "$oid": "6565de6d50d49bb2a8fc64de"
+  },
+  "updated_at": {
+    "$date": "2023-11-29T15:20:33.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6566192ac6d973682b446fb0"
+  },
+  "province": "Thủ Đức",
+  "district": "Thủ Đức",
+  "award": "Thủ Đức",
+  "detail": "Thủ Đức",
+  "user_id": {
+    "$oid": "6566192ac6d973682b446faf"
+  },
+  "updated_at": {
+    "$date": "2023-11-28T16:47:04.552Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "65661a9ec6d973682b446fb4"
+  },
+  "province": "Thru Đức",
+  "district": "Thủ Đức",
+  "award": "Thủ Đức",
+  "detail": "Thủ Đức",
+  "user_id": {
+    "$oid": "65661a9ec6d973682b446fb3"
+  },
+  "updated_at": {
+    "$date": "2023-11-28T17:08:14.305Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6566a514c6d973682b446fbb"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6566a514c6d973682b446fba"
+  }
+},
+{
+  "_id": {
+    "$oid": "6566a57cc6d973682b446fbe"
+  },
+  "province": "thur ddu",
+  "district": "td",
+  "award": "td",
+  "detail": "td",
+  "user_id": {
+    "$oid": "6566a57cc6d973682b446fbd"
+  },
+  "updated_at": {
+    "$date": "2023-11-29T09:56:37.666Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6566c0b1c6d973682b446fc1"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6566c0b1c6d973682b446fc0"
+  }
+},
+{
+  "_id": {
+    "$oid": "656741efd2e12cb547964e71"
+  },
+  "province": "",
+  "district": "",
+  "award": "p",
+  "detail": "",
+  "user_id": {
+    "$oid": "656741efd2e12cb547964e70"
+  },
+  "updated_at": {
+    "$date": "2023-11-29T14:17:24.685Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6567ffa52ab2437dbcbaa75e"
+  },
+  "province": "",
+  "district": "",
+  "award": "",
+  "detail": "",
+  "user_id": {
+    "$oid": "6567ffa52ab2437dbcbaa75d"
+  }
+}]

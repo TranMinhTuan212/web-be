@@ -1,0 +1,40 @@
+[{
+  "_id": {
+    "$oid": "65202db0d97187d86b571b2c"
+  },
+  "description": "các loại áo có chất lượng tốt",
+  "name": "Đồ uống",
+  "type": "thời trang"
+},
+{
+  "_id": {
+    "$oid": "65280476f3b876b35a79f10d"
+  },
+  "description": "các loại áo có chất lượng tốt",
+  "name": "Quần áo",
+  "type": "Thời trang"
+},
+{
+  "_id": {
+    "$oid": "652804bef3b876b35a79f10e"
+  },
+  "description": "các loại áo có chất lượng tốt",
+  "name": "Đồ ăn vặt",
+  "type": "Thời trang"
+},
+{
+  "_id": {
+    "$oid": "652804cff3b876b35a79f10f"
+  },
+  "description": "các loại áo có chất lượng tốt",
+  "name": "Giày thể thao",
+  "type": "Thời trang"
+},
+{
+  "_id": {
+    "$oid": "6528190106d9ac06f18ceec0"
+  },
+  "description": "các loại áo có chất lượng tốt",
+  "name": "Phụ kiện",
+  "type": "Thời trang"
+}]
