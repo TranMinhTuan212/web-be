@@ -1,29 +1,27 @@
 import databaseservice from './database.services'
 import { ObjectId } from 'mongodb'
-import { OrderReqbody } from '~/Models/requests/Order.requests'
-import Order from '~/Models/Schemas/Order.schema'
+import { CommentReqbody } from '~/Models/requests/Comment.requests'
+import Comment from '~/Models/Schemas/Comment.schema'
 import Address from '~/Models/Schemas/Address.schema'
 
 class OrdersService {
-  async createOrder(payload: OrderReqbody, addressUser: Address, user_id: string) {
-    const order = await databaseservice.orders.insertOne(
-      new Order({
+  async createComment(payload: CommentReqbody, userId: string) {
+    const order = await databaseservice.comments.insertOne(
+      new Comment({
         ...payload,
-        cartId: new ObjectId(payload.cartId),
-        userId: new ObjectId(user_id),
-        address: addressUser.award + ', ' + addressUser.district + ', ' + addressUser.province ,
-        status: "Chờ xác nhận"
+        userId: new ObjectId(userId),
+        productId: new ObjectId(payload.productId),
       })
     )
     return order.acknowledged
 
   }
 
-  async getOrderByUserId(user_id: string, statusOrder: string) {
+  async getCommentId(comment_id: string, userIdNow: string) {
     
-    const orders = await databaseservice.orders.findOne({ $and: [{ userId: new ObjectId(user_id) }, { status: statusOrder }] })
+    const comment = await databaseservice.comments.findOne({ $and: [{ _id: new ObjectId(comment_id), userId: new ObjectId(userIdNow) }] })
    
-    return orders
+    return comment
   }
 
   async checkAddress(user_id: string) {
@@ -62,9 +60,9 @@ class OrdersService {
     return order.acknowledged
   }
 
-  async deleteOrder(order_id: string) {
-    const order = await databaseservice.orders.findOneAndDelete({ _id: new ObjectId(order_id) })
-    return order
+  async deleteComment(comment_id: string) {
+    const comment = await databaseservice.comments.findOneAndDelete({ _id: new ObjectId(comment_id) })
+    return comment
   }
 
 }

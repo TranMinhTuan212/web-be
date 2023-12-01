@@ -3,6 +3,7 @@ import userRouter from './Routes/user.routes'
 import productRouter from './Routes/product.routes'
 import orderRoutes from './Routes/order.routes'
 import cartRoutes from './Routes/cart.routes'
+import commentRoutes from './Routes/comment.routes'
 
 import databaseservice from './Services/database.services'
 import { defaultErrorHandler } from './Middlewares/error.middleware'
@@ -38,6 +39,7 @@ app.use('/product', productRouter)
 app.use('/category', categoryRoutes)
 app.use('/order', orderRoutes)
 app.use('/cart', cartRoutes)
+app.use('/comment', commentRoutes)
 
 app.use('/imageMedias', imageMediasRouter)
 app.use(defaultErrorHandler)
